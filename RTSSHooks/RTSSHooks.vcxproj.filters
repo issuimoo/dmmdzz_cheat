@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Feature">
+      <UniqueIdentifier>{f8c9c394-9d3a-4771-9663-b85549a7d40a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Feature\hpp">
+      <UniqueIdentifier>{8531dbbd-d38e-4ad0-966a-06f5b668523e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Feature\cpp">
+      <UniqueIdentifier>{6bd644ed-1218-4420-895e-3b2065bc1df3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="il2cpp">
+      <UniqueIdentifier>{d4bf95cf-c50a-4652-aced-32ec9b93ccba}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="AAC.cpp">
+      <Filter>Feature\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="NoFogOfWar.cpp">
+      <Filter>Feature\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="About.cpp">
+      <Filter>Feature\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerList.cpp">
+      <Filter>Feature\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemList.cpp">
+      <Filter>Feature\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="setting.cpp">
+      <Filter>Feature\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="BuyNoSub.cpp">
+      <Filter>Feature\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerVAC.cpp">
+      <Filter>Feature\cpp</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="AAC.hpp">
+      <Filter>Feature\hpp</Filter>
+    </ClInclude>
+    <ClInclude Include="il2cpp.h">
+      <Filter>il2cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="il2cpp-functions.h">
+      <Filter>il2cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="Feature.hpp">
+      <Filter>Feature</Filter>
+    </ClInclude>
+    <ClInclude Include="il2cpp-appdata.h">
+      <Filter>il2cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="NoFogOfWar.hpp">
+      <Filter>Feature\hpp</Filter>
+    </ClInclude>
+    <ClInclude Include="About.hpp">
+      <Filter>Feature\hpp</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerList.hpp">
+      <Filter>Feature\hpp</Filter>
+    </ClInclude>
+    <ClInclude Include="API-Address.h++">
+      <Filter>il2cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemList.hpp">
+      <Filter>Feature\hpp</Filter>
+    </ClInclude>
+    <ClInclude Include="setting.hpp">
+      <Filter>Feature\hpp</Filter>
+    </ClInclude>
+    <ClInclude Include="BuyNoSub.hpp">
+      <Filter>Feature\hpp</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerVAC.hpp">
+      <Filter>Feature\hpp</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
