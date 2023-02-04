@@ -12,6 +12,7 @@ std::string jsonfile = "TYPE-1";
 #include "NoFogOfWar.hpp"
 #include "BuyNoSub.hpp"
 #include "PlayerVAC.hpp"
+#include "AntiImmobility.hpp"
 
 namespace renderer
 {
@@ -308,6 +309,7 @@ namespace cheat
 			FEAT_INST(ItemList),
 			FEAT_INST(PlayerList),
 			FEAT_INST(BuyNoSub),
+			FEAT_INST(AntiImmobility),
 			FEAT_INST(PlayerVAC),
 			FEAT_INST(NoFogOfWar)
 			});
