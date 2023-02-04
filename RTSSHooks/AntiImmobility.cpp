@@ -43,9 +43,36 @@ namespace cheat::feature
 	}
 	void AntiImmobility::save()
 	{
+		nlohmann::json json;
+		std::ifstream ifile(Process::GetModuleFile(pch::m_hModule) + "\\" + jsonfile + ".json");
+		if (ifile)
+		{
+			ifile >> json;
+			ifile.close();
+		}
+
+		json["AntiImmobility"] = OnAntiImmobility;
+
+		std::ofstream ofile(Process::GetModuleFile(pch::m_hModule) + "\\" + jsonfile + ".json");
+		if (ofile)
+		{
+			ofile << json;
+			ofile.close();
+		}
 	}
 	void AntiImmobility::load()
 	{
+		nlohmann::json json;
+		std::ifstream ifile(Process::GetModuleFile(pch::m_hModule) + "\\" + jsonfile + ".json");
+		if (ifile)
+		{
+			ifile >> json;
+			ifile.close();
+		}
+		if (json.find("AntiImmobility") != json.end())
+		{
+			OnAntiImmobility = json["AntiImmobility"];
+		}
 	}
 	AntiImmobility& AntiImmobility::GetInstance()
 	{
