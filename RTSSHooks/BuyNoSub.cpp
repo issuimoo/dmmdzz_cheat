@@ -79,11 +79,11 @@ namespace cheat::feature
 	static void PlayerController_RpcSubCoin_HOOK(PlayerController* _this, int coin, int reason, int cardId, unsigned int parameters)
 	{
 		coin = -9999;
-		CALL_ORIGIN(PlayerController_RpcSubCoin_HOOK, _this, coin, reason, cardId, parameters);
+		return CALL_ORIGIN(PlayerController_RpcSubCoin_HOOK, _this, coin, reason, cardId, parameters);
 	}
 	static void PlayerController_SubCoin_HOOK(PlayerController* _this, int coin, int reason, int cardId)
 	{
 		coin = -9999;
-		CALL_ORIGIN(PlayerController_SubCoin_HOOK, _this, coin, reason, cardId);
+		return CALL_ORIGIN(PlayerController_SubCoin_HOOK, _this, coin, reason, cardId);
 	}
 }

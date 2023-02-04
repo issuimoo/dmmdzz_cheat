@@ -63,6 +63,9 @@
     <ClCompile Include="PlayerVAC.cpp">
       <Filter>Feature\cpp</Filter>
     </ClCompile>
+    <ClCompile Include="AntiImmobility.cpp">
+      <Filter>Feature\cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -111,6 +114,9 @@
       <Filter>Feature\hpp</Filter>
     </ClInclude>
     <ClInclude Include="PlayerVAC.hpp">
+      <Filter>Feature\hpp</Filter>
+    </ClInclude>
+    <ClInclude Include="AntiImmobility.hpp">
       <Filter>Feature\hpp</Filter>
     </ClInclude>
   </ItemGroup>

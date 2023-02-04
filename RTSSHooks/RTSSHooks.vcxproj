@@ -167,6 +167,7 @@
   <ItemGroup>
     <ClCompile Include="AAC.cpp" />
     <ClCompile Include="About.cpp" />
+    <ClCompile Include="AntiImmobility.cpp" />
     <ClCompile Include="BuyNoSub.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="ItemList.cpp" />
@@ -181,6 +182,7 @@
   <ItemGroup>
     <ClInclude Include="AAC.hpp" />
     <ClInclude Include="About.hpp" />
+    <ClInclude Include="AntiImmobility.hpp" />
     <ClInclude Include="API-Address.h++" />
     <ClInclude Include="BuyNoSub.hpp" />
     <ClInclude Include="Feature.hpp" />

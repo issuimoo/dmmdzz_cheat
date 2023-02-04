@@ -20,7 +20,6 @@ namespace cheat::feature
 		app::PlayerController_get_CurCoin = (int(*)(PlayerController*))(((unsigned int)pch::GameAssembly) + Address_PlayerController_get_CurCoin);
 		app::PlayerController_InSameTeam = (bool(*)(PlayerController*, PlayerController*))(((unsigned int)pch::GameAssembly) + Address_PlayerController_InSameTeam);
 
-
 		HookManager::install(app::PlayerController_Awake, PlayerController_Awake_Hook);
 		HookManager::install(app::PlayerController_OnDestroy, PlayerController_OnDestroy_Hook);
 	}

@@ -19,6 +19,12 @@ DO_APP_FUNC(bool, PlayerController_InSameTeam, (PlayerController* _this, PlayerC
 DO_APP_FUNC(void, PlayerController_RpcSubCoin, (PlayerController* _this, int coin, int reason, int cardId, unsigned int parameters));
 DO_APP_FUNC(void, PlayerController_SubCoin, (PlayerController* _this, int coin, int reason, int cardId));
 
+//BipedalDragonShapeController
+DO_APP_FUNC(bool, BipedalDragonShapeController_get_DisableFireButton, (BipedalDragonShapeController* _this));
+DO_APP_FUNC(bool, BipedalDragonShapeController_get_DisableJumpButton, (BipedalDragonShapeController* _this));
+DO_APP_FUNC(bool, BipedalDragonShapeController_get_MoveTargetForward, (BipedalDragonShapeController* _this));
+DO_APP_FUNC(bool, BipedalDragonShapeController_get_ControllerMove, (BipedalDragonShapeController* _this));
+
 //UsableObject
 DO_APP_FUNC(void, UsableObject_Awake, (UsableObject* _this));
 DO_APP_FUNC(void, UsableObject_OnDestroy, (UsableObject* _this));

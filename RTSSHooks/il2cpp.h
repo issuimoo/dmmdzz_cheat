@@ -488,6 +488,14 @@ namespace app
 		int32_t m_UsableID;
 	};
 
+	struct __declspec(align(4)) BipedalDragonShapeController 
+	{
+		char _space[104];
+		float m_DelayTime;
+		float m_AttackReturnTime;
+		bool m_IsFire;
+	};
+
 	enum AntiCheatingResult
 	{
 		Normal = 0,
