@@ -38,18 +38,7 @@ namespace cheat::feature
 	}
 	void AAC::DrawStatus()
 	{
-		if (CloseAC)
-		{
-			ImGui::Text(Text::GBKTOUTF8("拦截上报").c_str());
-		}
-		if (closeCL)
-		{
-			ImGui::Text(Text::GBKTOUTF8("拦截退出").c_str());
-		}
-		if (CloseGhost)
-		{
-			ImGui::Text(Text::GBKTOUTF8("拦截鬼魂").c_str());
-		}
+		ImGui::Text(Text::GBKTOUTF8(fmt::format("反作弊[{}{}{}]", CloseAC ? "S" : "", closeCL ? "Q" : "", CloseGhost ? "G" : "")).c_str());
 	}
 	void AAC::save()
 	{
