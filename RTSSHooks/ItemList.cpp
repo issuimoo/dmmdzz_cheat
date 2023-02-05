@@ -31,15 +31,18 @@ namespace cheat::feature
 			ImGui::TableHeadersRow();
 			try
 			{
-				for (size_t i = Vec_ItemList.size() - 1; i >= 0; i--)
+				auto ItemList_begin = Vec_ItemList.begin();
+				auto ItemList_end = Vec_ItemList.end();
+				while (ItemList_begin != ItemList_end)
 				{
 					ImGui::TableNextRow();
 					ImGui::TableSetColumnIndex(0);
-					ImGui::Text("%i", (unsigned int)Vec_ItemList[i]);
+					ImGui::Text("%i", (unsigned int)*ItemList_begin);
 					ImGui::TableSetColumnIndex(1);
 					//ImGui::Text("%s", Text::UTF16TOUTF8((wchar_t*)(&(*iterator_ItemList)->m_NameText->m_Text->m_firstChar)).c_str());
 					ImGui::TableSetColumnIndex(2);
 					//ImGui::Text(fmt::format("[{:0.2f}][{}]", (*iterator_PlayerList)->m_BattleProperties->life, (*iterator_PlayerList)->m_IsLocalPlayer).c_str());
+					ItemList_begin++;
 				}
 			}
 			catch (...)
@@ -82,11 +85,16 @@ namespace cheat::feature
 	{
 		try
 		{
-			auto ItemList = Vec_ItemList.begin();
-			while (ItemList != Vec_ItemList.end())
+			auto ItemList_begin = Vec_ItemList.begin();
+			auto ItemList_end = Vec_ItemList.end();
+			while (ItemList_begin != ItemList_end)
 			{
-				Vec_ItemList.erase(ItemList);
-				ItemList++;
+				if (*ItemList_begin == _this)
+				{
+					Vec_ItemList.erase(ItemList_begin);
+					return CALL_ORIGIN(UsableObject_OnDestroy_Hook, _this);
+				}
+				ItemList_begin++;
 			}
 		}
 		catch (...)
