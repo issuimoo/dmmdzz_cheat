@@ -5,7 +5,7 @@ namespace cheat::feature
 	bool closeCL = true;
 	bool CloseGhost = true;
 
-	unsigned __int64 intercepts = 0;
+	unsigned int intercepts = 0;
 
 	static void AntiCheatingSystem_SendReport_Hook(AntiCheatingSystem* _this, APP_String* userID, AntiCheatingResult result);
 	static void AntiCheatingSystem_Quit_Hook(AntiCheatingSystem* _this);
@@ -33,7 +33,7 @@ namespace cheat::feature
 		ImGui::Checkbox(Text::GBKTOUTF8("拦截退出").c_str(), &closeCL);
 		ImGui::SameLine();
 		ImGui::Checkbox(Text::GBKTOUTF8("拦截鬼魂").c_str(), &CloseGhost);
-		ImGui::TextColored({ 255, 164, 0 ,255 }, Text::GBKTOUTF8(fmt::format("已拦截 {} 次", intercepts)).c_str());
+		ImGui::TextColored({ 255, 164, 0 ,255 }, Text::GBKTOUTF8(fmt::format("已拦截 {} 次上传", intercepts)).c_str());
 	}
 	bool AAC::NeedStatusDraw() const
 	{
@@ -120,7 +120,10 @@ namespace cheat::feature
 	}
 	static void AntiCheatingSystem_AddGhost_Hook(AntiCheatingSystem* _this, AntiCheatingGhost g, unsigned int t, APP_String* userId)
 	{
-		LOGDEBUG(fmt::format("AntiCheatingSystem_SendReport_Hook-> result:{} \n", magic_enum::enum_name<AntiCheatingGhost>(g)));
+		if (magic_enum::enum_name<AntiCheatingGhost>(g) != "")
+		{
+			LOGDEBUG(fmt::format("AntiCheatingSystem_AddGhost_Hook-> result:{} \n", magic_enum::enum_name<AntiCheatingGhost>(g)));
+		}
 		if (CloseGhost)
 		{
 			return;

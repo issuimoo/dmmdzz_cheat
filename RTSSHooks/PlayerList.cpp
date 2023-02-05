@@ -10,6 +10,8 @@ namespace cheat::feature
 	static void PlayerController_Awake_Hook(PlayerController* _this);
 	static void PlayerController_OnDestroy_Hook(PlayerController* _this);
 
+	bool NoName = false;
+
 	PlayerList::PlayerList() : Feature()
 	{
 		app::PlayerController_Awake = (void(*)(PlayerController*))(((unsigned int)pch::GameAssembly) + Address_PlayerController_Awake);
@@ -31,6 +33,7 @@ namespace cheat::feature
 	{
 		if (ImGui::CollapsingHeader(Text::GBKTOUTF8("玩家列表").c_str()))
 		{
+			ImGui::Checkbox(Text::GBKTOUTF8("无名称(解决因名称问题不显示列表)").c_str(), &NoName);
 			if (ImGui::BeginTable("PlayerList", 3, ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable, ImVec2(0.0f, ImGui::GetTextLineHeightWithSpacing() * 13)))
 			{
 				ImGui::TableSetupScrollFreeze(0, 1);
@@ -60,7 +63,7 @@ namespace cheat::feature
 								ImGui::Text(Text::GBKTOUTF8("自己").c_str());
 							}
 						}
-						if (ImGui::TableSetColumnIndex(1))
+						if (ImGui::TableSetColumnIndex(1) && !NoName)
 						{
 							ImGui::TextColored(
 								app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? ImColor(128, 195, 66, 255) : ImColor(233, 66, 66, 255),
