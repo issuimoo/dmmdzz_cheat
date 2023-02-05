@@ -31,17 +31,20 @@ namespace cheat::feature
 			ImGui::TableHeadersRow();
 			try
 			{
-				std::vector<UsableObject*>::iterator iterator_ItemList = Vec_ItemList.begin();
-				while (iterator_ItemList != Vec_ItemList.end())
+				if (Vec_ItemList.size())
 				{
-					ImGui::TableNextRow();
-					ImGui::TableSetColumnIndex(0);
-					ImGui::Text("%i", (unsigned int)(*iterator_ItemList));
-					ImGui::TableSetColumnIndex(1);
-					//ImGui::Text("%s", Text::UTF16TOUTF8((wchar_t*)(&(*iterator_ItemList)->m_NameText->m_Text->m_firstChar)).c_str());
-					ImGui::TableSetColumnIndex(2);
-					//ImGui::Text(fmt::format("[{:0.2f}][{}]", (*iterator_PlayerList)->m_BattleProperties->life, (*iterator_PlayerList)->m_IsLocalPlayer).c_str());
-					iterator_ItemList++;
+					std::vector<UsableObject*>::iterator iterator_ItemList = Vec_ItemList.begin();
+					while (iterator_ItemList != Vec_ItemList.end())
+					{
+						ImGui::TableNextRow();
+						ImGui::TableSetColumnIndex(0);
+						ImGui::Text("%i", (unsigned int)(*iterator_ItemList));
+						ImGui::TableSetColumnIndex(1);
+						//ImGui::Text("%s", Text::UTF16TOUTF8((wchar_t*)(&(*iterator_ItemList)->m_NameText->m_Text->m_firstChar)).c_str());
+						ImGui::TableSetColumnIndex(2);
+						//ImGui::Text(fmt::format("[{:0.2f}][{}]", (*iterator_PlayerList)->m_BattleProperties->life, (*iterator_PlayerList)->m_IsLocalPlayer).c_str());
+						iterator_ItemList++;
+					}
 				}
 			}
 			catch (...)
@@ -84,14 +87,17 @@ namespace cheat::feature
 	{
 		try
 		{
-			std::vector<UsableObject*>::iterator iterator_ItemList = Vec_ItemList.begin();
-			while (iterator_ItemList != Vec_ItemList.end())
+			if (Vec_ItemList.size())
 			{
-				if ((*iterator_ItemList) == _this)
+				std::vector<UsableObject*>::iterator iterator_ItemList = Vec_ItemList.begin();
+				while (iterator_ItemList != Vec_ItemList.end())
 				{
-					Vec_ItemList.erase(iterator_ItemList);
+					if ((*iterator_ItemList) == _this)
+					{
+						Vec_ItemList.erase(iterator_ItemList);
+					}
+					iterator_ItemList++;
 				}
-				iterator_ItemList++;
 			}
 		}
 		catch (...)
