@@ -7,7 +7,7 @@ namespace cheat::feature
 	static void UsableObject_Awake_Hook(UsableObject* _this);
 	static void UsableObject_OnDestroy_Hook(UsableObject* _this);
 
-	bool CloseHook;
+	bool CloseHook = false;
 
 	ItemList::ItemList() : Feature()
 	{
