@@ -29,56 +29,58 @@ namespace cheat::feature
 	}
 	void PlayerList::DrawMain()
 	{
-		if (ImGui::BeginTable("PlayerList", 3, ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable, ImVec2(0.0f, ImGui::GetTextLineHeightWithSpacing() * 13)))
+		if (ImGui::CollapsingHeader(Text::GBKTOUTF8("玩家列表").c_str()))
 		{
-			ImGui::TableSetupScrollFreeze(0, 1);
-			ImGui::TableSetupColumn(Text::GBKTOUTF8("操作").c_str(), ImGuiTableColumnFlags_None);
-			ImGui::TableSetupColumn(Text::GBKTOUTF8("名称").c_str(), ImGuiTableColumnFlags_None);
-			ImGui::TableSetupColumn(Text::GBKTOUTF8("[地址][血量][队友][本地][坐标][金币]").c_str(), ImGuiTableColumnFlags_None);
-			ImGui::TableHeadersRow();
-			try
+			if (ImGui::BeginTable("PlayerList", 3, ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable, ImVec2(0.0f, ImGui::GetTextLineHeightWithSpacing() * 13)))
 			{
-				for (size_t i = Vec_PlayerList.size() - 1; i >= 0; i--)
+				ImGui::TableSetupScrollFreeze(0, 1);
+				ImGui::TableSetupColumn(Text::GBKTOUTF8("操作").c_str(), ImGuiTableColumnFlags_None);
+				ImGui::TableSetupColumn(Text::GBKTOUTF8("名称").c_str(), ImGuiTableColumnFlags_None);
+				ImGui::TableSetupColumn(Text::GBKTOUTF8("[地址][血量][队友][本地][坐标][金币]").c_str(), ImGuiTableColumnFlags_None);
+				ImGui::TableHeadersRow();
+				try
 				{
-					ImGui::PushID(Vec_PlayerList[i]); //必须加上不然按钮没效果
-					AdrenalineObject AdrenalineObject_this;
-					Vector3 pos = app::AdrenalineObject_GetPlayerPos(&AdrenalineObject_this, Vec_PlayerList[i]);
-					ImGui::TableNextRow();
-					if (ImGui::TableSetColumnIndex(0))
+					for (size_t i = Vec_PlayerList.size() - 1; i >= 0; i--)
 					{
-						if (!Vec_PlayerList[i]->m_IsLocalPlayer)
+						ImGui::PushID(Vec_PlayerList[i]); //必须加上不然按钮没效果
+						AdrenalineObject AdrenalineObject_this;
+						Vector3 pos = app::AdrenalineObject_GetPlayerPos(&AdrenalineObject_this, Vec_PlayerList[i]);
+						ImGui::TableNextRow();
+						if (ImGui::TableSetColumnIndex(0))
 						{
-							if (ImGui::SmallButton(Text::GBKTOUTF8("传送").c_str()))
+							if (!Vec_PlayerList[i]->m_IsLocalPlayer)
 							{
-								app::PlayerController_SetPlayerPos(m_PlayerController, pos); //传送玩家
+								if (ImGui::SmallButton(Text::GBKTOUTF8("传送").c_str()))
+								{
+									app::PlayerController_SetPlayerPos(m_PlayerController, pos); //传送玩家
+								}
+							}
+							else
+							{
+								ImGui::Text(Text::GBKTOUTF8("自己").c_str());
 							}
 						}
-						else
+						if (ImGui::TableSetColumnIndex(1))
 						{
-							ImGui::Text(Text::GBKTOUTF8("自己").c_str());
+							ImGui::TextColored(
+								app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? ImColor(128, 195, 66, 255) : ImColor(233, 66, 66, 255),
+								"[%s]%s",
+								Text::GBKTOUTF8(app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? "友" : "敌").c_str(),
+								Text::UTF16TOUTF8((wchar_t*)(&Vec_PlayerList[i]->m_NameText->m_Text->m_firstChar)).c_str()
+							);
 						}
+						if (ImGui::TableSetColumnIndex(2))
+						{
+							ImGui::Text(fmt::format("[{}][{:0.2f}][{}][{}][x:{:0.2f} y:{:0.2f} z:{:0.2f}][{}]", (unsigned int)Vec_PlayerList[i], Vec_PlayerList[i]->m_BattleProperties->life, app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]), Vec_PlayerList[i]->m_IsLocalPlayer, pos.x, pos.y, pos.z, app::PlayerController_get_CurCoin(Vec_PlayerList[i])).c_str());
+						}
+						ImGui::PopID();
 					}
-					if (ImGui::TableSetColumnIndex(1))
-					{
-						ImGui::TextColored(
-							app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? ImColor(128, 195, 66, 255) : ImColor(233, 66, 66, 255),
-							"[%s]%s",
-							Text::GBKTOUTF8(app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? "友" : "敌").c_str(),
-							Text::UTF16TOUTF8((wchar_t*)(&Vec_PlayerList[i]->m_NameText->m_Text->m_firstChar)).c_str()
-						);
-					}
-					if (ImGui::TableSetColumnIndex(2))
-					{
-						ImGui::Text(fmt::format("[{}][{:0.2f}][{}][{}][x:{:0.2f} y:{:0.2f} z:{:0.2f}][{}]", (unsigned int)Vec_PlayerList[i], Vec_PlayerList[i]->m_BattleProperties->life, app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]), Vec_PlayerList[i]->m_IsLocalPlayer, pos.x, pos.y, pos.z, app::PlayerController_get_CurCoin(Vec_PlayerList[i])).c_str());
-					}
-					ImGui::PopID();
 				}
+				catch (...)
+				{
+				}
+				ImGui::EndTable();
 			}
-			catch (...)
-			{
-			}
-
-			ImGui::EndTable();
 		}
 	}
 	bool PlayerList::NeedStatusDraw() const
@@ -117,7 +119,7 @@ namespace cheat::feature
 						{
 							AdrenalineObject AdrenalineObject_this;
 							Vector3 pos = app::AdrenalineObject_GetPlayerPos(&AdrenalineObject_this, m_PlayerController);
-							pos.x -= 2;
+							pos.x -= 3;
 							app::PlayerController_SetPlayerPos(Vec_PlayerList[i], pos);
 						}
 					}

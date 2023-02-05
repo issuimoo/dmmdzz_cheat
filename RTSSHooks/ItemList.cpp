@@ -22,34 +22,38 @@ namespace cheat::feature
 	}
 	void ItemList::DrawMain()
 	{
-		if (ImGui::BeginTable("PlayerList", 3, ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable, ImVec2(0.0f, ImGui::GetTextLineHeightWithSpacing() * 13)))
+		if (ImGui::CollapsingHeader(Text::GBKTOUTF8("物品列表").c_str()))
 		{
-			ImGui::TableSetupScrollFreeze(0, 1);
-			ImGui::TableSetupColumn(Text::GBKTOUTF8("地址").c_str(), ImGuiTableColumnFlags_None);
-			ImGui::TableSetupColumn(Text::GBKTOUTF8("").c_str(), ImGuiTableColumnFlags_None);
-			ImGui::TableSetupColumn(Text::GBKTOUTF8("").c_str(), ImGuiTableColumnFlags_None);
-			ImGui::TableHeadersRow();
-			try
+			if (ImGui::BeginTable("PlayerList", 3, ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable, ImVec2(0.0f, ImGui::GetTextLineHeightWithSpacing() * 13)))
 			{
-				auto ItemList_begin = Vec_ItemList.begin();
-				auto ItemList_end = Vec_ItemList.end();
-				while (ItemList_begin != ItemList_end)
+				ImGui::TableSetupScrollFreeze(0, 1);
+				ImGui::TableSetupColumn(Text::GBKTOUTF8("地址").c_str(), ImGuiTableColumnFlags_None);
+				ImGui::TableSetupColumn(Text::GBKTOUTF8("").c_str(), ImGuiTableColumnFlags_None);
+				ImGui::TableSetupColumn(Text::GBKTOUTF8("").c_str(), ImGuiTableColumnFlags_None);
+				ImGui::TableHeadersRow();
+				try
 				{
-					ImGui::TableNextRow();
-					ImGui::TableSetColumnIndex(0);
-					ImGui::Text("%i", (unsigned int)*ItemList_begin);
-					ImGui::TableSetColumnIndex(1);
-					//ImGui::Text("%s", Text::UTF16TOUTF8((wchar_t*)(&(*iterator_ItemList)->m_NameText->m_Text->m_firstChar)).c_str());
-					ImGui::TableSetColumnIndex(2);
-					//ImGui::Text(fmt::format("[{:0.2f}][{}]", (*iterator_PlayerList)->m_BattleProperties->life, (*iterator_PlayerList)->m_IsLocalPlayer).c_str());
-					ItemList_begin++;
+					auto ItemList_begin = Vec_ItemList.begin();
+					auto ItemList_end = Vec_ItemList.end();
+					while (ItemList_begin != ItemList_end)
+					{
+						ImGui::TableNextRow();
+						ImGui::TableSetColumnIndex(0);
+						ImGui::Text("%i", (unsigned int)*ItemList_begin);
+						ImGui::TableSetColumnIndex(1);
+						//ImGui::Text("%s", Text::UTF16TOUTF8((wchar_t*)(&(*iterator_ItemList)->m_NameText->m_Text->m_firstChar)).c_str());
+						ImGui::TableSetColumnIndex(2);
+						//ImGui::Text(fmt::format("[{:0.2f}][{}]", (*iterator_PlayerList)->m_BattleProperties->life, (*iterator_PlayerList)->m_IsLocalPlayer).c_str());
+						ItemList_begin++;
+					}
 				}
-			}
-			catch (...)
-			{
-			}
+				catch (...)
+				{
 
-			ImGui::EndTable();
+				}
+
+				ImGui::EndTable();
+			}
 		}
 	}
 	bool ItemList::NeedStatusDraw() const
