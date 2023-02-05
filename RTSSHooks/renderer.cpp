@@ -157,7 +157,7 @@ namespace renderer
 
 		ImGui::End();
 	}
-
+	
 	void CheatManagerBase::Draw()
 	{
 		if (m_ModuleOrder.empty())

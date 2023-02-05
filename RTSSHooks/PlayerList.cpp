@@ -3,7 +3,6 @@
 std::vector<PlayerController*> Vec_PlayerList;
 PlayerController* m_PlayerController;
 
-#include "ItemList.hpp"
 #include "PlayerVAC.hpp"
 
 namespace cheat::feature
@@ -39,49 +38,40 @@ namespace cheat::feature
 			ImGui::TableHeadersRow();
 			try
 			{
-				if (Vec_PlayerList.size())
+				for (size_t i = Vec_PlayerList.size() - 1; i >= 0; i--)
 				{
-					std::vector<PlayerController*>::iterator iterator_PlayerList = Vec_PlayerList.begin();
-					while (iterator_PlayerList != Vec_PlayerList.end())
+					ImGui::PushID(Vec_PlayerList[i]); //必须加上不然按钮没效果
+					AdrenalineObject AdrenalineObject_this;
+					Vector3 pos = app::AdrenalineObject_GetPlayerPos(&AdrenalineObject_this, Vec_PlayerList[i]);
+					ImGui::TableNextRow();
+					if (ImGui::TableSetColumnIndex(0))
 					{
-						if (!Vec_PlayerList.size())
+						if (!Vec_PlayerList[i]->m_IsLocalPlayer)
 						{
-							continue;
-						}
-						ImGui::PushID(*iterator_PlayerList); //必须加上不然按钮没效果
-						AdrenalineObject AdrenalineObject_this;
-						Vector3 pos = app::AdrenalineObject_GetPlayerPos(&AdrenalineObject_this, (*iterator_PlayerList));
-						ImGui::TableNextRow();
-						if (ImGui::TableSetColumnIndex(0))
-						{
-							if (!(*iterator_PlayerList)->m_IsLocalPlayer)
+							if (ImGui::SmallButton(Text::GBKTOUTF8("传送").c_str()))
 							{
-								if (ImGui::SmallButton(Text::GBKTOUTF8("传送").c_str()))
-								{
-									app::PlayerController_SetPlayerPos(m_PlayerController, pos); //传送玩家
-								}
-							}
-							else
-							{
-								ImGui::Text(Text::GBKTOUTF8("自己").c_str());
+								app::PlayerController_SetPlayerPos(m_PlayerController, pos); //传送玩家
 							}
 						}
-						if (ImGui::TableSetColumnIndex(1))
+						else
 						{
-							ImGui::TextColored(
-								app::PlayerController_InSameTeam(m_PlayerController, (*iterator_PlayerList)) ? ImColor(128, 195, 66, 255) : ImColor(233, 66, 66, 255),
-								"[%s]%s",
-								Text::GBKTOUTF8(app::PlayerController_InSameTeam(m_PlayerController, (*iterator_PlayerList)) ? "友" : "敌").c_str(),
-								Text::UTF16TOUTF8((wchar_t*)(&(*iterator_PlayerList)->m_NameText->m_Text->m_firstChar)).c_str()
-							);
+							ImGui::Text(Text::GBKTOUTF8("自己").c_str());
 						}
-						if (ImGui::TableSetColumnIndex(2))
-						{
-							ImGui::Text(fmt::format("[{}][{:0.2f}][{}][{}][x:{:0.2f} y:{:0.2f} z:{:0.2f}][{}]", (unsigned int)(*iterator_PlayerList), (*iterator_PlayerList)->m_BattleProperties->life, app::PlayerController_InSameTeam(m_PlayerController, (*iterator_PlayerList)), (*iterator_PlayerList)->m_IsLocalPlayer, pos.x, pos.y, pos.z, app::PlayerController_get_CurCoin(*iterator_PlayerList)).c_str());
-						}
-						ImGui::PopID();
-						iterator_PlayerList++;
 					}
+					if (ImGui::TableSetColumnIndex(1))
+					{
+						ImGui::TextColored(
+							app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? ImColor(128, 195, 66, 255) : ImColor(233, 66, 66, 255),
+							"[%s]%s",
+							Text::GBKTOUTF8(app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? "友" : "敌").c_str(),
+							Text::UTF16TOUTF8((wchar_t*)(&Vec_PlayerList[i]->m_NameText->m_Text->m_firstChar)).c_str()
+						);
+					}
+					if (ImGui::TableSetColumnIndex(2))
+					{
+						ImGui::Text(fmt::format("[{}][{:0.2f}][{}][{}][x:{:0.2f} y:{:0.2f} z:{:0.2f}][{}]", (unsigned int)Vec_PlayerList[i], Vec_PlayerList[i]->m_BattleProperties->life, app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]), Vec_PlayerList[i]->m_IsLocalPlayer, pos.x, pos.y, pos.z, app::PlayerController_get_CurCoin(Vec_PlayerList[i])).c_str());
+					}
+					ImGui::PopID();
 				}
 			}
 			catch (...)
@@ -113,39 +103,30 @@ namespace cheat::feature
 	{
 		try
 		{
-			if (Vec_PlayerList.size())
+			for (size_t i = Vec_PlayerList.size() - 1; i >= 0; i--)
 			{
-				std::vector<PlayerController*>::iterator iterator_PlayerList = Vec_PlayerList.begin();
-				while (iterator_PlayerList != Vec_PlayerList.end())
+				if (Vec_PlayerList[i]->m_IsLocalPlayer)
 				{
-					if (!Vec_PlayerList.size())
+					m_PlayerController = Vec_PlayerList[i];
+				}
+				else
+				{
+					if (VAC)
 					{
-						return;
-					}
-					if ((*iterator_PlayerList)->m_IsLocalPlayer)
-					{
-						m_PlayerController = *iterator_PlayerList;
-					}
-					else
-					{
-						if (VAC)
+						if (!app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]))
 						{
-							if (!app::PlayerController_InSameTeam(m_PlayerController, (*iterator_PlayerList)))
-							{
-								AdrenalineObject AdrenalineObject_this;
-								Vector3 pos = app::AdrenalineObject_GetPlayerPos(&AdrenalineObject_this, m_PlayerController);
-								pos.x -= 2;
-								app::PlayerController_SetPlayerPos((*iterator_PlayerList), pos);
-							}
+							AdrenalineObject AdrenalineObject_this;
+							Vector3 pos = app::AdrenalineObject_GetPlayerPos(&AdrenalineObject_this, m_PlayerController);
+							pos.x -= 2;
+							app::PlayerController_SetPlayerPos(Vec_PlayerList[i], pos);
 						}
 					}
-					iterator_PlayerList++;
 				}
 			}
 		}
 		catch (...)
 		{
-
+			return;
 		}
 	}
 
@@ -157,8 +138,11 @@ namespace cheat::feature
 
 	static void PlayerController_OnDestroy_Hook(PlayerController* _this)
 	{
-		Vec_PlayerList.clear();
-		m_PlayerController = nullptr;
+		if (Vec_PlayerList.size())
+		{
+			Vec_PlayerList.clear();
+			m_PlayerController = nullptr;
+		}
 		return CALL_ORIGIN(PlayerController_OnDestroy_Hook, _this);
 	}
 }
