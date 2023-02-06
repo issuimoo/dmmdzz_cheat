@@ -4,6 +4,7 @@ std::vector<PlayerController*> Vec_PlayerList;
 PlayerController* m_PlayerController;
 
 #include "PlayerVAC.hpp"
+#include "ItemList.hpp"
 
 namespace cheat::feature
 {
@@ -147,6 +148,10 @@ namespace cheat::feature
 		{
 			Vec_PlayerList.clear();
 			m_PlayerController = nullptr;
+		}
+		if (Vec_ItemList.size())
+		{
+			Vec_ItemList.clear();
 		}
 		return CALL_ORIGIN(PlayerController_OnDestroy_Hook, _this);
 	}

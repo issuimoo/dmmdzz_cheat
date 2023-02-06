@@ -1,13 +1,11 @@
 ﻿#include "ItemList.hpp"
 
-std::vector<UsableObject*> Vec_ItemList;
+std::vector<UsableObject_Info> Vec_ItemList;
 
 namespace cheat::feature
 {
 	static void UsableObject_Awake_Hook(UsableObject* _this);
 	static void UsableObject_OnDestroy_Hook(UsableObject* _this);
-
-	bool CloseHook = false;
 
 	ItemList::ItemList() : Feature()
 	{
@@ -26,7 +24,6 @@ namespace cheat::feature
 	{
 		if (ImGui::CollapsingHeader(Text::GBKTOUTF8("物品列表").c_str()))
 		{
-			ImGui::Checkbox(Text::GBKTOUTF8("关闭Hook(解决因迭代而闪退)").c_str(), &CloseHook);
 			if (ImGui::BeginTable("PlayerList", 3, ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable, ImVec2(0.0f, ImGui::GetTextLineHeightWithSpacing() * 13)))
 			{
 				ImGui::TableSetupScrollFreeze(0, 1);
@@ -34,28 +31,25 @@ namespace cheat::feature
 				ImGui::TableSetupColumn(Text::GBKTOUTF8("").c_str(), ImGuiTableColumnFlags_None);
 				ImGui::TableSetupColumn(Text::GBKTOUTF8("").c_str(), ImGuiTableColumnFlags_None);
 				ImGui::TableHeadersRow();
-				if (!CloseHook)
+				try
 				{
-					try
+					for (size_t i = Vec_ItemList.size() - 1; i >= 0; i--)
 					{
-						auto ItemList_begin = Vec_ItemList.begin();
-						auto ItemList_end = Vec_ItemList.end();
-						while (ItemList_begin != ItemList_end)
+						if (!Vec_ItemList[i]._isDisposed)
 						{
 							ImGui::TableNextRow();
 							ImGui::TableSetColumnIndex(0);
-							ImGui::Text("%i", (unsigned int)*ItemList_begin);
+							ImGui::Text("%i", (unsigned int)Vec_ItemList[i]._this);
 							ImGui::TableSetColumnIndex(1);
 							//ImGui::Text("%s", Text::UTF16TOUTF8((wchar_t*)(&(*iterator_ItemList)->m_NameText->m_Text->m_firstChar)).c_str());
 							ImGui::TableSetColumnIndex(2);
 							//ImGui::Text(fmt::format("[{:0.2f}][{}]", (*iterator_PlayerList)->m_BattleProperties->life, (*iterator_PlayerList)->m_IsLocalPlayer).c_str());
-							ItemList_begin++;
 						}
 					}
-					catch (...)
-					{
+				}
+				catch (...)
+				{
 
-					}
 				}
 				ImGui::EndTable();
 			}
@@ -86,35 +80,27 @@ namespace cheat::feature
 
 	static void UsableObject_Awake_Hook(UsableObject* _this)
 	{
-		if (!CloseHook)
-		{
-			Vec_ItemList.push_back(_this);
-		}
+		UsableObject_Info item{ _this, false };
+		Vec_ItemList.push_back(item);
 		return CALL_ORIGIN(UsableObject_Awake_Hook, _this);
 	}
 
 	static void UsableObject_OnDestroy_Hook(UsableObject* _this)
 	{
-		if (!CloseHook)
+		try
 		{
-			try
+			for (size_t i = Vec_ItemList.size() - 1; i >= 0; i--)
 			{
-				auto ItemList_begin = Vec_ItemList.begin();
-				auto ItemList_end = Vec_ItemList.end();
-				while (ItemList_begin != ItemList_end)
+				if (!Vec_ItemList[i]._isDisposed && Vec_ItemList[i]._this == _this)
 				{
-					if (*ItemList_begin == _this)
-					{
-						Vec_ItemList.erase(ItemList_begin);
-						return CALL_ORIGIN(UsableObject_OnDestroy_Hook, _this);
-					}
-					ItemList_begin++;
+					Vec_ItemList[i]._isDisposed = true;
+					return CALL_ORIGIN(UsableObject_OnDestroy_Hook, _this);
 				}
 			}
-			catch (...)
-			{
+		}
+		catch (...)
+		{
 
-			}
 		}
 		return CALL_ORIGIN(UsableObject_OnDestroy_Hook, _this);
 	}

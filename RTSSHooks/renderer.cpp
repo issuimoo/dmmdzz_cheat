@@ -103,17 +103,27 @@ namespace renderer
 	void CheatManagerBase::DrawMenuSection(const std::string& sectionName, const std::vector<Feature*>& features) const
 	{
 		if (!sectionName.empty())
-			ImGui::BeginGroupPanel(Text::GBKTOUTF8(sectionName).c_str(), true, { 0,0 });
-
-		for (auto& feature : features)
 		{
-			ImGui::PushID(&feature);
-			feature->DrawMain();
-			ImGui::PopID();
-		}
-
-		if (!sectionName.empty())
+			if (ImGui::BeginGroupPanel(Text::GBKTOUTF8(sectionName).c_str(), true, { 0,0 }))
+			{
+				for (auto& feature : features)
+				{
+					ImGui::PushID(&feature);
+					feature->DrawMain();
+					ImGui::PopID();
+				}
+			}
 			ImGui::EndGroupPanel();
+		}
+		else
+		{
+			for (auto& feature : features)
+			{
+				ImGui::PushID(&feature);
+				feature->DrawMain();
+				ImGui::PopID();
+			}
+		}
 	}
 
 	void CheatManagerBase::DrawStatus() const

@@ -1,6 +1,12 @@
 #include "Feature.hpp"
 
-extern std::vector<UsableObject*> Vec_ItemList;
+struct  UsableObject_Info
+{
+	UsableObject* _this;
+	bool  _isDisposed;
+};
+
+extern std::vector<UsableObject_Info> Vec_ItemList;
 
 namespace cheat::feature
 {
