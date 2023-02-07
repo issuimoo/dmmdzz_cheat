@@ -29,7 +29,7 @@
 # Executables
 .vs
 .Win32
-Win32/Release/先开注入器再开游戏
+Win32
 *.pdb
 *.lastbuildstate
 *.tlog
