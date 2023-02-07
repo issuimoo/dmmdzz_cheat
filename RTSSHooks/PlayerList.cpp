@@ -12,6 +12,7 @@ namespace cheat::feature
 	static void PlayerController_OnDestroy_Hook(PlayerController* _this);
 
 	bool NoName = false;
+	bool NoPos = false;
 
 	PlayerList::PlayerList() : Feature()
 	{
@@ -35,6 +36,7 @@ namespace cheat::feature
 		if (ImGui::CollapsingHeader(Text::GBKTOUTF8("玩家列表").c_str()))
 		{
 			ImGui::Checkbox(Text::GBKTOUTF8("无名称(解决因名称问题不显示列表)").c_str(), &NoName);
+			ImGui::Checkbox(Text::GBKTOUTF8("无操作(解决因操作问题不显示列表)").c_str(), &NoPos);
 			if (ImGui::BeginTable("PlayerList", 3, ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable, ImVec2(0.0f, ImGui::GetTextLineHeightWithSpacing() * 13)))
 			{
 				ImGui::TableSetupScrollFreeze(0, 1);
@@ -47,8 +49,12 @@ namespace cheat::feature
 					for (size_t i = Vec_PlayerList.size() - 1; i >= 0; i--)
 					{
 						ImGui::PushID(Vec_PlayerList[i]); //必须加上不然按钮没效果
-						AdrenalineObject AdrenalineObject_this;
-						Vector3 pos = app::AdrenalineObject_GetPlayerPos(&AdrenalineObject_this, Vec_PlayerList[i]);
+						Vector3 pos;
+						if (!NoPos)
+						{
+							AdrenalineObject AdrenalineObject_this;
+							pos = app::AdrenalineObject_GetPlayerPos(&AdrenalineObject_this, Vec_PlayerList[i]);
+						}
 						ImGui::TableNextRow();
 						if (ImGui::TableSetColumnIndex(0))
 						{
