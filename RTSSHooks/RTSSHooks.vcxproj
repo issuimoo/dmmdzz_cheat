@@ -178,6 +178,7 @@
     <ClCompile Include="PlayerVAC.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="setting.cpp" />
+    <ClCompile Include="Store.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AAC.hpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="PlayerVAC.hpp" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="setting.hpp" />
+    <ClInclude Include="Store.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

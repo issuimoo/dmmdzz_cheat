@@ -1,6 +1,6 @@
 ﻿#include "ItemList.hpp"
 
-std::vector<UsableObject_Info> Vec_ItemList;
+std::vector<UsableObject*> Vec_ItemList;
 
 namespace cheat::feature
 {
@@ -33,18 +33,18 @@ namespace cheat::feature
 				ImGui::TableHeadersRow();
 				try
 				{
-					for (size_t i = Vec_ItemList.size() - 1; i >= 0; i--)
+					auto ItemList_begin = Vec_ItemList.begin();
+					auto ItemList_end = Vec_ItemList.end();
+					while (ItemList_begin != ItemList_end)
 					{
-						if (!Vec_ItemList[i]._isDisposed)
-						{
-							ImGui::TableNextRow();
-							ImGui::TableSetColumnIndex(0);
-							ImGui::Text("%i", (unsigned int)Vec_ItemList[i]._this);
-							ImGui::TableSetColumnIndex(1);
-							//ImGui::Text("%s", Text::UTF16TOUTF8((wchar_t*)(&(*iterator_ItemList)->m_NameText->m_Text->m_firstChar)).c_str());
-							ImGui::TableSetColumnIndex(2);
-							//ImGui::Text(fmt::format("[{:0.2f}][{}]", (*iterator_PlayerList)->m_BattleProperties->life, (*iterator_PlayerList)->m_IsLocalPlayer).c_str());
-						}
+						ImGui::TableNextRow();
+						ImGui::TableSetColumnIndex(0);
+						ImGui::Text("%i", (unsigned int)*ItemList_begin);
+						ImGui::TableSetColumnIndex(1);
+						//ImGui::Text("%s", Text::UTF16TOUTF8((wchar_t*)(&(*iterator_ItemList)->m_NameText->m_Text->m_firstChar)).c_str());
+						ImGui::TableSetColumnIndex(2);
+						//ImGui::Text(fmt::format("[{:0.2f}][{}]", (*iterator_PlayerList)->m_BattleProperties->life, (*iterator_PlayerList)->m_IsLocalPlayer).c_str());
+						ItemList_begin++;
 					}
 				}
 				catch (...)
@@ -80,22 +80,26 @@ namespace cheat::feature
 
 	static void UsableObject_Awake_Hook(UsableObject* _this)
 	{
-		UsableObject_Info item{ _this, false };
-		Vec_ItemList.push_back(item);
+		Vec_ItemList.push_back(_this);
+		LOGDEBUG(fmt::format("UsableObject_Awake_Hook-> _this: {}\n", (int)_this));
 		return CALL_ORIGIN(UsableObject_Awake_Hook, _this);
 	}
 
 	static void UsableObject_OnDestroy_Hook(UsableObject* _this)
 	{
+		LOGDEBUG(fmt::format("UsableObject_OnDestroy_Hook-> _this: {}\n", (int)_this));
 		try
 		{
-			for (size_t i = Vec_ItemList.size() - 1; i >= 0; i--)
+			auto ItemList_begin = Vec_ItemList.begin();
+			auto ItemList_end = Vec_ItemList.end();
+			while (ItemList_begin != ItemList_end)
 			{
-				if (!Vec_ItemList[i]._isDisposed && Vec_ItemList[i]._this == _this)
+				if (*ItemList_begin == _this)
 				{
-					Vec_ItemList[i]._isDisposed = true;
+					Vec_ItemList.erase(ItemList_begin);
 					return CALL_ORIGIN(UsableObject_OnDestroy_Hook, _this);
 				}
+				ItemList_begin++;
 			}
 		}
 		catch (...)

@@ -76,7 +76,7 @@ namespace app
 		int32_t m_Mask;
 	};
 
-	struct Camera {
+	struct __declspec(align(4)) Camera {
 		struct Camera_CameraCallback* onPreCull;
 		struct Camera_CameraCallback* onPreRender;
 		struct Camera_CameraCallback* onPostRender;
@@ -290,6 +290,11 @@ namespace app
 		int32_t _InitBattleRoyaleCardsState_k__BackingField;
 	};
 
+	struct __declspec(align(4)) PlayerControllerRpcProxy {
+		char _space[12];
+		PlayerController m_PlayerController;
+	};
+
 	struct __declspec(align(4)) AutoRecoverable {
 		char _space[12];
 		struct GameObject* m_Effect;
@@ -496,6 +501,66 @@ namespace app
 		bool m_IsFire;
 	};
 
+	struct __declspec(align(4)) InGameStore {
+		char _space[12];
+		struct LightUI_UIStateItem_o* m_Header;
+		struct LightUI_UITemplateInitiator_o* m_StorePanel;
+		struct InGameInteractionButton_o* m_PropButton;
+		struct UnityEngine_UI_Text_o* m_CoinText;
+		struct UnityEngine_Transform_o* m_CoinEffectTarget;
+		struct UnityEngine_GameObject_o* m_CoinEffect;
+		struct UnityEngine_GameObject_o* m_CoinHelpEffect;
+		struct UnityEngine_GameObject_o* m_CoinAddEffect;
+		struct UnityEngine_GameObject_o* m_CoinSubEffect;
+		struct UnityEngine_Transform_o* m_CoinChangeEffectRoot;
+		float m_CooldownTime;
+		float m_MaxCoinDistance;
+		int32_t m_ItemCount;
+		struct TouchOccupy_o* m_TouchOccupy;
+		struct InGameStore_Audio_o* m_Audio;
+		struct Vector2 m_HeaderYScope;
+		struct Vector2 m_PanelYScope;
+		struct LightUI_UIDataBinderBase_array* m_InGameStore_ItemTemplates;
+		struct LightUI_UIDataBinderBase_o* m_Magazine_ItemTemplates;
+		struct UnityEngine_UI_Image_o* m_NextCardIcon;
+		struct UnityEngine_GameObject_o* m_NextCardEffect;
+		struct LightUI_UICooldownBar_o* m_NextCardCooldown;
+		struct UnityEngine_GameObject_o* m_CoolDownTipsPrefab;
+		bool m_CostFree;
+		bool m_LastBuyFree;
+		struct UnityEngine_Camera_o* m_RenderCamera;
+		struct UnityEngine_RectTransform_o* m_RectTransform;
+		struct LightUI_CommonDataCollection_o* m_StoreContent;
+		struct System_Collections_Generic_List_int__o* m_LockIndex;
+		struct System_Collections_Generic_List_GameObject__o* m_CoinChangeEffectInstances;
+		int32_t m_CoinNum;
+		int32_t m_FlyingCoin;
+		bool m_HasNewItem;
+		int32_t m_PanelState;
+		struct InGameStoreInfo_o* m_BuyingItemInfo;
+		int32_t m_BuyOpType;
+		struct System_Action_int__o* OnBuyCard;
+		struct SafeGameDictionary_int__float__o* m_LastItemBoughtTime;
+		struct SafeGameDictionary_int__float__o* m_CardTriggerTime;
+		float m_RemainedCooldownTime;
+		int32_t m_BuyCount;
+		bool m_LastDisabled;
+		struct PlayerController_o* m_LastController;
+		struct InGameStoreInfo_o* m_MagazineInfo;
+		struct UnityEngine_CanvasGroup_o* m_lastCooldownTipsCanvasGroup;
+		struct UnityEngine_UI_Text_o* m_cooldownTipsText;
+		bool m_IsInitialized;
+		struct System_Collections_Generic_List_int__o* TempCandidateList;
+		int32_t m_ServerGold;
+		bool m_IsSyncGold;
+		struct System_Collections_Generic_List_int__o* TempShowCardList;
+		struct System_Collections_Generic_List_float__o* TempTriggerCardList;
+		struct System_Collections_Generic_List_float__o* TempBoughtTimeList;
+		int32_t _BuyItemMask_k__BackingField;
+		bool m_Disabled;
+		bool _DisableAutoOpen_k__BackingField;
+	};
+
 	enum AntiCheatingResult
 	{
 		Normal = 0,
@@ -585,6 +650,7 @@ namespace app
 		FinalRageComplete = 84,
 		LocalFinalDead = 85
 	};
+
 	enum AntiCheatingGhost
 	{
 		Projectile = 0,

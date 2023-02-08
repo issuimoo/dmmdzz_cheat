@@ -1,14 +1,13 @@
 #include "Feature.hpp"
 
-extern bool VAC;
-extern float x_p;
+extern std::vector<InGameStore*> Vec_StoreList;
 
 namespace cheat::feature
 {
-	class PlayerVAC : public Feature
+	class Store : public Feature
 	{
 	public:
-		static PlayerVAC& GetInstance();
+		static Store& GetInstance();
 
 		const FeatureGUIInfo& GetGUIInfo() const override;
 		void DrawMain() override;
@@ -21,6 +20,6 @@ namespace cheat::feature
 
 		void Update() override;
 	protected:
-		PlayerVAC();
+		Store();
 	};
 }

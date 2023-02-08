@@ -6,6 +6,7 @@ std::string jsonfile = "TYPE-1";
 
 #include "setting.hpp"
 #include "AAC.hpp"
+#include "Store.hpp"
 #include "About.hpp"
 #include "ItemList.hpp"
 #include "PlayerList.hpp"
@@ -306,7 +307,6 @@ namespace renderer
 		Mem.Draw();
 	}
 }
-
 namespace cheat
 {
 	void Init()
@@ -315,6 +315,7 @@ namespace cheat
 		Mem.AddFeatures({
 			FEAT_INST(AAC),
 			FEAT_INST(About),
+			FEAT_INST(Store),
 			FEAT_INST(setting),
 			FEAT_INST(ItemList),
 			FEAT_INST(PlayerList),

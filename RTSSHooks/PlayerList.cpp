@@ -11,9 +11,6 @@ namespace cheat::feature
 	static void PlayerController_Awake_Hook(PlayerController* _this);
 	static void PlayerController_OnDestroy_Hook(PlayerController* _this);
 
-	bool NoName = false;
-	bool NoPos = false;
-
 	PlayerList::PlayerList() : Feature()
 	{
 		app::PlayerController_Awake = (void(*)(PlayerController*))(((unsigned int)pch::GameAssembly) + Address_PlayerController_Awake);
@@ -35,8 +32,6 @@ namespace cheat::feature
 	{
 		if (ImGui::CollapsingHeader(Text::GBKTOUTF8("玩家列表").c_str()))
 		{
-			ImGui::Checkbox(Text::GBKTOUTF8("无名称(解决因名称问题不显示列表)").c_str(), &NoName);
-			ImGui::Checkbox(Text::GBKTOUTF8("无操作(解决因操作问题不显示列表)").c_str(), &NoPos);
 			if (ImGui::BeginTable("PlayerList", 3, ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable, ImVec2(0.0f, ImGui::GetTextLineHeightWithSpacing() * 13)))
 			{
 				ImGui::TableSetupScrollFreeze(0, 1);
@@ -50,11 +45,8 @@ namespace cheat::feature
 					{
 						ImGui::PushID(Vec_PlayerList[i]); //必须加上不然按钮没效果
 						Vector3 pos;
-						if (!NoPos)
-						{
-							AdrenalineObject AdrenalineObject_this;
-							pos = app::AdrenalineObject_GetPlayerPos(&AdrenalineObject_this, Vec_PlayerList[i]);
-						}
+						AdrenalineObject AdrenalineObject_this;
+						pos = app::AdrenalineObject_GetPlayerPos(&AdrenalineObject_this, Vec_PlayerList[i]);
 						ImGui::TableNextRow();
 						if (ImGui::TableSetColumnIndex(0))
 						{
@@ -70,7 +62,7 @@ namespace cheat::feature
 								ImGui::Text(Text::GBKTOUTF8("自己").c_str());
 							}
 						}
-						if (ImGui::TableSetColumnIndex(1) && !NoName)
+						if (ImGui::TableSetColumnIndex(1))
 						{
 							ImGui::TextColored(
 								app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? ImColor(128, 195, 66, 255) : ImColor(233, 66, 66, 255),
@@ -129,7 +121,7 @@ namespace cheat::feature
 						{
 							AdrenalineObject AdrenalineObject_this;
 							Vector3 pos = app::AdrenalineObject_GetPlayerPos(&AdrenalineObject_this, m_PlayerController);
-							pos.x -= 3;
+							pos.x -= x_p;
 							app::PlayerController_SetPlayerPos(Vec_PlayerList[i], pos);
 						}
 					}
@@ -145,19 +137,17 @@ namespace cheat::feature
 	static void PlayerController_Awake_Hook(PlayerController* _this)
 	{
 		Vec_PlayerList.push_back(_this);
+		LOGDEBUG(fmt::format("PlayerController_Awake_Hook-> _this: {}\n",(int)_this));
 		return CALL_ORIGIN(PlayerController_Awake_Hook, _this);
 	}
 
 	static void PlayerController_OnDestroy_Hook(PlayerController* _this)
 	{
+		LOGDEBUG(fmt::format("PlayerController_OnDestroy_Hook-> _this: {}\n", (int)_this));
 		if (Vec_PlayerList.size())
 		{
 			Vec_PlayerList.clear();
 			m_PlayerController = nullptr;
-		}
-		if (Vec_ItemList.size())
-		{
-			Vec_ItemList.clear();
 		}
 		return CALL_ORIGIN(PlayerController_OnDestroy_Hook, _this);
 	}

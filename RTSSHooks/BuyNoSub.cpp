@@ -3,17 +3,21 @@
 namespace cheat::feature
 {
 	bool BuyAddCoin = true;
+	bool BuyAddCoin_ret = false;
 
 	static void PlayerController_RpcSubCoin_HOOK(PlayerController* _this, int coin, int reason, int cardId, unsigned int parameters);
 	static void PlayerController_SubCoin_HOOK(PlayerController* _this, int coin, int reason, int cardId);
+	static void PlayerControllerRpcProxy_LocalSubCoin_HOOK(PlayerControllerRpcProxy* _this, int coin, int reason, int param);
 
 	BuyNoSub::BuyNoSub() : Feature()
 	{
 		app::PlayerController_RpcSubCoin = ((void(*)(PlayerController*, int, int, int, unsigned int))((unsigned int)pch::GameAssembly + Address_PlayerController_RpcSubCoin));
 		app::PlayerController_SubCoin = ((void(*)(PlayerController*, int, int, int))((unsigned int)pch::GameAssembly + Address_PlayerController_SubCoin));
+		app::PlayerControllerRpcProxy_LocalSubCoin = ((void(*)(PlayerControllerRpcProxy*, int, int, int))((unsigned int)pch::GameAssembly + Address_PlayerControllerRpcProxy_LocalSubCoin));
 
 		HookManager::install(app::PlayerController_RpcSubCoin, PlayerController_RpcSubCoin_HOOK);
 		HookManager::install(app::PlayerController_SubCoin, PlayerController_SubCoin_HOOK);
+		HookManager::install(app::PlayerControllerRpcProxy_LocalSubCoin, PlayerControllerRpcProxy_LocalSubCoin_HOOK);
 	}
 	const FeatureGUIInfo& BuyNoSub::GetGUIInfo() const
 	{
@@ -22,7 +26,13 @@ namespace cheat::feature
 	}
 	void BuyNoSub::DrawMain()
 	{
-		ImGui::Checkbox(Text::GBKTOUTF8("购物反加").c_str(), &BuyAddCoin);
+		ImGui::Checkbox(Text::GBKTOUTF8("购物不减").c_str(), &BuyAddCoin);
+		if (BuyAddCoin)
+		{
+			ImGui::Indent();
+			ImGui::Checkbox(Text::GBKTOUTF8("拦截模式").c_str(), &BuyAddCoin_ret);
+			ImGui::Unindent();
+		}
 	}
 	bool BuyNoSub::NeedStatusDraw() const
 	{
@@ -32,7 +42,7 @@ namespace cheat::feature
 	{
 		if (BuyAddCoin)
 		{
-			ImGui::Text(Text::GBKTOUTF8("购物反加").c_str());
+			ImGui::Text(Text::GBKTOUTF8(fmt::format("购物不减[{}]", BuyAddCoin_ret ? "R" : "C")).c_str());
 		}
 	}
 	void BuyNoSub::save()
@@ -78,12 +88,41 @@ namespace cheat::feature
 	}
 	static void PlayerController_RpcSubCoin_HOOK(PlayerController* _this, int coin, int reason, int cardId, unsigned int parameters)
 	{
-		coin = -9999;
+		LOGDEBUG(fmt::format("PlayerController_RpcSubCoin_HOOK-> coin: {} reason:{} cardId:{} parameters:{}\n", (int)_this, coin, reason, cardId, parameters));
+		if (BuyAddCoin_ret)
+		{
+			return;
+		}
+		if (BuyAddCoin)
+		{
+			return CALL_ORIGIN(PlayerController_SubCoin_HOOK, _this, 0, reason, cardId);
+		}
 		return CALL_ORIGIN(PlayerController_RpcSubCoin_HOOK, _this, coin, reason, cardId, parameters);
 	}
 	static void PlayerController_SubCoin_HOOK(PlayerController* _this, int coin, int reason, int cardId)
 	{
-		coin = -9999;
+		LOGDEBUG(fmt::format("PlayerController_SubCoin_HOOK->coin: {} reason:{} cardId:{}\n", (int)_this, coin, reason, cardId));
+		if (BuyAddCoin_ret)
+		{
+			return;
+		}
+		if (BuyAddCoin)
+		{
+			return CALL_ORIGIN(PlayerController_SubCoin_HOOK, _this, 0, reason, cardId);
+		}
 		return CALL_ORIGIN(PlayerController_SubCoin_HOOK, _this, coin, reason, cardId);
+	}
+	static void PlayerControllerRpcProxy_LocalSubCoin_HOOK(PlayerControllerRpcProxy* _this, int coin, int reason, int param)
+	{
+		LOGDEBUG(fmt::format("PlayerControllerRpcProxy_LocalSubCoin_HOOK->coin: {} reason:{} param:{}\n", (int)_this, coin, reason, param));
+		if (BuyAddCoin_ret)
+		{
+			return;
+		}
+		if (BuyAddCoin)
+		{
+			return CALL_ORIGIN(PlayerControllerRpcProxy_LocalSubCoin_HOOK, _this, 0, reason, param);
+		}
+		return CALL_ORIGIN(PlayerControllerRpcProxy_LocalSubCoin_HOOK, _this, coin, reason, param);
 	}
 }

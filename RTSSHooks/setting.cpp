@@ -37,7 +37,7 @@ namespace cheat::feature
 	}
 	void setting::DrawStatus()
 	{
-		ImGui::Text(Text::GBKTOUTF8(fmt::format("GUI [{}{}]", ShowStatusFeature ? "S" : "", ShowGameFPS ? "F" : "")).c_str());
+		ImGui::Text(Text::GBKTOUTF8(fmt::format("GUI[{}{}]", ShowStatusFeature ? "S" : "", ShowGameFPS ? "F" : "")).c_str());
 	}
 	void setting::save()
 	{

@@ -13,6 +13,11 @@ static unsigned int Address_PlayerController_SetPlayerPos = 0x6392A0;
 static unsigned int Address_PlayerController_RpcSubCoin = 0x637890;
 static unsigned int Address_PlayerController_SubCoin = 0x63A920;
 
+static unsigned int Address_InGameStore_Awake = 0x111D710;
+static unsigned int Address_InGameStore_OnDestroy = 0x11270A0;
+
+static unsigned int Address_PlayerControllerRpcProxy_LocalSubCoin = 0xBBCCB0;
+
 static unsigned int Address_BipedalDragonShapeController_get_DisableFireButton = 0xCCD730;
 static unsigned int Address_BipedalDragonShapeController_get_DisableJumpButton = 0xCCD780;
 static unsigned int Address_BipedalDragonShapeController_get_MoveTargetForward = 0xCCD7D0;
