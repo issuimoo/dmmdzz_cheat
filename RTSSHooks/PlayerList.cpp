@@ -32,7 +32,7 @@ namespace cheat::feature
 	{
 		if (ImGui::CollapsingHeader(Text::GBKTOUTF8("玩家列表").c_str()))
 		{
-			if (ImGui::BeginTable("PlayerList", 3, ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable, ImVec2(0.0f, ImGui::GetTextLineHeightWithSpacing() * 13)))
+			if (ImGui::BeginTable("PlayerList", 3, ImGuiTableFlags_SizingFixedFit |  ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable, ImVec2(0.0f, ImGui::GetTextLineHeightWithSpacing() * 13)))
 			{
 				ImGui::TableSetupScrollFreeze(0, 1);
 				ImGui::TableSetupColumn(Text::GBKTOUTF8("操作").c_str(), ImGuiTableColumnFlags_None);
