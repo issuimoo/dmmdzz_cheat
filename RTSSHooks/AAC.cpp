@@ -1,4 +1,6 @@
 ﻿#include "AAC.hpp"
+#include "AACLog.hpp"
+
 namespace cheat::feature
 {
 	bool CloseAC = true;
@@ -101,6 +103,7 @@ namespace cheat::feature
 		{
 			intercepts++;
 			LOGDEBUG(fmt::format("AntiCheatingSystem_SendReport_Hook-> result:{} \n", magic_enum::enum_name<AntiCheatingResult>(result)));
+			AACLogs.push_back(fmt::format("AntiCheatingSystem_SendReport_Hook-> result:{} \n", magic_enum::enum_name<AntiCheatingResult>(result)));
 		}
 		if (CloseAC)
 		{
@@ -112,6 +115,7 @@ namespace cheat::feature
 	static void AntiCheatingSystem_Quit_Hook(AntiCheatingSystem* _this)
 	{
 		LOGDEBUG(fmt::format("AntiCheatingSystem_Quit_Hook-> Quit\n"));
+		AACLogs.push_back(fmt::format("AntiCheatingSystem_Quit_Hook-> Quit\n"));
 		if (closeCL)
 		{
 			return;
@@ -123,6 +127,7 @@ namespace cheat::feature
 		if (magic_enum::enum_name<AntiCheatingGhost>(g) != "")
 		{
 			LOGDEBUG(fmt::format("AntiCheatingSystem_AddGhost_Hook-> result:{} \n", magic_enum::enum_name<AntiCheatingGhost>(g)));
+			AACLogs.push_back(fmt::format("AntiCheatingSystem_AddGhost_Hook-> result:{} \n", magic_enum::enum_name<AntiCheatingGhost>(g)));
 		}
 		if (CloseGhost)
 		{

@@ -14,6 +14,7 @@ std::string jsonfile = "TYPE-1";
 #include "BuyNoSub.hpp"
 #include "PlayerVAC.hpp"
 #include "AntiImmobility.hpp"
+#include "AACLog.hpp"
 
 namespace renderer
 {
@@ -316,6 +317,7 @@ namespace cheat
 			FEAT_INST(AAC),
 			FEAT_INST(About),
 			FEAT_INST(Store),
+			FEAT_INST(AACLog),
 			FEAT_INST(setting),
 			FEAT_INST(ItemList),
 			FEAT_INST(PlayerList),
