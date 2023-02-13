@@ -6,6 +6,7 @@ namespace cheat::feature
 	bool CloseAC = true;
 	bool closeCL = true;
 	bool CloseGhost = true;
+	bool NewMsg = false;
 
 	unsigned int intercepts = 0;
 
@@ -35,6 +36,11 @@ namespace cheat::feature
 		ImGui::Checkbox(Text::GBKTOUTF8("拦截退出").c_str(), &closeCL);
 		ImGui::SameLine();
 		ImGui::Checkbox(Text::GBKTOUTF8("拦截鬼魂").c_str(), &CloseGhost);
+		if (CloseAC)
+		{
+			ImGui::SameLine();
+			ImGui::Checkbox(Text::GBKTOUTF8("替换模式").c_str(), &NewMsg);
+		}
 		ImGui::TextColored({ 255, 164, 0 ,255 }, Text::GBKTOUTF8(fmt::format("已拦截 {} 次上传", intercepts)).c_str());
 	}
 	bool AAC::NeedStatusDraw() const
@@ -105,10 +111,13 @@ namespace cheat::feature
 			LOGDEBUG(fmt::format("AntiCheatingSystem_SendReport_Hook-> result:{} \n", magic_enum::enum_name<AntiCheatingResult>(result)));
 			AACLogs.push_back(fmt::format("AntiCheatingSystem_SendReport_Hook-> result:{} \n", magic_enum::enum_name<AntiCheatingResult>(result)));
 		}
-		if (CloseAC)
+		if (CloseAC && !NewMsg)
 		{
-			result = AntiCheatingResult::Normal;
 			return;
+		}
+		if (NewMsg)
+		{
+			return CALL_ORIGIN(AntiCheatingSystem_SendReport_Hook, _this, userID, AntiCheatingResult::Normal);
 		}
 		return CALL_ORIGIN(AntiCheatingSystem_SendReport_Hook, _this, userID, result);
 	}
