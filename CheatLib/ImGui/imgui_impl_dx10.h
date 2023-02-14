@@ -1,8 +1,8 @@
-// dear imgui: Renderer Backend for DirectX9
+// dear imgui: Renderer Backend for DirectX10
 // This needs to be used along with a Platform Backend (e.g. Win32)
 
 // Implemented features:
-//  [X] Renderer: User texture binding. Use 'LPDIRECT3DTEXTURE9' as ImTextureID. Read the FAQ about ImTextureID!
+//  [X] Renderer: User texture binding. Use 'ID3D10ShaderResourceView*' as ImTextureID. Read the FAQ about ImTextureID!
 //  [X] Renderer: Large meshes support (64k+ vertices) with 16-bit indices.
 
 // You can use unmodified imgui_impl_* files in your project. See examples/ folder for examples of using this. 
@@ -13,13 +13,13 @@
 #pragma once
 #include "imgui.h"      // IMGUI_IMPL_API
 
-struct IDirect3DDevice9;
+struct ID3D10Device;
 
-IMGUI_IMPL_API bool     ImGui_ImplDX9_Init(IDirect3DDevice9* device);
-IMGUI_IMPL_API void     ImGui_ImplDX9_Shutdown();
-IMGUI_IMPL_API void     ImGui_ImplDX9_NewFrame();
-IMGUI_IMPL_API void     ImGui_ImplDX9_RenderDrawData(ImDrawData* draw_data);
+IMGUI_IMPL_API bool     ImGui_ImplDX10_Init(ID3D10Device* device);
+IMGUI_IMPL_API void     ImGui_ImplDX10_Shutdown();
+IMGUI_IMPL_API void     ImGui_ImplDX10_NewFrame();
+IMGUI_IMPL_API void     ImGui_ImplDX10_RenderDrawData(ImDrawData* draw_data);
 
 // Use if you want to reset your rendering device without losing Dear ImGui state.
-IMGUI_IMPL_API bool     ImGui_ImplDX9_CreateDeviceObjects();
-IMGUI_IMPL_API void     ImGui_ImplDX9_InvalidateDeviceObjects();
+IMGUI_IMPL_API void     ImGui_ImplDX10_InvalidateDeviceObjects();
+IMGUI_IMPL_API bool     ImGui_ImplDX10_CreateDeviceObjects();
