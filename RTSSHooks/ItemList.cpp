@@ -81,13 +81,11 @@ namespace cheat::feature
 	static void UsableObject_Awake_Hook(UsableObject* _this)
 	{
 		Vec_ItemList.push_back(_this);
-		LOGDEBUG(fmt::format("UsableObject_Awake_Hook-> _this: {}\n", (int)_this));
 		return CALL_ORIGIN(UsableObject_Awake_Hook, _this);
 	}
 
 	static void UsableObject_OnDestroy_Hook(UsableObject* _this)
 	{
-		LOGDEBUG(fmt::format("UsableObject_OnDestroy_Hook-> _this: {}\n", (int)_this));
 		try
 		{
 			auto ItemList_begin = Vec_ItemList.begin();

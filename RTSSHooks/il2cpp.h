@@ -37,6 +37,11 @@ namespace app
 		float _33;
 	};
 
+	struct GameObject 
+	{
+
+	};
+
 	struct __declspec(align(4)) APP_ColorRGBA {
 		float r;
 		float g;

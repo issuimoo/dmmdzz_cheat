@@ -81,12 +81,10 @@ namespace cheat::feature
 	static void InGameStore_Awake_Hook(InGameStore* _this)
 	{
 		Vec_StoreList.push_back(_this);
-		LOGDEBUG(fmt::format("InGameStore_Awake_Hook-> _this: {}\n", (int)_this));
 		return CALL_ORIGIN(InGameStore_Awake_Hook, _this);
 	}
 	static void InGameStore_OnDestroy_Hook(InGameStore* _this)
 	{
-		LOGDEBUG(fmt::format("InGameStore_OnDestroy_Hook-> _this: {}\n", (int)_this));
 		auto StoreList_begin = Vec_StoreList.begin();
 		auto StoreList_end = Vec_StoreList.end();
 		while (StoreList_begin != StoreList_end)

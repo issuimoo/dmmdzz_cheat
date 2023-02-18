@@ -17,6 +17,7 @@ namespace cheat::feature
 	}
 	void PlayerVAC::DrawMain()
 	{
+		ImGui::TextColored(ImGui::HexToRGBA("C93756"), Text::GBKTOUTF8("请勿秒赢,秒赢将不会记录为获胜!").c_str());
 		ImGui::Checkbox(Text::GBKTOUTF8("玩家吸附").c_str(), &VAC);
 		if (VAC)
 		{

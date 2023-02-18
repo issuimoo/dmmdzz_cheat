@@ -15,6 +15,7 @@ std::string jsonfile = "TYPE-1";
 #include "PlayerVAC.hpp"
 #include "AntiImmobility.hpp"
 #include "AACLog.hpp"
+#include "AutoRecoverBlood.hpp"
 
 namespace renderer
 {
@@ -323,6 +324,7 @@ namespace cheat
 			FEAT_INST(PlayerList),
 			FEAT_INST(BuyNoSub),
 			FEAT_INST(AntiImmobility),
+			FEAT_INST(AutoRecoverBlood),
 			FEAT_INST(PlayerVAC),
 			FEAT_INST(NoFogOfWar)
 			});

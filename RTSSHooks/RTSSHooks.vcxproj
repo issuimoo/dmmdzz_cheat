@@ -169,6 +169,7 @@
     <ClCompile Include="AACLog.cpp" />
     <ClCompile Include="About.cpp" />
     <ClCompile Include="AntiImmobility.cpp" />
+    <ClCompile Include="AutoRecoverBlood.cpp" />
     <ClCompile Include="BuyNoSub.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="ItemList.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="setting.cpp" />
     <ClCompile Include="Store.cpp" />
+    <ClCompile Include="VirtualProtect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AAC.hpp" />
@@ -187,6 +189,7 @@
     <ClInclude Include="About.hpp" />
     <ClInclude Include="AntiImmobility.hpp" />
     <ClInclude Include="API-Address.h++" />
+    <ClInclude Include="AutoRecoverBlood.hpp" />
     <ClInclude Include="BuyNoSub.hpp" />
     <ClInclude Include="Feature.hpp" />
     <ClInclude Include="il2cpp-appdata.h" />
@@ -201,6 +204,7 @@
     <ClInclude Include="renderer.h" />
     <ClInclude Include="setting.hpp" />
     <ClInclude Include="Store.hpp" />
+    <ClInclude Include="VirtualProtect.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

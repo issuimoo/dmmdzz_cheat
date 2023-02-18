@@ -1,10 +1,10 @@
 ﻿#include "PlayerList.hpp"
+#include "PlayerVAC.hpp"
+#include "ItemList.hpp"
+#include "AutoRecoverBlood.hpp"
 
 std::vector<PlayerController*> Vec_PlayerList;
 PlayerController* m_PlayerController;
-
-#include "PlayerVAC.hpp"
-#include "ItemList.hpp"
 
 namespace cheat::feature
 {
@@ -137,17 +137,16 @@ namespace cheat::feature
 	static void PlayerController_Awake_Hook(PlayerController* _this)
 	{
 		Vec_PlayerList.push_back(_this);
-		LOGDEBUG(fmt::format("PlayerController_Awake_Hook-> _this: {}\n",(int)_this));
 		return CALL_ORIGIN(PlayerController_Awake_Hook, _this);
 	}
 
 	static void PlayerController_OnDestroy_Hook(PlayerController* _this)
 	{
-		LOGDEBUG(fmt::format("PlayerController_OnDestroy_Hook-> _this: {}\n", (int)_this));
 		if (Vec_PlayerList.size())
 		{
 			Vec_PlayerList.clear();
 			m_PlayerController = nullptr;
+			autorecoverable.clear();
 		}
 		return CALL_ORIGIN(PlayerController_OnDestroy_Hook, _this);
 	}

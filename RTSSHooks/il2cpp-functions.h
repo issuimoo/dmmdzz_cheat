@@ -28,6 +28,8 @@ DO_APP_FUNC(bool, BipedalDragonShapeController_get_DisableJumpButton, (BipedalDr
 DO_APP_FUNC(bool, BipedalDragonShapeController_get_MoveTargetForward, (BipedalDragonShapeController* _this));
 DO_APP_FUNC(bool, BipedalDragonShapeController_get_ControllerMove, (BipedalDragonShapeController* _this));
 
+
+
 //InGameStore
 DO_APP_FUNC(void, InGameStore_Awake, (InGameStore* _this));
 DO_APP_FUNC(void, InGameStore_OnDestroy, (InGameStore* _this));
@@ -41,3 +43,4 @@ DO_APP_FUNC(Vector3, AdrenalineObject_GetPlayerPos, (AdrenalineObject* _this, Pl
 
 //AutoRecoverable
 DO_APP_FUNC(void, AutoRecoverable_AutoRecoverBlood, (AutoRecoverable* _this));
+DO_APP_FUNC(void, AutoRecoverable_Start, (AutoRecoverable* _this));

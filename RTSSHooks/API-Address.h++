@@ -29,3 +29,4 @@ static unsigned int Address_UsableObject_OnDestroy = 0x29C6570;
 static unsigned int Address_AdrenalineObject_GetPlayerPos = 0x2737140;
 
 static unsigned int Address_AutoRecoverable_AutoRecoverBlood = 0x2956F10;
+static unsigned int Address_AutoRecoverable_Start = 0x29573C0;

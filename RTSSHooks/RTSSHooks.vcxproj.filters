@@ -25,6 +25,9 @@
     <Filter Include="il2cpp">
       <UniqueIdentifier>{d4bf95cf-c50a-4652-aced-32ec9b93ccba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="VirtualProtect">
+      <UniqueIdentifier>{fba428ac-2942-4177-8885-c47758d7f1bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -71,6 +74,12 @@
     </ClCompile>
     <ClCompile Include="AACLog.cpp">
       <Filter>Feature\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoRecoverBlood.cpp">
+      <Filter>Feature\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="VirtualProtect.cpp">
+      <Filter>VirtualProtect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +139,12 @@
     </ClInclude>
     <ClInclude Include="AACLog.hpp">
       <Filter>Feature\hpp</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoRecoverBlood.hpp">
+      <Filter>Feature\hpp</Filter>
+    </ClInclude>
+    <ClInclude Include="VirtualProtect.hpp">
+      <Filter>VirtualProtect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

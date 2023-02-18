@@ -1,12 +1,13 @@
-#include "main.h"
+ï»¿#include "main.h"
 #include "renderer.h"
+
 namespace CheatMian
 {
 	void OnStart()
 	{
-		Sleep(15000);
+		Sleep(18000);
 
-		Console::StartConsole("ÔÆÒİ by ËìÄ­", false);
+		Console::StartConsole("äº‘é€¸ by é‚æ²«", false);
 
 		printf(" __    __                    __    __        \n");
 		printf("/\\ \\  /\\ \\                  /\\ \\  /\\ \\ __    \n");
@@ -16,8 +17,8 @@ namespace CheatMian
 		printf("     \\ \\_\\ \\ \\____/\\ \\_\\ \\_\\     \\ \\_\\  \\ \\_\\ \n");
 		printf("      \\/_/  \\/___/  \\/_/\\/_/      \\/_/   \\/_/ \n\n");
 		printf("---------------------------------------------\n");
-		printf("ÔÆÒİ by ËìÄ­\n");
-		printf("Copyright (c) 2022 - 2023 ËìÄ­\n\n");
+		printf("äº‘é€¸ by é‚æ²«\n");
+		printf("Copyright (c) 2022 - 2023 é‚æ²«\n\n");
 
 		LOGINFO("inject Succeeded!\n");
 		LOGDEBUG(fmt::format("m_hModule:{}\n", (int)pch::m_hModule));
