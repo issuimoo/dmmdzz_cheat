@@ -39,7 +39,7 @@ namespace cheat::feature
 				ImGui::TableSetupColumn(Text::GBKTOUTF8("名称").c_str(), ImGuiTableColumnFlags_None);
 				ImGui::TableSetupColumn(Text::GBKTOUTF8("[地址][血量][队友][本地][坐标][金币]").c_str(), ImGuiTableColumnFlags_None);
 				ImGui::TableHeadersRow();
-				for (size_t i = Vec_PlayerList.size() - 1; i >= 0; i--)
+				for (size_t i = 0; i < Vec_PlayerList.size(); i++)
 				{
 					ImGui::TableNextRow();
 					try
@@ -105,7 +105,7 @@ namespace cheat::feature
 	}
 	void PlayerList::Update()
 	{
-		for (size_t i = Vec_PlayerList.size() - 1; i >= 0; i--)
+		for (size_t i = 0; i < Vec_PlayerList.size(); i++)
 		{
 			try
 			{
