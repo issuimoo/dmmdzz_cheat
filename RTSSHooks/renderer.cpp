@@ -15,7 +15,9 @@ std::string jsonfile = "TYPE-1";
 #include "PlayerVAC.hpp"
 #include "AntiImmobility.hpp"
 #include "AACLog.hpp"
-#include "AutoRecoverBlood.hpp"
+#include "Blood.hpp"
+#include "ACEInstance.hpp"
+#include "speed.hpp"
 
 namespace renderer
 {
@@ -309,6 +311,11 @@ namespace renderer
 		Mem.Draw();
 	}
 }
+void FUNC_Init()
+{
+	
+}
+
 namespace cheat
 {
 	void Init()
@@ -324,8 +331,10 @@ namespace cheat
 			FEAT_INST(PlayerList),
 			FEAT_INST(BuyNoSub),
 			FEAT_INST(AntiImmobility),
-			FEAT_INST(AutoRecoverBlood),
+			FEAT_INST(Blood),
 			FEAT_INST(PlayerVAC),
+			FEAT_INST(speed),
+			FEAT_INST(ACEInstance),
 			FEAT_INST(NoFogOfWar)
 			});
 #undef FEAT_INST

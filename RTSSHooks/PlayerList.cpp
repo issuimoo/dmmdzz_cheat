@@ -1,7 +1,7 @@
 ﻿#include "PlayerList.hpp"
 #include "PlayerVAC.hpp"
 #include "ItemList.hpp"
-#include "AutoRecoverBlood.hpp"
+#include "Blood.hpp"
 
 std::vector<PlayerController*> Vec_PlayerList;
 PlayerController* m_PlayerController;
@@ -113,9 +113,19 @@ namespace cheat::feature
 				{
 					m_PlayerController = Vec_PlayerList[i];
 				}
-				else
+			}
+		}
+		catch (...)
+		{
+			return;
+		}
+		if (VAC)
+		{
+			try
+			{
+				for (size_t i = Vec_PlayerList.size() - 1; i >= 0; i--)
 				{
-					if (VAC)
+					if (!Vec_PlayerList[i]->m_IsLocalPlayer)
 					{
 						if (!app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]))
 						{
@@ -127,11 +137,12 @@ namespace cheat::feature
 					}
 				}
 			}
+			catch (...)
+			{
+				return;
+			}
 		}
-		catch (...)
-		{
-			return;
-		}
+		
 	}
 
 	static void PlayerController_Awake_Hook(PlayerController* _this)

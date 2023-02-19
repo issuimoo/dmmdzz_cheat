@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+#pragma pack(4)
+
 namespace app
 {
 	struct __declspec(align(4)) Vector2
@@ -37,9 +39,52 @@ namespace app
 		float _33;
 	};
 
-	struct GameObject 
+	struct __declspec(align(4)) GameObject 
 	{
 
+	};
+
+	struct __declspec(align(4)) HttpResponseAceServer
+	{
+		char _space[16];
+		struct System_String_o* ip;
+		int32_t port;
+		struct System_String_o* account;
+		struct System_String_o* authKey;
+		uint32_t authExpire;
+	};
+
+	struct __declspec(align(4)) WrappedTssAntibot {
+		intptr_t antibot;
+		struct AceSdk_TssAntibot_DeprecatedRoutine_o* deprecated;
+		struct AceSdk_TssAntibot_GetReportAntiDataRoutine_o* get_report_anti_data;
+		struct AceSdk_TssAntibot_DelReportAntiDataRoutine_o* del_report_anti_data;
+		struct AceSdk_TssAntibot_OnRecvAntiDataRoutine_o* on_recv_anti_data;
+		struct AceSdk_TssAntibot_DeprecatedRoutine2_o* deprecated2;
+	};
+
+	struct __declspec(align(4)) TssAntibot {
+		char _space[8];
+		struct WrappedTssAntibot antibot_;
+		intptr_t data_buf_;
+	};
+
+	struct __declspec(align(4)) ACEInstance 
+	{
+		char _space[8];
+		bool m_KickWithGameMsgBox;
+		struct AceSdk_AceClient_o* m_AceClient;
+		struct AceSdk_TssAntibot_o* m_TssAntibot;
+		uint32_t m_RoleId;
+		uint32_t m_PlatId;
+		bool m_LoginOK;
+		struct GameMessages_HttpResponseAceServer_o* m_AntiServerResponse;
+		double m_LastRequestTimeSec;
+		struct LightNet3_LightMessageClient_LightTcpStream__o* m_Connection;
+		bool m_Connected;
+		double m_LastDisconnectedTimeSec;
+		double m_LastTryConnectTime;
+		double m_QuitStartTimeSec;
 	};
 
 	struct __declspec(align(4)) APP_ColorRGBA {
@@ -665,3 +710,4 @@ namespace app
 		ThrownBullet = 4
 	};
 }
+#pragma pack()

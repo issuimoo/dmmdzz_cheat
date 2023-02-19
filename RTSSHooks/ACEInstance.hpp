@@ -1,14 +1,11 @@
 #include "Feature.hpp"
 
-extern bool AutoRecoverBlood_b;
-extern std::vector<app::AutoRecoverable*> autorecoverable;
-
 namespace cheat::feature
 {
-	class AutoRecoverBlood : public Feature
+	class ACEInstance : public Feature
 	{
 	public:
-		static AutoRecoverBlood& GetInstance();
+		static ACEInstance& GetInstance();
 
 		const FeatureGUIInfo& GetGUIInfo() const override;
 		void DrawMain() override;
@@ -21,6 +18,6 @@ namespace cheat::feature
 
 		void Update() override;
 	protected:
-		AutoRecoverBlood();
+		ACEInstance();
 	};
 }

@@ -75,11 +75,17 @@
     <ClCompile Include="AACLog.cpp">
       <Filter>Feature\cpp</Filter>
     </ClCompile>
-    <ClCompile Include="AutoRecoverBlood.cpp">
+    <ClCompile Include="Blood.cpp">
       <Filter>Feature\cpp</Filter>
     </ClCompile>
     <ClCompile Include="VirtualProtect.cpp">
       <Filter>VirtualProtect</Filter>
+    </ClCompile>
+    <ClCompile Include="ACEInstance.cpp">
+      <Filter>Feature\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="speed.cpp">
+      <Filter>Feature\cpp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -140,11 +146,17 @@
     <ClInclude Include="AACLog.hpp">
       <Filter>Feature\hpp</Filter>
     </ClInclude>
-    <ClInclude Include="AutoRecoverBlood.hpp">
+    <ClInclude Include="Blood.hpp">
       <Filter>Feature\hpp</Filter>
     </ClInclude>
     <ClInclude Include="VirtualProtect.hpp">
       <Filter>VirtualProtect</Filter>
+    </ClInclude>
+    <ClInclude Include="ACEInstance.hpp">
+      <Filter>Feature\hpp</Filter>
+    </ClInclude>
+    <ClInclude Include="speed.hpp">
+      <Filter>Feature\hpp</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

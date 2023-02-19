@@ -32,3 +32,5 @@ namespace renderer
 		void DrawFps();
 	};
 }
+
+void FUNC_Init();

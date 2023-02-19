@@ -5,7 +5,8 @@ namespace CheatMian
 {
 	void OnStart()
 	{
-		Sleep(18000);
+
+		Sleep(15000);
 
 		Console::StartConsole("云逸 by 遂沫", false);
 
@@ -20,18 +21,6 @@ namespace CheatMian
 		printf("云逸 by 遂沫\n");
 		printf("Copyright (c) 2022 - 2023 遂沫\n\n");
 
-		LOGINFO("inject Succeeded!\n");
-		LOGDEBUG(fmt::format("m_hModule:{}\n", (int)pch::m_hModule));
-
-		pch::m_file = Process::GetModuleFile(pch::m_hModule);
-		LOGDEBUG(fmt::format("m_file:{}\n", pch::m_file));
-
-		LOGDEBUG(fmt::format("PID:{}\n", _getpid()));
-		if (_getpid() != Process::GetProcessIdByName("dmmdzz_ace.exe"))
-		{
-			LOGERROR("Inject Error Process\n");
-		}
-
 		LOGINFO("Wait Module Load...\n");
 		while (pch::GameAssembly == NULL)
 		{
@@ -39,6 +28,7 @@ namespace CheatMian
 		}
 		LOGDEBUG(fmt::format("GameAssembly:{}\n", (int)pch::GameAssembly));
 
+		FUNC_Init();
 		cheat::Init();
 
 		DX11Hook::installDX11Hook(&renderer::DrawRenderer, pch::m_hModule, pch::m_file + "\\imgui.ini", 13, nullptr, &pch::DX11D3D11Device, &pch::DX11D3D11DeviceContext, &pch::DX11D3D11RenderTargetView, &pch::DX11SwapChain);
