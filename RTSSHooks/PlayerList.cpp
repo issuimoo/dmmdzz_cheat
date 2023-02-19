@@ -39,15 +39,15 @@ namespace cheat::feature
 				ImGui::TableSetupColumn(Text::GBKTOUTF8("名称").c_str(), ImGuiTableColumnFlags_None);
 				ImGui::TableSetupColumn(Text::GBKTOUTF8("[地址][血量][队友][本地][坐标][金币]").c_str(), ImGuiTableColumnFlags_None);
 				ImGui::TableHeadersRow();
-				try
+				for (size_t i = Vec_PlayerList.size() - 1; i >= 0; i--)
 				{
-					for (size_t i = Vec_PlayerList.size() - 1; i >= 0; i--)
+					ImGui::TableNextRow();
+					try
 					{
 						ImGui::PushID(Vec_PlayerList[i]); //必须加上不然按钮没效果
 						Vector3 pos;
 						AdrenalineObject AdrenalineObject_this;
 						pos = app::AdrenalineObject_GetPlayerPos(&AdrenalineObject_this, Vec_PlayerList[i]);
-						ImGui::TableNextRow();
 						if (ImGui::TableSetColumnIndex(0))
 						{
 							if (!Vec_PlayerList[i]->m_IsLocalPlayer)
@@ -77,9 +77,9 @@ namespace cheat::feature
 						}
 						ImGui::PopID();
 					}
-				}
-				catch (...)
-				{
+					catch (...)
+					{
+					}
 				}
 				ImGui::EndTable();
 			}
@@ -105,27 +105,17 @@ namespace cheat::feature
 	}
 	void PlayerList::Update()
 	{
-		try
+		for (size_t i = Vec_PlayerList.size() - 1; i >= 0; i--)
 		{
-			for (size_t i = Vec_PlayerList.size() - 1; i >= 0; i--)
+			try
 			{
 				if (Vec_PlayerList[i]->m_IsLocalPlayer)
 				{
 					m_PlayerController = Vec_PlayerList[i];
 				}
-			}
-		}
-		catch (...)
-		{
-			return;
-		}
-		if (VAC)
-		{
-			try
-			{
-				for (size_t i = Vec_PlayerList.size() - 1; i >= 0; i--)
+				else
 				{
-					if (!Vec_PlayerList[i]->m_IsLocalPlayer)
+					if (VAC)
 					{
 						if (!app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]))
 						{
@@ -139,10 +129,8 @@ namespace cheat::feature
 			}
 			catch (...)
 			{
-				return;
 			}
 		}
-		
 	}
 
 	static void PlayerController_Awake_Hook(PlayerController* _this)
