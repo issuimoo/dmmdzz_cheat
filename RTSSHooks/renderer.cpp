@@ -314,6 +314,7 @@ void OnUpdata()
 		{
 			Mem.m_Features[i]->Update();
 		}
+		Sleep(1);
 	}
 }
 
