@@ -17,8 +17,9 @@ namespace renderer
 		void AddFeature(Feature* feature);
 		void AddFeatures(std::vector<Feature*> features);
 		void SetModuleOrder(std::vector<std::string> moduleOrder);
-	protected:
+
 		std::vector<Feature*> m_Features;
+	protected:
 		std::vector<std::string> m_ModuleOrder;
 		std::map<std::string, std::map<std::string, std::vector<Feature*>>> m_FeatureMap;
 

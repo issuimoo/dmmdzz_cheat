@@ -102,7 +102,7 @@ namespace cheat::feature
 			if (NoMove)
 			{
 				speeds = { 0,0,0 };
-				for (size_t i = Vec_PlayerList.size() - 1; i >= 0; i--)
+				for (size_t i = 0, max = Vec_PlayerList.size(); i < max; i++)
 				{
 					if (!Vec_PlayerList[i]->m_IsLocalPlayer)
 					{

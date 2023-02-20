@@ -12,6 +12,8 @@ namespace cheat::feature
 		app::InGameStore_Awake = (void(*)(InGameStore*))(((unsigned int)pch::GameAssembly) + Address_InGameStore_Awake);
 		app::InGameStore_OnDestroy = (void(*)(InGameStore*))(((unsigned int)pch::GameAssembly) + Address_InGameStore_OnDestroy);
 
+		Vec_StoreList.reserve(10);
+
 		HookManager::install(app::InGameStore_Awake, InGameStore_Awake_Hook);
 		HookManager::install(app::InGameStore_OnDestroy, InGameStore_OnDestroy_Hook);
 	}

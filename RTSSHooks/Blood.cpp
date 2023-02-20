@@ -109,10 +109,9 @@ namespace cheat::feature
 	}
 	void Blood::Update()
 	{
-		try
+		for (size_t i = 0, max = autorecoverable.size(); i < max; i++)
 		{
-			size_t size_i = autorecoverable.size();
-			for (int i = 0; i < size_i; i++)
+			try
 			{
 				if (AutoRecoverBlood_b && autorecoverable[i]->m_Controller == m_PlayerController)
 				{
@@ -124,10 +123,10 @@ namespace cheat::feature
 					CALL_ORIGIN(AutoRecoverable_AutoRecoverBlood_Hook, autorecoverable[i]);
 				}
 			}
-		}
-		catch (...)
-		{
+			catch (...)
+			{
 
+			}
 		}
 	}
 

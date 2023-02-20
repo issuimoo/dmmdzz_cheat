@@ -236,21 +236,31 @@ namespace renderer
 			ImGui::SameLine();
 			if (ImGui::Button(Text::GBKTOUTF8("保存").c_str()))
 			{
-				std::vector<Feature*>::iterator iterator_Features = m_Features.begin();
-				while (iterator_Features != m_Features.end())
+				for (size_t i = 0, max = Mem.m_Features.size(); i < max; i++)
 				{
-					(*iterator_Features)->save();
-					iterator_Features++;
+					try
+					{
+						Mem.m_Features[i]->save();
+					}
+					catch (...)
+					{
+
+					}
 				}
 			}
 			ImGui::SameLine();
 			if (ImGui::Button(Text::GBKTOUTF8("加载").c_str()))
 			{
-				std::vector<Feature*>::iterator iterator_Features = m_Features.begin();
-				while (iterator_Features != m_Features.end())
+				for (size_t i = 0, max = Mem.m_Features.size(); i < max; i++)
 				{
-					(*iterator_Features)->load();
-					iterator_Features++;
+					try
+					{
+						Mem.m_Features[i]->load();
+					}
+					catch (...)
+					{
+
+					}
 				}
 			}
 			ImGui::SameLine();
@@ -298,12 +308,6 @@ namespace renderer
 		{
 			DrawFps();
 		}
-		std::vector<Feature*>::iterator iterator_Features = m_Features.begin();
-		while (iterator_Features != m_Features.end())
-		{
-			(*iterator_Features)->Update();
-			iterator_Features++;
-		}
 	}
 
 	void DrawRenderer()
@@ -314,6 +318,21 @@ namespace renderer
 void FUNC_Init()
 {
 	
+}
+
+void OnUpdata()
+{
+	for (size_t i = 0, max = Mem.m_Features.size(); i < max; i++)
+	{
+		try
+		{
+			Mem.m_Features[i]->Update();
+		}
+		catch (...)
+		{
+
+		}
+	}
 }
 
 namespace cheat
@@ -348,5 +367,6 @@ namespace cheat
 			"关于辅助",
 			"用户协议"
 			});
+		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)OnUpdata, NULL, NULL, NULL);
 	}
 }

@@ -39,7 +39,7 @@ namespace cheat::feature
 				ImGui::TableSetupColumn(Text::GBKTOUTF8("名称").c_str(), ImGuiTableColumnFlags_None);
 				ImGui::TableSetupColumn(Text::GBKTOUTF8("[地址][血量][队友][本地][坐标][金币]").c_str(), ImGuiTableColumnFlags_None);
 				ImGui::TableHeadersRow();
-				for (size_t i = 0; i < Vec_PlayerList.size(); i++)
+				for (size_t i = 0, max = Vec_PlayerList.size(); i < max; i++)
 				{
 					ImGui::TableNextRow();
 					try
@@ -64,16 +64,30 @@ namespace cheat::feature
 						}
 						if (ImGui::TableSetColumnIndex(1))
 						{
-							ImGui::TextColored(
-								app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? ImColor(128, 195, 66, 255) : ImColor(233, 66, 66, 255),
-								"[%s]%s",
-								Text::GBKTOUTF8(app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? "友" : "敌").c_str(),
-								Text::UTF16TOUTF8((wchar_t*)(&Vec_PlayerList[i]->m_NameText->m_Text->m_firstChar)).c_str()
-							);
+							try
+							{
+								ImGui::TextColored(
+									app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? ImColor(128, 195, 66, 255) : ImColor(233, 66, 66, 255),
+									"[%s]%s",
+									Text::GBKTOUTF8(app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? "友" : "敌").c_str(),
+									Text::UTF16TOUTF8((wchar_t*)(&Vec_PlayerList[i]->m_NameText->m_Text->m_firstChar)).c_str()
+								);
+							}
+							catch (...)
+							{
+
+							}
 						}
 						if (ImGui::TableSetColumnIndex(2))
 						{
-							ImGui::Text(fmt::format("[{}][{:0.2f}][{}][{}][x:{:0.2f} y:{:0.2f} z:{:0.2f}][{}]", (unsigned int)Vec_PlayerList[i], Vec_PlayerList[i]->m_BattleProperties->life, app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]), Vec_PlayerList[i]->m_IsLocalPlayer, pos.x, pos.y, pos.z, app::PlayerController_get_CurCoin(Vec_PlayerList[i])).c_str());
+							try
+							{
+								ImGui::Text(fmt::format("[{}][{:0.2f}][{}][{}][x:{:0.2f} y:{:0.2f} z:{:0.2f}][{}]", (unsigned int)Vec_PlayerList[i], Vec_PlayerList[i]->m_BattleProperties->life, app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]), Vec_PlayerList[i]->m_IsLocalPlayer, pos.x, pos.y, pos.z, app::PlayerController_get_CurCoin(Vec_PlayerList[i])).c_str());
+							}
+							catch (...)
+							{
+
+							}
 						}
 						ImGui::PopID();
 					}
@@ -105,10 +119,12 @@ namespace cheat::feature
 	}
 	void PlayerList::Update()
 	{
-		for (size_t i = 0; i < Vec_PlayerList.size(); i++)
+		for (size_t i = 0, max = Vec_PlayerList.size(); i < max; i++)
 		{
 			try
 			{
+				if (Vec_PlayerList[i]->m_BattleProperties->life <= 0)
+					return;
 				if (Vec_PlayerList[i]->m_IsLocalPlayer)
 				{
 					m_PlayerController = Vec_PlayerList[i];

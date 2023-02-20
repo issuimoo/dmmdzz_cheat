@@ -12,6 +12,8 @@ namespace cheat::feature
 		app::UsableObject_Awake = (void(*)(UsableObject*))(((unsigned int)pch::GameAssembly) + Address_UsableObject_Awake);
 		app::UsableObject_OnDestroy = (void(*)(UsableObject*))(((unsigned int)pch::GameAssembly) + Address_UsableObject_OnDestroy);
 
+		Vec_ItemList.reserve(1000);
+
 		HookManager::install(app::UsableObject_Awake, UsableObject_Awake_Hook);
 		HookManager::install(app::UsableObject_OnDestroy, UsableObject_OnDestroy_Hook);
 	}
