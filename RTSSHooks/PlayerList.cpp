@@ -64,35 +64,22 @@ namespace cheat::feature
 						}
 						if (ImGui::TableSetColumnIndex(1))
 						{
-							try
-							{
-								ImGui::TextColored(
-									app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? ImColor(128, 195, 66, 255) : ImColor(233, 66, 66, 255),
-									"[%s]%s",
-									Text::GBKTOUTF8(app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? "友" : "敌").c_str(),
-									Text::UTF16TOUTF8((wchar_t*)(&Vec_PlayerList[i]->m_NameText->m_Text->m_firstChar)).c_str()
-								);
-							}
-							catch (...)
-							{
-
-							}
+							ImGui::TextColored(
+								app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? ImColor(128, 195, 66, 255) : ImColor(233, 66, 66, 255),
+								"[%s]%s",
+								Text::GBKTOUTF8(app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? "友" : "敌").c_str(),
+								Text::UTF16TOUTF8((wchar_t*)(&Vec_PlayerList[i]->m_NameText->m_Text->m_firstChar)).c_str()
+							);
 						}
 						if (ImGui::TableSetColumnIndex(2))
 						{
-							try
-							{
-								ImGui::Text(fmt::format("[{}][{:0.2f}][{}][{}][x:{:0.2f} y:{:0.2f} z:{:0.2f}][{}]", (unsigned int)Vec_PlayerList[i], Vec_PlayerList[i]->m_BattleProperties->life, app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]), Vec_PlayerList[i]->m_IsLocalPlayer, pos.x, pos.y, pos.z, app::PlayerController_get_CurCoin(Vec_PlayerList[i])).c_str());
-							}
-							catch (...)
-							{
-
-							}
+							ImGui::Text(fmt::format("[{}][{:0.2f}][{}][{}][x:{:0.2f} y:{:0.2f} z:{:0.2f}][{}]", (unsigned int)Vec_PlayerList[i], Vec_PlayerList[i]->m_BattleProperties->life, app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]), Vec_PlayerList[i]->m_IsLocalPlayer, pos.x, pos.y, pos.z, app::PlayerController_get_CurCoin(Vec_PlayerList[i])).c_str());
 						}
 						ImGui::PopID();
 					}
 					catch (...)
 					{
+						continue;
 					}
 				}
 				ImGui::EndTable();
@@ -123,8 +110,6 @@ namespace cheat::feature
 		{
 			try
 			{
-				if (Vec_PlayerList[i]->m_BattleProperties->life <= 0)
-					return;
 				if (Vec_PlayerList[i]->m_IsLocalPlayer)
 				{
 					m_PlayerController = Vec_PlayerList[i];
@@ -145,6 +130,7 @@ namespace cheat::feature
 			}
 			catch (...)
 			{
+				continue;
 			}
 		}
 	}

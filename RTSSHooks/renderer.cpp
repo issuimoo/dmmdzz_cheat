@@ -238,14 +238,7 @@ namespace renderer
 			{
 				for (size_t i = 0, max = Mem.m_Features.size(); i < max; i++)
 				{
-					try
-					{
-						Mem.m_Features[i]->save();
-					}
-					catch (...)
-					{
-
-					}
+					Mem.m_Features[i]->save();
 				}
 			}
 			ImGui::SameLine();
@@ -253,14 +246,7 @@ namespace renderer
 			{
 				for (size_t i = 0, max = Mem.m_Features.size(); i < max; i++)
 				{
-					try
-					{
-						Mem.m_Features[i]->load();
-					}
-					catch (...)
-					{
-
-					}
+					Mem.m_Features[i]->load();
 				}
 			}
 			ImGui::SameLine();
@@ -324,14 +310,7 @@ void OnUpdata()
 {
 	for (size_t i = 0, max = Mem.m_Features.size(); i < max; i++)
 	{
-		try
-		{
-			Mem.m_Features[i]->Update();
-		}
-		catch (...)
-		{
-
-		}
+		Mem.m_Features[i]->Update();
 	}
 }
 
