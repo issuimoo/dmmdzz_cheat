@@ -308,9 +308,12 @@ void FUNC_Init()
 
 void OnUpdata()
 {
-	for (size_t i = 0, max = Mem.m_Features.size(); i < max; i++)
+	while (true)
 	{
-		Mem.m_Features[i]->Update();
+		for (size_t i = 0, max = Mem.m_Features.size(); i < max; i++)
+		{
+			Mem.m_Features[i]->Update();
+		}
 	}
 }
 
