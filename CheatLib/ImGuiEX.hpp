@@ -1,12 +1,13 @@
 #include <Windows.h>
 #include <string>
 #include <json.hpp>
-#include <imgui.h>
-#include <imgui_stdlib.h>
 #include <implot.h>
 #include <implot_internal.h>
 #include <imnodes.h>
 #include <imnodes_internal.h>
+#include <imgui_internal.h>
+#include <imgui.h>
+#include <imgui_stdlib.h>
 #include <d3d11.h>
 #include <dxgi.h>
 #include <d3dcompiler.h>

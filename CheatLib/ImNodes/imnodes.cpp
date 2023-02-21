@@ -6,11 +6,13 @@
 // [SECTION] render helpers
 // [SECTION] API implementation
 
+#define IMGUI_DEFINE_MATH_OPERATORS
+#include <imgui_internal.h>
+
 #include "imnodes.h"
 #include "imnodes_internal.h"
 
-#define IMGUI_DEFINE_MATH_OPERATORS
-#include <imgui_internal.h>
+
 
 // Check minimum ImGui version
 #define MINIMUM_COMPATIBLE_IMGUI_VERSION 17400

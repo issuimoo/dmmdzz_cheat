@@ -915,8 +915,8 @@ namespace ImGui {
 		auto itemMin = ImGui::GetItemRectMin();
 		auto itemMax = ImGui::GetItemRectMax();
 
-		ImVec2 halfFrame = ImVec2(frameHeight * 0.25f, frameHeight) * 0.5f;
-		ImRect frameRect = ImRect(itemMin + halfFrame, itemMax - ImVec2(halfFrame.x, 0.0f));
+		ImVec2 halfFrame = ImVec2(ImVec2(frameHeight * 0.25f, frameHeight).x * 0.5f, ImVec2(frameHeight * 0.25f, frameHeight).y * 0.5f);
+		ImRect frameRect = ImRect(ImVec2(itemMin.x + halfFrame.x, itemMin.y + halfFrame.y), ImVec2(itemMax.x - ImVec2(halfFrame.x, 0.0f).x, itemMax.y - ImVec2(halfFrame.x, 0.0f).y));
 
 		auto& leftRect = info.left;
 		leftRect.Min.x -= itemSpacing.x;

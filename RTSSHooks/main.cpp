@@ -5,8 +5,12 @@ namespace CheatMian
 {
 	void OnStart()
 	{
-
-		Sleep(15000);
+		for (size_t i = 0; i < 20000; i++)
+		{
+			printf("[%i|20000]\r", i);
+			Sleep(1);
+		}
+		printf("\n");
 
 		Console::StartConsole("云逸 by 遂沫", false);
 
