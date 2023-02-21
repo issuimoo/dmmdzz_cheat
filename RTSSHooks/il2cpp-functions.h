@@ -4,6 +4,7 @@ using namespace app;
 //AntiCheatingSystem
 DO_APP_FUNC(void, AntiCheatingSystem_SendReport, (AntiCheatingSystem* _this, APP_String* userID, AntiCheatingResult result));
 DO_APP_FUNC(void, AntiCheatingSystem_Quit, (AntiCheatingSystem* _this));
+DO_APP_FUNC(void, AntiCheatingSystem_QuitApplication, (AntiCheatingSystem* _this));
 DO_APP_FUNC(void, AntiCheatingSystem_AddGhost, (AntiCheatingSystem* _this, AntiCheatingGhost g, unsigned int t, APP_String* userId));
 
 //InGameFogOfWar

@@ -13,16 +13,19 @@ namespace cheat::feature
 	static void AntiCheatingSystem_SendReport_Hook(AntiCheatingSystem* _this, APP_String* userID, AntiCheatingResult result);
 	static void AntiCheatingSystem_Quit_Hook(AntiCheatingSystem* _this);
 	static void AntiCheatingSystem_AddGhost_Hook(AntiCheatingSystem* _this, AntiCheatingGhost g, unsigned int t, APP_String* userId);
+	static void Address_AntiCheatingSystem_QuitApplication_Hook(AntiCheatingSystem* _this);
 
 	AAC::AAC() : Feature()
 	{
 		app::AntiCheatingSystem_SendReport = (void(*)(AntiCheatingSystem*, APP_String*, AntiCheatingResult))(((unsigned int)pch::GameAssembly) + Address_AntiCheatingSystem_SendReport);
 		app::AntiCheatingSystem_Quit = (void(*)(AntiCheatingSystem*))(((unsigned int)pch::GameAssembly) + Address_AntiCheatingSystem_Quit);
 		app::AntiCheatingSystem_AddGhost = (void(*)(AntiCheatingSystem*, AntiCheatingGhost, unsigned int, APP_String*))(((unsigned int)pch::GameAssembly) + Address_AntiCheatingSystem_AddGhost);
+		app::AntiCheatingSystem_QuitApplication = (void(*)(AntiCheatingSystem*))(((unsigned int)pch::GameAssembly) + Address_AntiCheatingSystem_QuitApplication);
 
 		HookManager::install(app::AntiCheatingSystem_SendReport, AntiCheatingSystem_SendReport_Hook);
 		HookManager::install(app::AntiCheatingSystem_Quit, AntiCheatingSystem_Quit_Hook);
 		HookManager::install(app::AntiCheatingSystem_AddGhost, AntiCheatingSystem_AddGhost_Hook);
+		HookManager::install(app::AntiCheatingSystem_QuitApplication, Address_AntiCheatingSystem_QuitApplication_Hook);
 	}
 	const FeatureGUIInfo& AAC::GetGUIInfo() const
 	{
@@ -143,5 +146,13 @@ namespace cheat::feature
 			return;
 		}
 		return CALL_ORIGIN(AntiCheatingSystem_AddGhost_Hook, _this,g,t, userId);
+	}
+	static void Address_AntiCheatingSystem_QuitApplication_Hook(AntiCheatingSystem* _this)
+	{
+		if (closeCL)
+		{
+			return;
+		}
+		return CALL_ORIGIN(Address_AntiCheatingSystem_QuitApplication_Hook, _this);
 	}
 }

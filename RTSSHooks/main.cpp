@@ -5,15 +5,25 @@ namespace CheatMian
 {
 	void OnStart()
 	{
-		for (size_t i = 0; i < 20000; i++)
+		Console::StartConsole("Logding ...", false);
+		for (size_t i = 0; i < 10000; i++)
 		{
-			printf("[%i|20000]\r", i);
+			printf("\r[%i|10000]", i);
+			for (size_t i2 = 0; i2 < i / 1000; i2++)
+			{
+				printf("■");
+			}
+			for (size_t i2 = 0; i2 < 10 - (i / 1000); i2++)
+			{
+				printf("  ");
+			}
+			printf("%0.2f%%", (float(i) / 1000.0f));
 			Sleep(1);
 		}
-		printf("\n");
+		
+		Console::EndConsole();
 
 		Console::StartConsole("云逸 by 遂沫", false);
-
 		printf(" __    __                    __    __        \n");
 		printf("/\\ \\  /\\ \\                  /\\ \\  /\\ \\ __    \n");
 		printf("\\ `\\`\\\\/'/ __  __    ___    \\ `\\`\\\\/'//\\_\\   \n");
@@ -24,6 +34,9 @@ namespace CheatMian
 		printf("---------------------------------------------\n");
 		printf("云逸 by 遂沫\n");
 		printf("Copyright (c) 2022 - 2023 遂沫\n\n");
+
+		
+		printf("\r");
 
 		LOGINFO("Wait Module Load...\n");
 		while (pch::GameAssembly == NULL)
