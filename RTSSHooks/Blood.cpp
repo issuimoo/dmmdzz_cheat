@@ -134,8 +134,8 @@ namespace cheat::feature
 	{
 		if (AutoRecoverBlood_b)
 		{
-			_this->m_Interval = 0.01;
-			_this->m_Amount = 1000;
+			_this->m_Interval = 0.01f;
+			_this->m_Amount = 1000.0f;
 		}
 		return CALL_ORIGIN(AutoRecoverable_AutoRecoverBlood_Hook, _this);
 	}
