@@ -28,9 +28,9 @@ namespace cheat::feature
 				ImGui::TableHeadersRow();
 				try
 				{
-					for (size_t i = 0, max = AACLogs.size() - 1; i >= max; i++)
+					for (size_t i = 0, max = AACLogs.size() - 1; i <= max; i++)
 					{
-						ImGui::PushID(&AACLogs[i]); //必须加上不然按钮没效果
+						ImGui::PushID(&AACLogs[i]);
 						ImGui::TableNextRow();
 						if (ImGui::TableSetColumnIndex(0))
 						{
