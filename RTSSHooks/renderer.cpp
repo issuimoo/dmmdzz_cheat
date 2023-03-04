@@ -322,16 +322,18 @@ void FUNC_Init()
 	const auto image = Il2cpp->get_image("Assembly-CSharp.dll");
 	LOGDEBUG(fmt::format("[Il2cpp] Assembly-CSharp -> {} ({:#08x})\n", image->get_name(), reinterpret_cast<uintptr_t>(image)));
 	
+	LOGDEBUG("[Il2cpp] Getting Class & Fields\n");
+
 	Class* CLASS;
 	try
 	{
 #define DO_API(adress, ret_type, name, args)\
-		LOGDEBUG("[Il2cpp] Getting Class & Fields\n");\
 		CLASS = image->get_class(std::string(#name).substr(0,std::string(#name).find("_")).c_str());\
 		LOGDEBUG(fmt::format("[Il2cpp] {} -> {:#08x}\n", CLASS->get_name(), reinterpret_cast<uintptr_t>(CLASS)));\
 		void* name##instance = (CLASS->get_field(std::string(#name).substr(std::string(#name).find("_") + 1,std::string(#name).length()).c_str())->get_as_static());\
 		LOGDEBUG( fmt::format("[Il2cpp] Field -> Static Instance {:#08x}\n", reinterpret_cast<uintptr_t>(name##instance)) );\
-		name = reinterpret_cast<name##_t>(name##instance);
+		name = reinterpret_cast<name##_t>(name##instance);\
+		LOGERROR(fmt::format("[Adress|{:#08x}] {}", (DWORD)name, #name));
 
 		#include "il2cpp-functions.h"
 #undef DO_API
@@ -340,7 +342,8 @@ void FUNC_Init()
 	{
 		LOGERROR(fmt::format("Set Adress Error SEHCode:[{:#08x}] {}", error.code(), error.what()));
 #define DO_API(adress, ret_type, name, args)\
-		name = reinterpret_cast<name##_t>(adress + (int)pch::GameAssembly);
+		name = reinterpret_cast<name##_t>(adress + (int)pch::GameAssembly);\
+		LOGERROR(fmt::format("[Adress|{:#08x}] {}", (DWORD)name, #name));
 
 #include "il2cpp-functions.h"
 #undef DO_API
