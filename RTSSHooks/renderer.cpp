@@ -333,7 +333,7 @@ void FUNC_Init()
 		void* name##instance = (CLASS->get_field(std::string(#name).substr(std::string(#name).find("_") + 1,std::string(#name).length()).c_str())->get_as_static());\
 		LOGDEBUG( fmt::format("[Il2cpp] Field -> Static Instance {:#08x}\n", reinterpret_cast<uintptr_t>(name##instance)) );\
 		name = reinterpret_cast<name##_t>(name##instance);\
-		LOGERROR(fmt::format("[Adress|{:#08x}] {}", (DWORD)name, #name));
+		LOGERROR(fmt::format("[Adress|{:#08x}] {} \n", (DWORD)name, #name));
 
 		#include "il2cpp-functions.h"
 #undef DO_API
@@ -343,7 +343,7 @@ void FUNC_Init()
 		LOGERROR(fmt::format("Set Adress Error SEHCode:[{:#08x}] {}", error.code(), error.what()));
 #define DO_API(adress, ret_type, name, args)\
 		name = reinterpret_cast<name##_t>(adress + (int)pch::GameAssembly);\
-		LOGERROR(fmt::format("[Adress|{:#08x}] {}", (DWORD)name, #name));
+		LOGERROR(fmt::format("[Adress|{:#08x}] {} \n", (DWORD)name, #name));
 
 #include "il2cpp-functions.h"
 #undef DO_API
