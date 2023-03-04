@@ -207,15 +207,9 @@ namespace renderer
 				ImGui::PushStyleColor(ImGuiCol_Button, ImGui::HexToRGBA("C93756"));
 				ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImGui::HexToRGBA("F47983"));
 				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::HexToRGBA("DB5A6B"));
-				if (ImGui::Button(Text::GBKTOUTF8("卸载辅助").c_str()))
+				if (ImGui::Button(Text::GBKTOUTF8("退出游戏").c_str()))
 				{
-					HookManager::detachAll(); //释放所有钩子
-					DX11Hook::uninstallDX11Hook(); //释放函数钩子
-					for (size_t i = 0; i < pch::m_hHandle.size(); i++)
-					{
-						TerminateThread(pch::m_hHandle[i], 0); //内存不安全操作 不会释放堆内存栈内存
-					}
-					FreeLibrary(pch::m_hModule); //释放自己
+					exit(0);
 				}
 				ImGui::PopStyleColor(3);
 				ImGui::EndListBox();
@@ -259,10 +253,17 @@ namespace renderer
 					file.close();
 				}
 			}
-			ImGui::SameLine();
-			if (ImGui::Button(Text::GBKTOUTF8("退出游戏").c_str()))
+			ImGui::SameLine(); 
+			if (ImGui::Button(Text::GBKTOUTF8("卸载辅助").c_str()))
 			{
-				exit(0);
+				HookManager::detachAll(); //释放所有钩子
+				DX11Hook::uninstallDX11Hook(); //释放函数钩子
+				for (size_t i = 0; i < pch::m_hHandle.size(); i++)
+				{
+					TerminateThread(pch::m_hHandle[i], 0); //内存不安全操作 不会释放堆内存栈内存
+				}
+				Console::EndConsole();
+				FreeLibrary(pch::m_hModule); //释放自己
 			}
 			ImGui::SameLine();
 			ImGui::Text("FPS:%0.1f", ImGui::GetIO().Framerate);
@@ -302,15 +303,48 @@ namespace renderer
 	}
 }
 
+#include "wrapper.hpp"
+#include "SEH.hpp"
+
 void FUNC_Init()
 {
-#define DO_API(adress, ret_type, name, args)\
-		name = reinterpret_cast<name##_t>(adress + (int)pch::GameAssembly);\
-		LOGDEBUG(std::string("[address:" + std::to_string((DWORD)name) + "]:   " + #name + "\n"));
-		
-		#include "il2cpp-functions.h"
+	_set_se_translator(seh_excpetion::TranslateSEHtoCE);
 
+	LOGDEBUG("[Il2cpp] Initializing \n");
+	Il2cpp::initialize();
+	LOGDEBUG("[Il2cpp] Initialization Complete \n");
+
+	LOGDEBUG("[Il2cpp] Dumping Images\n");
+	const auto Il2cpp = std::make_unique<Wrapper>();
+	LOGDEBUG("[Il2cpp] Images Dumped\n");
+
+	LOGDEBUG("[Il2cpp] Getting Assembly-CSharp Image\n");
+	const auto image = Il2cpp->get_image("Assembly-CSharp.dll");
+	LOGDEBUG(fmt::format("[Il2cpp] Assembly-CSharp -> {} ({:#08x})\n", image->get_name(), reinterpret_cast<uintptr_t>(image)));
+	
+	Class* CLASS;
+	try
+	{
+#define DO_API(adress, ret_type, name, args)\
+		LOGDEBUG("[Il2cpp] Getting Class & Fields\n");\
+		CLASS = image->get_class(std::string(#name).substr(0,std::string(#name).find("_")).c_str());\
+		LOGDEBUG(fmt::format("[Il2cpp] {} -> {:#08x}\n", CLASS->get_name(), reinterpret_cast<uintptr_t>(CLASS)));\
+		void* name##instance = (CLASS->get_field(std::string(#name).substr(std::string(#name).find("_") + 1,std::string(#name).length()).c_str())->get_as_static());\
+		LOGDEBUG( fmt::format("[Il2cpp] Field -> Static Instance {:#08x}\n", reinterpret_cast<uintptr_t>(name##instance)) );\
+		name = reinterpret_cast<name##_t>(name##instance);
+
+		#include "il2cpp-functions.h"
 #undef DO_API
+	}
+	catch (const seh_excpetion& error)
+	{
+		LOGERROR(fmt::format("Set Adress Error SEHCode:[{:#08x}] {}", error.code(), error.what()));
+#define DO_API(adress, ret_type, name, args)\
+		name = reinterpret_cast<name##_t>(adress + (int)pch::GameAssembly);
+
+#include "il2cpp-functions.h"
+#undef DO_API
+	}
 }
 
 void OnUpdata()
@@ -357,6 +391,6 @@ namespace cheat
 			"关于辅助",
 			"用户协议"
 			});
-		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)OnUpdata, NULL, NULL, NULL);
+		pch::m_hHandle.push_back(CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)OnUpdata, NULL, NULL, NULL));
 	}
 }

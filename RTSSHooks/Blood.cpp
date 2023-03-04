@@ -1,5 +1,6 @@
 #include "Blood.hpp"
 #include "PlayerList.hpp"
+#include "SEH.hpp"
 
 std::vector<AutoRecoverable*> autorecoverable;
 
@@ -17,10 +18,21 @@ namespace cheat::feature
 	
 	Blood::Blood() : Feature()
 	{
-		DWORD dwOldProtect;
-		VirtualProtect((LPVOID)((int)AutoRecoverable_AutoRecoverBlood + 0x150), sizeof BYTE, PAGE_READWRITE, &dwOldProtect);
-		*(BYTE*)((int)AutoRecoverable_AutoRecoverBlood + 0x150) = 0x6E;
-		VirtualProtect((LPVOID)((int)AutoRecoverable_AutoRecoverBlood + 0x150), sizeof BYTE, PAGE_EXECUTE_READ, &dwOldProtect);
+		_set_se_translator(seh_excpetion::TranslateSEHtoCE);
+
+		try
+		{
+			LOGDEBUG(fmt::format("AutoRecoverBlood + 0x150 BYTE:{}\n", *(BYTE*)((int)AutoRecoverable_AutoRecoverBlood + 0x150)));
+
+			DWORD dwOldProtect;
+			VirtualProtect((LPVOID)((int)AutoRecoverable_AutoRecoverBlood + 0x150), sizeof BYTE, PAGE_READWRITE, &dwOldProtect);
+			*(BYTE*)((int)AutoRecoverable_AutoRecoverBlood + 0x150) = 0x6E;
+			VirtualProtect((LPVOID)((int)AutoRecoverable_AutoRecoverBlood + 0x150), sizeof BYTE, PAGE_EXECUTE_READ, &dwOldProtect);
+		}
+		catch (const seh_excpetion& error)
+		{
+			LOGERROR(fmt::format("Set BYTE Error SEHCode:[{:#08x}] {}", error.code(), error.what()));
+		}
 
 		DO_HOOK(AutoRecoverable_AutoRecoverBlood);
 		DO_HOOK(AutoRecoverable_Start);

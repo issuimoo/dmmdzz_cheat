@@ -150,6 +150,7 @@
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <IntelJCCErratum>false</IntelJCCErratum>
       <GuardEHContMetadata>false</GuardEHContMetadata>
+      <Optimization>Custom</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>

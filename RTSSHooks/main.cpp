@@ -6,21 +6,23 @@ namespace CheatMian
 	void OnStart()
 	{
 		Console::StartConsole("Logding ...", false);
-		for (size_t i = 0; i < 10000; i++)
+		float Time = 5000;
+
+		std::cout << "[info] Wait Game ... \n";
+		for (size_t i = 0; i < Time; i++)
 		{
-			printf("\r[%i|10000]", i);
-			for (size_t i2 = 0; i2 < i / 1000; i2++)
+			printf("\r[%i|%i]", i, (int)Time);
+			for (size_t i2 = 0; i2 < (i / Time) * 10; i2++)
 			{
 				printf("■");
 			}
-			for (size_t i2 = 0; i2 < 10 - (i / 1000); i2++)
+			for (size_t i2 = 0; i2 < 10 - (i / Time) * 10; i2++)
 			{
 				printf("  ");
 			}
-			printf("%0.2f%%", ((float(i) / 1000.0f) * 10.0f));
+			printf("%0.2f%%", ((float(i) / Time) * 100.0f));
 			Sleep(1);
 		}
-		
 		Console::EndConsole();
 
 		Console::StartConsole("云逸 by 遂沫", false);
@@ -48,7 +50,7 @@ namespace CheatMian
 		FUNC_Init();
 		cheat::Init();
 
-		DX11Hook::installDX11Hook(&renderer::DrawRenderer, pch::m_hModule, pch::m_file + "\\imgui.ini", 13, nullptr, &pch::DX11D3D11Device, &pch::DX11D3D11DeviceContext, &pch::DX11D3D11RenderTargetView, &pch::DX11SwapChain);
+		DX11Hook::installDX11Hook(&renderer::DrawRenderer, pch::m_hModule, ".\\imgui.ini", 13, nullptr, &pch::DX11D3D11Device, &pch::DX11D3D11DeviceContext, &pch::DX11D3D11RenderTargetView, &pch::DX11SwapChain);
 		ImGui::AnemoTheme();
 	}
 }

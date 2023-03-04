@@ -25,6 +25,9 @@
     <Filter Include="il2cpp">
       <UniqueIdentifier>{d4bf95cf-c50a-4652-aced-32ec9b93ccba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="il2cpp\Mono">
+      <UniqueIdentifier>{52e9267a-f393-4e76-acbe-f4f7d5027314}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -142,6 +145,30 @@
     </ClInclude>
     <ClInclude Include="speed.hpp">
       <Filter>Feature\hpp</Filter>
+    </ClInclude>
+    <ClInclude Include="SEH.hpp">
+      <Filter>Feature</Filter>
+    </ClInclude>
+    <ClInclude Include="api.hpp">
+      <Filter>il2cpp\Mono</Filter>
+    </ClInclude>
+    <ClInclude Include="class.hpp">
+      <Filter>il2cpp\Mono</Filter>
+    </ClInclude>
+    <ClInclude Include="field.hpp">
+      <Filter>il2cpp\Mono</Filter>
+    </ClInclude>
+    <ClInclude Include="image.hpp">
+      <Filter>il2cpp\Mono</Filter>
+    </ClInclude>
+    <ClInclude Include="method.hpp">
+      <Filter>il2cpp\Mono</Filter>
+    </ClInclude>
+    <ClInclude Include="type.hpp">
+      <Filter>il2cpp\Mono</Filter>
+    </ClInclude>
+    <ClInclude Include="wrapper.hpp">
+      <Filter>il2cpp\Mono</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

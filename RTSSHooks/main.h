@@ -4,3 +4,5 @@ namespace CheatMian
 {
 	void OnStart();
 }
+
+static bool GameDone;

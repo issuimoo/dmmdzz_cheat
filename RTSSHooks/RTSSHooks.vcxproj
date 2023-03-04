@@ -120,6 +120,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <FloatingPointExceptions>false</FloatingPointExceptions>
+      <Optimization>Custom</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -190,21 +191,29 @@
     <ClInclude Include="About.hpp" />
     <ClInclude Include="ACEInstance.hpp" />
     <ClInclude Include="AntiImmobility.hpp" />
+    <ClInclude Include="api.hpp" />
     <ClInclude Include="Blood.hpp" />
     <ClInclude Include="BuyNoSub.hpp" />
+    <ClInclude Include="class.hpp" />
     <ClInclude Include="Feature.hpp" />
+    <ClInclude Include="field.hpp" />
     <ClInclude Include="il2cpp-functions.h" />
     <ClInclude Include="il2cpp.h" />
+    <ClInclude Include="image.hpp" />
     <ClInclude Include="ItemList.hpp" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="method.hpp" />
     <ClInclude Include="NoFogOfWar.hpp" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlayerList.hpp" />
     <ClInclude Include="PlayerVAC.hpp" />
     <ClInclude Include="renderer.h" />
+    <ClInclude Include="SEH.hpp" />
     <ClInclude Include="setting.hpp" />
     <ClInclude Include="speed.hpp" />
     <ClInclude Include="Store.hpp" />
+    <ClInclude Include="type.hpp" />
+    <ClInclude Include="wrapper.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
