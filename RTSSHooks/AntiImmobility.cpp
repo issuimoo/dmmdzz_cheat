@@ -4,22 +4,17 @@ namespace cheat::feature
 {
 	bool OnAntiImmobility = true;
 
-	static bool BipedalDragonShapeController_get_DisableFireButton_HOOK(BipedalDragonShapeController* _this);
-	static bool BipedalDragonShapeController_get_DisableJumpButton_HOOK(BipedalDragonShapeController* _this);
-	static bool BipedalDragonShapeController_get_MoveTargetForward_HOOK(BipedalDragonShapeController* _this);
-	static bool BipedalDragonShapeController_get_ControllerMove_HOOK(BipedalDragonShapeController* _this);
+	static bool BipedalDragonShapeController_get_DisableFireButton_Hook(BipedalDragonShapeController* _this);
+	static bool BipedalDragonShapeController_get_DisableJumpButton_Hook(BipedalDragonShapeController* _this);
+	static bool BipedalDragonShapeController_get_MoveTargetForward_Hook(BipedalDragonShapeController* _this);
+	static bool BipedalDragonShapeController_get_ControllerMove_Hook(BipedalDragonShapeController* _this);
 
 	AntiImmobility::AntiImmobility() : Feature()
 	{
-		app::BipedalDragonShapeController_get_DisableFireButton = (bool(*)(BipedalDragonShapeController*))(((unsigned int)pch::GameAssembly) + Address_BipedalDragonShapeController_get_DisableFireButton);
-		app::BipedalDragonShapeController_get_DisableJumpButton = (bool(*)(BipedalDragonShapeController*))(((unsigned int)pch::GameAssembly) + Address_BipedalDragonShapeController_get_DisableJumpButton);
-		app::BipedalDragonShapeController_get_MoveTargetForward = (bool(*)(BipedalDragonShapeController*))(((unsigned int)pch::GameAssembly) + Address_BipedalDragonShapeController_get_MoveTargetForward);
-		app::BipedalDragonShapeController_get_ControllerMove = (bool(*)(BipedalDragonShapeController*))(((unsigned int)pch::GameAssembly) + Address_BipedalDragonShapeController_get_ControllerMove);
-	
-		HookManager::install(app::BipedalDragonShapeController_get_DisableFireButton, BipedalDragonShapeController_get_DisableFireButton_HOOK);
-		HookManager::install(app::BipedalDragonShapeController_get_DisableJumpButton, BipedalDragonShapeController_get_DisableJumpButton_HOOK);
-		HookManager::install(app::BipedalDragonShapeController_get_MoveTargetForward, BipedalDragonShapeController_get_MoveTargetForward_HOOK);
-		HookManager::install(app::BipedalDragonShapeController_get_ControllerMove, BipedalDragonShapeController_get_ControllerMove_HOOK);
+		DO_HOOK(BipedalDragonShapeController_get_DisableFireButton);
+		DO_HOOK(BipedalDragonShapeController_get_DisableJumpButton);
+		DO_HOOK(BipedalDragonShapeController_get_MoveTargetForward);
+		DO_HOOK(BipedalDragonShapeController_get_ControllerMove);
 	}
 	const FeatureGUIInfo& AntiImmobility::GetGUIInfo() const
 	{
@@ -83,36 +78,36 @@ namespace cheat::feature
 	{
 
 	}
-	static bool BipedalDragonShapeController_get_DisableFireButton_HOOK(BipedalDragonShapeController* _this)
+	static bool BipedalDragonShapeController_get_DisableFireButton_Hook(BipedalDragonShapeController* _this)
 	{
 		if (OnAntiImmobility)
 		{
 			return false;
 		}
-		return CALL_ORIGIN(BipedalDragonShapeController_get_DisableFireButton_HOOK, _this);
+		return CALL_ORIGIN(BipedalDragonShapeController_get_DisableFireButton_Hook, _this);
 	}
-	static bool BipedalDragonShapeController_get_DisableJumpButton_HOOK(BipedalDragonShapeController* _this)
+	static bool BipedalDragonShapeController_get_DisableJumpButton_Hook(BipedalDragonShapeController* _this)
 	{
 		if (OnAntiImmobility)
 		{
 			return false;
 		}
-		return CALL_ORIGIN(BipedalDragonShapeController_get_DisableJumpButton_HOOK, _this);
+		return CALL_ORIGIN(BipedalDragonShapeController_get_DisableJumpButton_Hook, _this);
 	}
-	static bool BipedalDragonShapeController_get_MoveTargetForward_HOOK(BipedalDragonShapeController* _this)
+	static bool BipedalDragonShapeController_get_MoveTargetForward_Hook(BipedalDragonShapeController* _this)
 	{
 		if (OnAntiImmobility)
 		{
 			return true;
 		}
-		return CALL_ORIGIN(BipedalDragonShapeController_get_MoveTargetForward_HOOK, _this);
+		return CALL_ORIGIN(BipedalDragonShapeController_get_MoveTargetForward_Hook, _this);
 	}
-	static bool BipedalDragonShapeController_get_ControllerMove_HOOK(BipedalDragonShapeController* _this)
+	static bool BipedalDragonShapeController_get_ControllerMove_Hook(BipedalDragonShapeController* _this)
 	{
 		if (OnAntiImmobility)
 		{
 			return true;
 		}
-		return CALL_ORIGIN(BipedalDragonShapeController_get_ControllerMove_HOOK, _this);
+		return CALL_ORIGIN(BipedalDragonShapeController_get_ControllerMove_Hook, _this);
 	}
 }

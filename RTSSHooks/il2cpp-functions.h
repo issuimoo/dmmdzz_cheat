@@ -1,72 +1,69 @@
-#pragma once
-using namespace app;
-
 //AntiCheatingSystem
-DO_APP_FUNC(void, AntiCheatingSystem_SendReport, (AntiCheatingSystem* _this, APP_String* userID, AntiCheatingResult result));
-DO_APP_FUNC(void, AntiCheatingSystem_Quit, (AntiCheatingSystem* _this));
-DO_APP_FUNC(void, AntiCheatingSystem_QuitApplication, (AntiCheatingSystem* _this));
-DO_APP_FUNC(void, AntiCheatingSystem_AddGhost, (AntiCheatingSystem* _this, AntiCheatingGhost g, unsigned int t, APP_String* userId));
+DO_API(0x369A20, void, AntiCheatingSystem_SendReport, (AntiCheatingSystem* _this, APP_String* userID, AntiCheatingResult result));
+DO_API(0x369680, void, AntiCheatingSystem_Quit, (AntiCheatingSystem* _this));
+DO_API(0x3695B0, void, AntiCheatingSystem_QuitApplication, (AntiCheatingSystem* _this));
+DO_API(0x352120, void, AntiCheatingSystem_AddGhost, (AntiCheatingSystem* _this, AntiCheatingGhost g, unsigned int t, APP_String* userId));
 
 //InGameFogOfWar
-DO_APP_FUNC(bool, InGameFogOfWar_get_ShowAllRoleView, (InGameFogOfWar* _this));
-DO_APP_FUNC(bool, InGameFogOfWar_get_DisableFogVisual, (InGameFogOfWar* _this));
+DO_API(0x84A160, bool, InGameFogOfWar_get_ShowAllRoleView, (InGameFogOfWar* _this));
+DO_API(0x849ED0, bool, InGameFogOfWar_get_DisableFogVisual, (InGameFogOfWar* _this));
 
 //PlayerController
-DO_APP_FUNC(void, PlayerController_Awake, (PlayerController* _this));
-DO_APP_FUNC(void, PlayerController_OnDestroy, (PlayerController* _this));
-DO_APP_FUNC(int, PlayerController_get_CurCoin, (PlayerController* _this));
-DO_APP_FUNC(void, PlayerController_SetPlayerPos, (PlayerController* _this,Vector3 Pos));
-DO_APP_FUNC(bool, PlayerController_InSameTeam, (PlayerController* _this, PlayerController* other));
-DO_APP_FUNC(void, PlayerController_RpcSubCoin, (PlayerController* _this, int coin, int reason, int cardId, unsigned int parameters));
-DO_APP_FUNC(void, PlayerController_SubCoin, (PlayerController* _this, int coin, int reason, int cardId));
-DO_APP_FUNC(void, PlayerController_LocalAddMaxLife, (PlayerController* _this, float value));
-DO_APP_FUNC(void, PlayerController_LocalResetMaxLife, (PlayerController* _this));
-DO_APP_FUNC(void, PlayerController_LocalAddMaxLifeAndDefaultMaxLife, (PlayerController* _this, float value));
-DO_APP_FUNC(void, PlayerController_SetSpeed, (PlayerController* _this, Vector3 v));
+DO_API(0x3763D0, void, PlayerController_Awake, (PlayerController* _this));
+DO_API(0x384380, void, PlayerController_OnDestroy, (PlayerController* _this));
+DO_API(0x390C60, int, PlayerController_get_CurCoin, (PlayerController* _this));
+DO_API(0x38A510, void, PlayerController_SetPlayerPos, (PlayerController* _this, Vector3 Pos));
+DO_API(0x37C190, bool, PlayerController_InSameTeam, (PlayerController* _this, PlayerController* other));
+DO_API(0x388AC0, void, PlayerController_RpcSubCoin, (PlayerController* _this, int coin, int reason, int cardId, unsigned int parameters));
+DO_API(0x38BB40, void, PlayerController_SubCoin, (PlayerController* _this, int coin, int reason, int cardId));
+DO_API(0x37DFE0, void, PlayerController_LocalAddMaxLife, (PlayerController* _this, float value));
+DO_API(0x383470, void, PlayerController_LocalResetMaxLife, (PlayerController* _this));
+DO_API(0x37DDB0, void, PlayerController_LocalAddMaxLifeAndDefaultMaxLife, (PlayerController* _this, float value));
+DO_API(0x38A770, void, PlayerController_SetSpeed, (PlayerController* _this, Vector3 v));
 
 //PlayerControllerRpcProxy
-DO_APP_FUNC(void, PlayerControllerRpcProxy_LocalSubCoin, (PlayerControllerRpcProxy* _this, int coin, int reason, int param));
+DO_API(0x921880, void, PlayerControllerRpcProxy_LocalSubCoin, (PlayerControllerRpcProxy* _this, int coin, int reason, int param));
 
 //BipedalDragonShapeController
-DO_APP_FUNC(bool, BipedalDragonShapeController_get_DisableFireButton, (BipedalDragonShapeController* _this));
-DO_APP_FUNC(bool, BipedalDragonShapeController_get_DisableJumpButton, (BipedalDragonShapeController* _this));
-DO_APP_FUNC(bool, BipedalDragonShapeController_get_MoveTargetForward, (BipedalDragonShapeController* _this));
-DO_APP_FUNC(bool, BipedalDragonShapeController_get_ControllerMove, (BipedalDragonShapeController* _this));
+DO_API(0x93E0D0, bool, BipedalDragonShapeController_get_DisableFireButton, (BipedalDragonShapeController* _this));
+DO_API(0x93E120, bool, BipedalDragonShapeController_get_DisableJumpButton, (BipedalDragonShapeController* _this));
+DO_API(0x93E170, bool, BipedalDragonShapeController_get_MoveTargetForward, (BipedalDragonShapeController* _this));
+DO_API(0x93E040, bool, BipedalDragonShapeController_get_ControllerMove, (BipedalDragonShapeController* _this));
 
 //ACEInstance
-DO_APP_FUNC(ACEInstance*, ACEInstance_get_Instance, (ACEInstance* _this));
-DO_APP_FUNC(ACEInstance*, ACEInstance_InitInstance, (ACEInstance* _this));
-DO_APP_FUNC(void, ACEInstance_InitSwitches, (ACEInstance* _this));
-DO_APP_FUNC(TssAntibot*, ACEInstance_get_Antibot, (ACEInstance* _this));
-DO_APP_FUNC(void, ACEInstance_Init, (ACEInstance* _this));
-DO_APP_FUNC(void, ACEInstance_SetUserInfo, (ACEInstance* _this, std::int32_t roleId, std::int32_t platId));
-DO_APP_FUNC(void, ACEInstance_SetAntiServerResponse, (ACEInstance* _this, HttpResponseAceServer* response));
-DO_APP_FUNC(void, ACEInstance_Login, (ACEInstance* _this, APP_String* openId));
-DO_APP_FUNC(void, ACEInstance_OnExitProcess, (ACEInstance* _this));
-DO_APP_FUNC(void, ACEInstance_Tick, (ACEInstance* _this));
-DO_APP_FUNC(void, ACEInstance_RequestAntiServer, (ACEInstance* _this, double currTimeSec));
-DO_APP_FUNC(void, ACEInstance_ConnectAntiServer, (ACEInstance* _this, double currTimeSec));
-DO_APP_FUNC(void, ACEInstance_RecvAntiData, (ACEInstance* _this));
-DO_APP_FUNC(void, ACEInstance_OnRecvAntiData, (ACEInstance* _this, char* data));
-DO_APP_FUNC(void, ACEInstance_SendAntiData, (ACEInstance* _this));
-DO_APP_FUNC(void, ACEInstance_get_IsQuitting, (ACEInstance* _this));
-DO_APP_FUNC(void, ACEInstance_QuitWithMessageStatic, (ACEInstance* _this, APP_String* text));
-DO_APP_FUNC(void, ACEInstance_QuitWithError, (ACEInstance* _this, int mainErr, int subErr));
-DO_APP_FUNC(void, ACEInstance_TrySendShowMessageAndQuitEvent, (ACEInstance* _this, APP_String* text));
-DO_APP_FUNC(void, ACEInstance_ShowMessageAndQuit, (ACEInstance* _this, APP_String* text));
-DO_APP_FUNC(void, ACEInstance_ReportEvent, (ACEInstance* _this, int mainErr, int subErr));
+DO_API(0xFA6270, ACEInstance*, ACEInstance_get_Instance, (ACEInstance* _this));
+DO_API(0xFA45D0, ACEInstance*, ACEInstance_InitInstance, (ACEInstance* _this));
+DO_API(0xFA4720, void, ACEInstance_InitSwitches, (ACEInstance* _this));
+DO_API(0xFA61F0, TssAntibot*, ACEInstance_get_Antibot, (ACEInstance* _this));
+DO_API(0xFA48C0, void, ACEInstance_Init, (ACEInstance* _this));
+DO_API(0xFA5960, void, ACEInstance_SetUserInfo, (ACEInstance* _this, std::int32_t roleId, std::int32_t platId));
+DO_API(0xFA58D0, void, ACEInstance_SetAntiServerResponse, (ACEInstance* _this, HttpResponseAceServer* response));
+DO_API(0xFA4B00, void, ACEInstance_Login, (ACEInstance* _this, APP_String* openId));
+DO_API(0xFA4D10, void, ACEInstance_OnExitProcess, (ACEInstance* _this));
+DO_API(0xFA5BE0, void, ACEInstance_Tick, (ACEInstance* _this));
+DO_API(0xFA5520, void, ACEInstance_RequestAntiServer, (ACEInstance* _this, double currTimeSec));
+DO_API(0xFA4340, void, ACEInstance_ConnectAntiServer, (ACEInstance* _this, double currTimeSec));
+DO_API(0xFA5330, void, ACEInstance_RecvAntiData, (ACEInstance* _this));
+DO_API(0xFA4E00, void, ACEInstance_OnRecvAntiData, (ACEInstance* _this, char* data));
+DO_API(0xFA56E0, void, ACEInstance_SendAntiData, (ACEInstance* _this));
+DO_API(0xFA62F0, void, ACEInstance_get_IsQuitting, (ACEInstance* _this));
+DO_API(0xFA50A0, void, ACEInstance_QuitWithMessageStatic, (ACEInstance* _this, APP_String* text));
+DO_API(0xFA4F80, void, ACEInstance_QuitWithError, (ACEInstance* _this, int mainErr, int subErr));
+DO_API(0xFA6050, void, ACEInstance_TrySendShowMessageAndQuitEvent, (ACEInstance* _this, APP_String* text));
+DO_API(0xFA59E0, void, ACEInstance_ShowMessageAndQuit, (ACEInstance* _this, APP_String* text));
+DO_API(0xFA5450, void, ACEInstance_ReportEvent, (ACEInstance* _this, int mainErr, int subErr));
 
 //InGameStore
-DO_APP_FUNC(void, InGameStore_Awake, (InGameStore* _this));
-DO_APP_FUNC(void, InGameStore_OnDestroy, (InGameStore* _this));
+DO_API(0xE78520, void, InGameStore_Awake, (InGameStore* _this));
+DO_API(0xE82B50, void, InGameStore_OnDestroy, (InGameStore* _this));
 
 //UsableObject
-DO_APP_FUNC(void, UsableObject_Awake, (UsableObject* _this));
-DO_APP_FUNC(void, UsableObject_OnDestroy, (UsableObject* _this));
+DO_API(0xAB8020, void, UsableObject_Awake, (UsableObject* _this));
+DO_API(0xABAAC0, void, UsableObject_OnDestroy, (UsableObject* _this));
 
 //AdrenalineObject
-DO_APP_FUNC(Vector3, AdrenalineObject_GetPlayerPos, (AdrenalineObject* _this, PlayerController* Player_this));
+DO_API(0x6D92C0, Vector3, AdrenalineObject_GetPlayerPos, (AdrenalineObject* _this, PlayerController* Player_this));
 
 //AutoRecoverable
-DO_APP_FUNC(void, AutoRecoverable_AutoRecoverBlood, (AutoRecoverable* _this));
-DO_APP_FUNC(void, AutoRecoverable_Start, (AutoRecoverable* _this));
+DO_API(0x2CBADF0, void, AutoRecoverable_AutoRecoverBlood, (AutoRecoverable* _this));
+DO_API(0x2CBB2A0, void, AutoRecoverable_Start, (AutoRecoverable* _this));

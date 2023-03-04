@@ -13,15 +13,8 @@ namespace cheat::feature
 
 	PlayerList::PlayerList() : Feature()
 	{
-		app::PlayerController_Awake = (void(*)(PlayerController*))(((unsigned int)pch::GameAssembly) + Address_PlayerController_Awake);
-		app::PlayerController_OnDestroy = (void(*)(PlayerController*))(((unsigned int)pch::GameAssembly) + Address_PlayerController_OnDestroy);
-		app::AdrenalineObject_GetPlayerPos = (Vector3(*)(AdrenalineObject*, PlayerController*))(((unsigned int)pch::GameAssembly) + Address_AdrenalineObject_GetPlayerPos);
-		app::PlayerController_SetPlayerPos = (void(*)(PlayerController*,Vector3))(((unsigned int)pch::GameAssembly) + Address_PlayerController_SetPlayerPos);
-		app::PlayerController_get_CurCoin = (int(*)(PlayerController*))(((unsigned int)pch::GameAssembly) + Address_PlayerController_get_CurCoin);
-		app::PlayerController_InSameTeam = (bool(*)(PlayerController*, PlayerController*))(((unsigned int)pch::GameAssembly) + Address_PlayerController_InSameTeam);
-
-		HookManager::install(app::PlayerController_Awake, PlayerController_Awake_Hook);
-		HookManager::install(app::PlayerController_OnDestroy, PlayerController_OnDestroy_Hook);
+		DO_HOOK(PlayerController_Awake);
+		DO_HOOK(PlayerController_OnDestroy);
 	}
 	const FeatureGUIInfo& PlayerList::GetGUIInfo() const
 	{
@@ -47,14 +40,14 @@ namespace cheat::feature
 						ImGui::PushID(Vec_PlayerList[i]); //必须加上不然按钮没效果
 						Vector3 pos;
 						AdrenalineObject AdrenalineObject_this;
-						pos = app::AdrenalineObject_GetPlayerPos(&AdrenalineObject_this, Vec_PlayerList[i]);
+						pos = AdrenalineObject_GetPlayerPos(&AdrenalineObject_this, Vec_PlayerList[i]);
 						if (ImGui::TableSetColumnIndex(0))
 						{
 							if (!Vec_PlayerList[i]->m_IsLocalPlayer)
 							{
 								if (ImGui::SmallButton(Text::GBKTOUTF8("传送").c_str()))
 								{
-									app::PlayerController_SetPlayerPos(m_PlayerController, pos); //传送玩家
+									PlayerController_SetPlayerPos(m_PlayerController, pos); //传送玩家
 								}
 							}
 							else
@@ -65,15 +58,15 @@ namespace cheat::feature
 						if (ImGui::TableSetColumnIndex(1))
 						{
 							ImGui::TextColored(
-								app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? ImColor(128, 195, 66, 255) : ImColor(233, 66, 66, 255),
+								PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? ImColor(128, 195, 66, 255) : ImColor(233, 66, 66, 255),
 								"[%s]%s",
-								Text::GBKTOUTF8(app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? "友" : "敌").c_str(),
+								Text::GBKTOUTF8(PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? "友" : "敌").c_str(),
 								Text::UTF16TOUTF8((wchar_t*)(&Vec_PlayerList[i]->m_NameText->m_Text->m_firstChar)).c_str()
 							);
 						}
 						if (ImGui::TableSetColumnIndex(2))
 						{
-							ImGui::Text(fmt::format("[{}][{:0.2f}][{}][{}][x:{:0.2f} y:{:0.2f} z:{:0.2f}][{}]", (unsigned int)Vec_PlayerList[i], Vec_PlayerList[i]->m_BattleProperties->life, app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]), Vec_PlayerList[i]->m_IsLocalPlayer, pos.x, pos.y, pos.z, app::PlayerController_get_CurCoin(Vec_PlayerList[i])).c_str());
+							ImGui::Text(fmt::format("[{}][{:0.2f}][{}][{}][x:{:0.2f} y:{:0.2f} z:{:0.2f}][{}]", (unsigned int)Vec_PlayerList[i], Vec_PlayerList[i]->m_BattleProperties->life, PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]), Vec_PlayerList[i]->m_IsLocalPlayer, pos.x, pos.y, pos.z, PlayerController_get_CurCoin(Vec_PlayerList[i])).c_str());
 						}
 						ImGui::PopID();
 					}
@@ -118,12 +111,12 @@ namespace cheat::feature
 				{
 					if (VAC)
 					{
-						if (!app::PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]))
+						if (!PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]))
 						{
 							AdrenalineObject AdrenalineObject_this;
-							Vector3 pos = app::AdrenalineObject_GetPlayerPos(&AdrenalineObject_this, m_PlayerController);
+							Vector3 pos = AdrenalineObject_GetPlayerPos(&AdrenalineObject_this, m_PlayerController);
 							pos.x -= x_p;
-							app::PlayerController_SetPlayerPos(Vec_PlayerList[i], pos);
+							PlayerController_SetPlayerPos(Vec_PlayerList[i], pos);
 						}
 					}
 				}

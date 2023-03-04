@@ -13,9 +13,7 @@ namespace cheat::feature
 
 	speed::speed() : Feature()
 	{
-		app::PlayerController_SetSpeed = (void(*)(PlayerController*, Vector3))(((unsigned int)pch::GameAssembly) + Address_PlayerController_SetSpeed);
-
-		HookManager::install(app::PlayerController_SetSpeed, PlayerController_SetSpeed_Hook);
+		DO_HOOK(PlayerController_SetSpeed);
 	}
 	const FeatureGUIInfo& speed::GetGUIInfo() const
 	{

@@ -301,9 +301,16 @@ namespace renderer
 		Mem.Draw();
 	}
 }
+
 void FUNC_Init()
 {
-	
+#define DO_API(adress, ret_type, name, args)\
+		name = reinterpret_cast<name##_t>(adress + (int)pch::GameAssembly);\
+		LOGDEBUG(std::string("[address:" + std::to_string((DWORD)name) + "]:   " + #name + "\n"));
+		
+		#include "il2cpp-functions.h"
+
+#undef DO_API
 }
 
 void OnUpdata()

@@ -1,7 +1,7 @@
 #include "Blood.hpp"
 #include "PlayerList.hpp"
 
-std::vector<app::AutoRecoverable*> autorecoverable;
+std::vector<AutoRecoverable*> autorecoverable;
 
 namespace cheat::feature
 {
@@ -9,31 +9,24 @@ namespace cheat::feature
 	bool BloodNoLimet = false;
 	bool BloodNoRest = false;
 
-	static void AutoRecoverable_AutoRecoverBlood_Hook(app::AutoRecoverable* _this);
-	static void AutoRecoverable_Start_Hook(app::AutoRecoverable* _this);
+	static void AutoRecoverable_AutoRecoverBlood_Hook(AutoRecoverable* _this);
+	static void AutoRecoverable_Start_Hook(AutoRecoverable* _this);
 	static void PlayerController_LocalAddMaxLife_Hook(PlayerController* _this, float value);
 	static void PlayerController_LocalAddMaxLifeAndDefaultMaxLife_Hook(PlayerController* _this, float value);
 	static void PlayerController_LocalResetMaxLife_Hook(PlayerController* _this);
 	
 	Blood::Blood() : Feature()
 	{
-		app::AutoRecoverable_AutoRecoverBlood = (void(*)(app::AutoRecoverable * _this))(((unsigned int)pch::GameAssembly) + Address_AutoRecoverable_AutoRecoverBlood);
-		app::AutoRecoverable_Start = (void(*)(app::AutoRecoverable * _this))(((unsigned int)pch::GameAssembly) + Address_AutoRecoverable_Start);
-		app::PlayerController_LocalAddMaxLife = (void(*)(app::PlayerController * _this, float))(((unsigned int)pch::GameAssembly) + Address_PlayerController_LocalAddMaxLife);
-		app::PlayerController_LocalAddMaxLifeAndDefaultMaxLife = (void(*)(app::PlayerController * _this, float))(((unsigned int)pch::GameAssembly) + Address_PlayerController_LocalAddMaxLifeAndDefaultMaxLife);
-		app::PlayerController_LocalResetMaxLife = (void(*)(app::PlayerController * _this))(((unsigned int)pch::GameAssembly) + Address_PlayerController_LocalResetMaxLife);
-		
-		//解决他以实现功能
 		DWORD dwOldProtect;
-		VirtualProtect((LPVOID)((int)app::AutoRecoverable_AutoRecoverBlood + 0x150), sizeof BYTE, PAGE_READWRITE, &dwOldProtect);
-		*(BYTE*)((int)app::AutoRecoverable_AutoRecoverBlood + 0x150) = 0x6E;
-		VirtualProtect((LPVOID)((int)app::AutoRecoverable_AutoRecoverBlood + 0x150), sizeof BYTE, PAGE_EXECUTE_READ, &dwOldProtect);
+		VirtualProtect((LPVOID)((int)AutoRecoverable_AutoRecoverBlood + 0x150), sizeof BYTE, PAGE_READWRITE, &dwOldProtect);
+		*(BYTE*)((int)AutoRecoverable_AutoRecoverBlood + 0x150) = 0x6E;
+		VirtualProtect((LPVOID)((int)AutoRecoverable_AutoRecoverBlood + 0x150), sizeof BYTE, PAGE_EXECUTE_READ, &dwOldProtect);
 
-		HookManager::install(app::AutoRecoverable_AutoRecoverBlood, AutoRecoverable_AutoRecoverBlood_Hook);
-		HookManager::install(app::AutoRecoverable_Start, AutoRecoverable_Start_Hook);
-		HookManager::install(app::PlayerController_LocalAddMaxLife, PlayerController_LocalAddMaxLife_Hook);
-		HookManager::install(app::PlayerController_LocalAddMaxLifeAndDefaultMaxLife, PlayerController_LocalAddMaxLifeAndDefaultMaxLife_Hook);
-		HookManager::install(app::PlayerController_LocalResetMaxLife, PlayerController_LocalResetMaxLife_Hook);
+		DO_HOOK(AutoRecoverable_AutoRecoverBlood);
+		DO_HOOK(AutoRecoverable_Start);
+		DO_HOOK(PlayerController_LocalAddMaxLife);
+		DO_HOOK(PlayerController_LocalAddMaxLifeAndDefaultMaxLife);
+		DO_HOOK(PlayerController_LocalResetMaxLife);
 	}
 	const FeatureGUIInfo& Blood::GetGUIInfo() const
 	{
@@ -130,7 +123,7 @@ namespace cheat::feature
 		}
 	}
 
-	static void AutoRecoverable_AutoRecoverBlood_Hook(app::AutoRecoverable* _this)
+	static void AutoRecoverable_AutoRecoverBlood_Hook(AutoRecoverable* _this)
 	{
 		if (AutoRecoverBlood_b)
 		{
@@ -140,7 +133,7 @@ namespace cheat::feature
 		return CALL_ORIGIN(AutoRecoverable_AutoRecoverBlood_Hook, _this);
 	}
 
-	static void AutoRecoverable_Start_Hook(app::AutoRecoverable* _this)
+	static void AutoRecoverable_Start_Hook(AutoRecoverable* _this)
 	{
 		autorecoverable.push_back(_this);
 		return CALL_ORIGIN(AutoRecoverable_Start_Hook, _this);

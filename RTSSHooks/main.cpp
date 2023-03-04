@@ -17,7 +17,7 @@ namespace CheatMian
 			{
 				printf("  ");
 			}
-			printf("%0.2f%%", (float(i) / 1000.0f));
+			printf("%0.2f%%", ((float(i) / 1000.0f) * 10.0f));
 			Sleep(1);
 		}
 		

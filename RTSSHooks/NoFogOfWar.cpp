@@ -9,11 +9,8 @@ namespace cheat::feature
 
 	NoFogOfWar::NoFogOfWar() : Feature()
 	{
-		app::InGameFogOfWar_get_ShowAllRoleView = (bool(*)(InGameFogOfWar*))(((unsigned int)pch::GameAssembly) + Address_InGameFogOfWar_get_ShowAllRoleView);
-		app::InGameFogOfWar_get_DisableFogVisual = (bool(*)(InGameFogOfWar*))(((unsigned int)pch::GameAssembly) + Address_InGameFogOfWar_get_DisableFogVisual);
-
-		HookManager::install(app::InGameFogOfWar_get_ShowAllRoleView, InGameFogOfWar_get_ShowAllRoleView_Hook);
-		HookManager::install(app::InGameFogOfWar_get_DisableFogVisual, InGameFogOfWar_get_DisableFogVisual_Hook);
+		DO_HOOK(InGameFogOfWar_get_ShowAllRoleView);
+		DO_HOOK(InGameFogOfWar_get_DisableFogVisual);
 	}
 	const FeatureGUIInfo& NoFogOfWar::GetGUIInfo() const
 	{

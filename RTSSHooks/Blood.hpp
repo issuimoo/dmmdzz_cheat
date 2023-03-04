@@ -1,7 +1,7 @@
 #include "Feature.hpp"
 
 extern bool AutoRecoverBlood_b;
-extern std::vector<app::AutoRecoverable*> autorecoverable;
+extern std::vector<AutoRecoverable*> autorecoverable;
 
 namespace cheat::feature
 {
