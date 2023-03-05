@@ -66,7 +66,7 @@ namespace cheat::feature
 						}
 						if (ImGui::TableSetColumnIndex(2))
 						{
-							ImGui::Text(fmt::format("[{}][{:0.2f}][{}][{}][x:{:0.2f} y:{:0.2f} z:{:0.2f}][{}]", (unsigned int)Vec_PlayerList[i], Vec_PlayerList[i]->m_BattleProperties->life, PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]), Vec_PlayerList[i]->m_IsLocalPlayer, pos.x, pos.y, pos.z, PlayerController_get_CurCoin(Vec_PlayerList[i])).c_str());
+							ImGui::Text(fmt::format("[{:#08x}][{:0.2f}][{}][{}][x:{:0.2f} y:{:0.2f} z:{:0.2f}][{}]", (unsigned int)Vec_PlayerList[i], Vec_PlayerList[i]->m_BattleProperties->life, PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]), Vec_PlayerList[i]->m_IsLocalPlayer, pos.x, pos.y, pos.z, PlayerController_get_CurCoin(Vec_PlayerList[i])).c_str());
 						}
 						ImGui::PopID();
 					}

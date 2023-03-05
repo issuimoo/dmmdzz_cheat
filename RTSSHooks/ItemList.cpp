@@ -38,7 +38,7 @@ namespace cheat::feature
 					{
 						ImGui::TableNextRow();
 						ImGui::TableSetColumnIndex(0);
-						ImGui::Text("%i", (unsigned int)*ItemList_begin);
+						ImGui::Text(fmt::format("{:#08x}",(DWORD)*ItemList_begin).c_str());
 						ImGui::TableSetColumnIndex(1);
 						//ImGui::Text("%s", Text::UTF16TOUTF8((wchar_t*)(&(*iterator_ItemList)->m_NameText->m_Text->m_firstChar)).c_str());
 						ImGui::TableSetColumnIndex(2);
