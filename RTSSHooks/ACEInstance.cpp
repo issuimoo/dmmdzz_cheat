@@ -5,27 +5,27 @@ namespace cheat::feature
 
 	bool ExAAC = true;
 
-	static ACEInstance* ACEInstance_get_Instance_Hook(ACEInstance* _this);
-	static ACEInstance* ACEInstance_InitInstance_Hook(ACEInstance* _this);
-	static void ACEInstance_InitSwitches_Hook(ACEInstance* _this);
-	static TssAntibot* ACEInstance_get_Antibot_Hook(ACEInstance* _this);
-	static void ACEInstance_Init_Hook(ACEInstance* _this);
-	static void ACEInstance_SetUserInfo_Hook(ACEInstance* _this, std::int32_t roleId, std::int32_t platId);
-	static void ACEInstance_SetAntiServerResponse_Hook(ACEInstance* _this, HttpResponseAceServer* response);
-	static void ACEInstance_Login_Hook(ACEInstance* _this, APP_String* openId);
-	static void ACEInstance_OnExitProcess_Hook(ACEInstance* _this);
-	static void ACEInstance_Tick_Hook(ACEInstance* _this);
-	static void ACEInstance_RequestAntiServer_Hook(ACEInstance* _this, double currTimeSec);
-	static void ACEInstance_ConnectAntiServer_Hook(ACEInstance* _this, double currTimeSec);
-	static void ACEInstance_RecvAntiData_Hook(ACEInstance* _this);
-	static void ACEInstance_OnRecvAntiData_Hook(ACEInstance* _this, char* data);
-	static void ACEInstance_SendAntiData_Hook(ACEInstance* _this);
-	static void ACEInstance_get_IsQuitting_Hook(ACEInstance* _this);
-	static void ACEInstance_QuitWithMessageStatic_Hook(ACEInstance* _this, APP_String* text);
-	static void ACEInstance_QuitWithError_Hook(ACEInstance* _this, int mainErr, int subErr);
-	static void ACEInstance_TrySendShowMessageAndQuitEvent_Hook(ACEInstance* _this, APP_String* text);
-	static void ACEInstance_ShowMessageAndQuit_Hook(ACEInstance* _this, APP_String* text);
-	static void ACEInstance_ReportEvent_Hook(ACEInstance* _this, int mainErr, int subErr);
+	static ACEInstance_* ACEInstance_get_Instance_Hook(ACEInstance_* _this);
+	static ACEInstance_* ACEInstance_InitInstance_Hook(ACEInstance_* _this);
+	static void ACEInstance_InitSwitches_Hook(ACEInstance_* _this);
+	static TssAntibot* ACEInstance_get_Antibot_Hook(ACEInstance_* _this);
+	static void ACEInstance_Init_Hook(ACEInstance_* _this);
+	static void ACEInstance_SetUserInfo_Hook(ACEInstance_* _this, std::int32_t roleId, std::int32_t platId);
+	static void ACEInstance_SetAntiServerResponse_Hook(ACEInstance_* _this, HttpResponseAceServer* response);
+	static void ACEInstance_Login_Hook(ACEInstance_* _this, APP_String* openId);
+	static void ACEInstance_OnExitProcess_Hook(ACEInstance_* _this);
+	static void ACEInstance_Tick_Hook(ACEInstance_* _this);
+	static void ACEInstance_RequestAntiServer_Hook(ACEInstance_* _this, double currTimeSec);
+	static void ACEInstance_ConnectAntiServer_Hook(ACEInstance_* _this, double currTimeSec);
+	static void ACEInstance_RecvAntiData_Hook(ACEInstance_* _this);
+	static void ACEInstance_OnRecvAntiData_Hook(ACEInstance_* _this, char* data);
+	static void ACEInstance_SendAntiData_Hook(ACEInstance_* _this);
+	static void ACEInstance_get_IsQuitting_Hook(ACEInstance_* _this);
+	static void ACEInstance_QuitWithMessageStatic_Hook(ACEInstance_* _this, APP_String* text);
+	static void ACEInstance_QuitWithError_Hook(ACEInstance_* _this, int mainErr, int subErr);
+	static void ACEInstance_TrySendShowMessageAndQuitEvent_Hook(ACEInstance_* _this, APP_String* text);
+	static void ACEInstance_ShowMessageAndQuit_Hook(ACEInstance_* _this, APP_String* text);
+	static void ACEInstance_ReportEvent_Hook(ACEInstance_* _this, int mainErr, int subErr);
 
 	ACEInstance::ACEInstance() : Feature()
 	{
@@ -111,127 +111,127 @@ namespace cheat::feature
 	void ACEInstance::Update()
 	{
 	}
-	static ACEInstance* ACEInstance_get_Instance_Hook(ACEInstance* _this)
+	static ACEInstance_* ACEInstance_get_Instance_Hook(ACEInstance_* _this)
 	{
 		if (ExAAC)
 			return 0;
 		return CALL_ORIGIN(ACEInstance_get_Instance_Hook, _this);
 	}
-	static ACEInstance* ACEInstance_InitInstance_Hook(ACEInstance* _this)
+	static ACEInstance_* ACEInstance_InitInstance_Hook(ACEInstance_* _this)
 	{
 		if (ExAAC)
 			return 0;
 		return CALL_ORIGIN(ACEInstance_InitInstance_Hook, _this);
 	}
-	static void ACEInstance_InitSwitches_Hook(ACEInstance* _this)
+	static void ACEInstance_InitSwitches_Hook(ACEInstance_* _this)
 	{
 		if (ExAAC)
 			return;
 		return CALL_ORIGIN(ACEInstance_InitSwitches_Hook, _this);
 	}
-	static TssAntibot* ACEInstance_get_Antibot_Hook(ACEInstance* _this)
+	static TssAntibot* ACEInstance_get_Antibot_Hook(ACEInstance_* _this)
 	{
 		if (ExAAC)
 			return 0;
 		return CALL_ORIGIN(ACEInstance_get_Antibot_Hook, _this);
 	}
-	static void ACEInstance_Init_Hook(ACEInstance* _this)
+	static void ACEInstance_Init_Hook(ACEInstance_* _this)
 	{
 		if (ExAAC)
 			return;
 		return CALL_ORIGIN(ACEInstance_Init_Hook, _this);
 	}
-	static void ACEInstance_SetUserInfo_Hook(ACEInstance* _this, std::int32_t roleId, std::int32_t platId)
+	static void ACEInstance_SetUserInfo_Hook(ACEInstance_* _this, std::int32_t roleId, std::int32_t platId)
 	{
 		if (ExAAC)
 			return;
 		return CALL_ORIGIN(ACEInstance_SetUserInfo_Hook, _this, roleId, platId);
 	}
-	static void ACEInstance_SetAntiServerResponse_Hook(ACEInstance* _this, HttpResponseAceServer* response)
+	static void ACEInstance_SetAntiServerResponse_Hook(ACEInstance_* _this, HttpResponseAceServer* response)
 	{
 		if (ExAAC)
 			return;
 		return CALL_ORIGIN(ACEInstance_SetAntiServerResponse_Hook, _this, response);
 	}
-	static void ACEInstance_Login_Hook(ACEInstance* _this, APP_String* openId)
+	static void ACEInstance_Login_Hook(ACEInstance_* _this, APP_String* openId)
 	{
 		if (ExAAC)
 			return;
 		return CALL_ORIGIN(ACEInstance_Login_Hook, _this, openId);
 	}
-	static void ACEInstance_OnExitProcess_Hook(ACEInstance* _this)
+	static void ACEInstance_OnExitProcess_Hook(ACEInstance_* _this)
 	{
 		if (ExAAC)
 			return;
 		return CALL_ORIGIN(ACEInstance_OnExitProcess_Hook, _this);
 	}
-	static void ACEInstance_Tick_Hook(ACEInstance* _this)
+	static void ACEInstance_Tick_Hook(ACEInstance_* _this)
 	{
 		if (ExAAC)
 			return;
 		return CALL_ORIGIN(ACEInstance_Tick_Hook, _this);
 	}
-	static void ACEInstance_RequestAntiServer_Hook(ACEInstance* _this, double currTimeSec)
+	static void ACEInstance_RequestAntiServer_Hook(ACEInstance_* _this, double currTimeSec)
 	{
 		if (ExAAC)
 			return;
 		return CALL_ORIGIN(ACEInstance_RequestAntiServer_Hook, _this, currTimeSec);
 	}
-	static void ACEInstance_ConnectAntiServer_Hook(ACEInstance* _this, double currTimeSec)
+	static void ACEInstance_ConnectAntiServer_Hook(ACEInstance_* _this, double currTimeSec)
 	{
 		if (ExAAC)
 			return;
 		return CALL_ORIGIN(ACEInstance_ConnectAntiServer_Hook, _this, currTimeSec);
 	}
-	static void ACEInstance_RecvAntiData_Hook(ACEInstance* _this)
+	static void ACEInstance_RecvAntiData_Hook(ACEInstance_* _this)
 	{
 		if (ExAAC)
 			return;
 		return CALL_ORIGIN(ACEInstance_RecvAntiData_Hook, _this);
 	}
-	static void ACEInstance_OnRecvAntiData_Hook(ACEInstance* _this, char* data)
+	static void ACEInstance_OnRecvAntiData_Hook(ACEInstance_* _this, char* data)
 	{
 		if (ExAAC)
 			return;
 		return CALL_ORIGIN(ACEInstance_OnRecvAntiData_Hook, _this, data);
 	}
-	static void ACEInstance_SendAntiData_Hook(ACEInstance* _this)
+	static void ACEInstance_SendAntiData_Hook(ACEInstance_* _this)
 	{
 		if (ExAAC)
 			return;
 		return CALL_ORIGIN(ACEInstance_SendAntiData_Hook, _this);
 	}
-	static void ACEInstance_get_IsQuitting_Hook(ACEInstance* _this)
+	static void ACEInstance_get_IsQuitting_Hook(ACEInstance_* _this)
 	{
 		if (ExAAC)
 			return;
 		return CALL_ORIGIN(ACEInstance_get_IsQuitting_Hook, _this);
 	}
-	static void ACEInstance_QuitWithMessageStatic_Hook(ACEInstance* _this, APP_String* text)
+	static void ACEInstance_QuitWithMessageStatic_Hook(ACEInstance_* _this, APP_String* text)
 	{
 		if (ExAAC)
 			return;
 		return CALL_ORIGIN(ACEInstance_QuitWithMessageStatic_Hook, _this, text);
 	}
-	static void ACEInstance_QuitWithError_Hook(ACEInstance* _this, int mainErr, int subErr)
+	static void ACEInstance_QuitWithError_Hook(ACEInstance_* _this, int mainErr, int subErr)
 	{
 		if (ExAAC)
 			return;
 		return CALL_ORIGIN(ACEInstance_QuitWithError_Hook, _this, mainErr, subErr);
 	}
-	static void ACEInstance_TrySendShowMessageAndQuitEvent_Hook(ACEInstance* _this, APP_String* text)
+	static void ACEInstance_TrySendShowMessageAndQuitEvent_Hook(ACEInstance_* _this, APP_String* text)
 	{
 		if (ExAAC)
 			return;
 		return CALL_ORIGIN(ACEInstance_TrySendShowMessageAndQuitEvent_Hook, _this, text);
 	}
-	static void ACEInstance_ShowMessageAndQuit_Hook(ACEInstance* _this, APP_String* text)
+	static void ACEInstance_ShowMessageAndQuit_Hook(ACEInstance_* _this, APP_String* text)
 	{
 		if (ExAAC)
 			return;
 		return CALL_ORIGIN(ACEInstance_ShowMessageAndQuit_Hook, _this, text);
 	}
-	static void ACEInstance_ReportEvent_Hook(ACEInstance* _this, int mainErr, int subErr)
+	static void ACEInstance_ReportEvent_Hook(ACEInstance_* _this, int mainErr, int subErr)
 	{
 		if (ExAAC)
 			return;

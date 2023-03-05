@@ -67,7 +67,7 @@ struct __declspec(align(4)) TssAntibot {
 	intptr_t data_buf_;
 };
 
-struct __declspec(align(4)) ACEInstance
+struct __declspec(align(4)) ACEInstance_
 {
 	char _space[8];
 	bool m_KickWithGameMsgBox;
