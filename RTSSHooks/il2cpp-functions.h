@@ -31,29 +31,6 @@ DO_API(0x93E120, bool, BipedalDragonShapeController_get_DisableJumpButton, (Bipe
 DO_API(0x93E170, bool, BipedalDragonShapeController_get_MoveTargetForward, (BipedalDragonShapeController* _this));
 DO_API(0x93E040, bool, BipedalDragonShapeController_get_ControllerMove, (BipedalDragonShapeController* _this));
 
-//ACEInstance
-DO_API(0xFA6270, ACEInstance_*, ACEInstance_get_Instance, (ACEInstance_* _this));
-DO_API(0xFA45D0, ACEInstance_*, ACEInstance_InitInstance, (ACEInstance_* _this));
-DO_API(0xFA4720, void, ACEInstance_InitSwitches, (ACEInstance_* _this));
-DO_API(0xFA61F0, TssAntibot*, ACEInstance_get_Antibot, (ACEInstance_* _this));
-DO_API(0xFA48C0, void, ACEInstance_Init, (ACEInstance_* _this));
-DO_API(0xFA5960, void, ACEInstance_SetUserInfo, (ACEInstance_* _this, std::int32_t roleId, std::int32_t platId));
-DO_API(0xFA58D0, void, ACEInstance_SetAntiServerResponse, (ACEInstance_* _this, HttpResponseAceServer* response));
-DO_API(0xFA4B00, void, ACEInstance_Login, (ACEInstance_* _this, APP_String* openId));
-DO_API(0xFA4D10, void, ACEInstance_OnExitProcess, (ACEInstance_* _this));
-DO_API(0xFA5BE0, void, ACEInstance_Tick, (ACEInstance_* _this));
-DO_API(0xFA5520, void, ACEInstance_RequestAntiServer, (ACEInstance_* _this, double currTimeSec));
-DO_API(0xFA4340, void, ACEInstance_ConnectAntiServer, (ACEInstance_* _this, double currTimeSec));
-DO_API(0xFA5330, void, ACEInstance_RecvAntiData, (ACEInstance_* _this));
-DO_API(0xFA4E00, void, ACEInstance_OnRecvAntiData, (ACEInstance_* _this, char* data));
-DO_API(0xFA56E0, void, ACEInstance_SendAntiData, (ACEInstance_* _this));
-DO_API(0xFA62F0, void, ACEInstance_get_IsQuitting, (ACEInstance_* _this));
-DO_API(0xFA50A0, void, ACEInstance_QuitWithMessageStatic, (ACEInstance_* _this, APP_String* text));
-DO_API(0xFA4F80, void, ACEInstance_QuitWithError, (ACEInstance_* _this, int mainErr, int subErr));
-DO_API(0xFA6050, void, ACEInstance_TrySendShowMessageAndQuitEvent, (ACEInstance_* _this, APP_String* text));
-DO_API(0xFA59E0, void, ACEInstance_ShowMessageAndQuit, (ACEInstance_* _this, APP_String* text));
-DO_API(0xFA5450, void, ACEInstance_ReportEvent, (ACEInstance_* _this, int mainErr, int subErr));
-
 //InGameStore
 DO_API(0xE78520, void, InGameStore_Awake, (InGameStore* _this));
 DO_API(0xE82B50, void, InGameStore_OnDestroy, (InGameStore* _this));

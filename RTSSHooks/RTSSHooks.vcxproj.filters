@@ -78,11 +78,11 @@
     <ClCompile Include="Blood.cpp">
       <Filter>Feature\cpp</Filter>
     </ClCompile>
-    <ClCompile Include="ACEInstance.cpp">
-      <Filter>Feature\cpp</Filter>
-    </ClCompile>
     <ClCompile Include="speed.cpp">
       <Filter>Feature\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="il2cpp-functions.cpp">
+      <Filter>il2cpp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -140,9 +140,6 @@
     <ClInclude Include="Blood.hpp">
       <Filter>Feature\hpp</Filter>
     </ClInclude>
-    <ClInclude Include="ACEInstance.hpp">
-      <Filter>Feature\hpp</Filter>
-    </ClInclude>
     <ClInclude Include="speed.hpp">
       <Filter>Feature\hpp</Filter>
     </ClInclude>
@@ -169,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="wrapper.hpp">
       <Filter>il2cpp\Mono</Filter>
+    </ClInclude>
+    <ClInclude Include="il2cpp-Iint.hpp">
+      <Filter>il2cpp</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

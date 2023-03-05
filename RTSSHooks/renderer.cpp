@@ -16,7 +16,6 @@ std::string jsonfile = "TYPE-1";
 #include "AntiImmobility.hpp"
 #include "AACLog.hpp"
 #include "Blood.hpp"
-#include "ACEInstance.hpp"
 #include "speed.hpp"
 
 namespace renderer
@@ -303,53 +302,6 @@ namespace renderer
 	}
 }
 
-#include "wrapper.hpp"
-#include "SEH.hpp"
-
-void FUNC_Init()
-{
-	_set_se_translator(seh_excpetion::TranslateSEHtoCE);
-
-	LOGDEBUG("[Il2cpp] Initializing \n");
-	Il2cpp::initialize();
-	LOGDEBUG("[Il2cpp] Initialization Complete \n");
-
-	LOGDEBUG("[Il2cpp] Dumping Images\n");
-	const auto Il2cpp = std::make_unique<Wrapper>();
-	LOGDEBUG("[Il2cpp] Images Dumped\n");
-
-	LOGDEBUG("[Il2cpp] Getting Assembly-CSharp Image\n");
-	const auto image = Il2cpp->get_image("Assembly-CSharp.dll");
-	LOGDEBUG(fmt::format("[Il2cpp] Assembly-CSharp -> {} ({:#08x})\n", image->get_name(), reinterpret_cast<uintptr_t>(image)));
-	
-	LOGDEBUG("[Il2cpp] Getting Class & Fields\n");
-
-	Class* CLASS;
-	try
-	{
-#define DO_API(adress, ret_type, name, args)\
-		CLASS = image->get_class(std::string(#name).substr(0,std::string(#name).find("_")).c_str());\
-		LOGDEBUG(fmt::format("[Il2cpp] {} -> {:#08x}\n", CLASS->get_name(), reinterpret_cast<uintptr_t>(CLASS)));\
-		void* name##instance = (CLASS->get_field(std::string(#name).substr(std::string(#name).find("_") + 1,std::string(#name).length()).c_str())->get_as_static());\
-		LOGDEBUG( fmt::format("[Il2cpp] Field -> Static Instance {:#08x}\n", reinterpret_cast<uintptr_t>(name##instance)) );\
-		name = ((ret_type(*)args)(name##instance));;\
-		LOGDEBUG(fmt::format("[Adress|{:#08x}] {} \n", (DWORD)name, #name));
-
-		#include "il2cpp-functions.h"
-#undef DO_API
-	}
-	catch (const seh_excpetion& error)
-	{
-		LOGERROR(fmt::format("Set Adress Error SEHCode:[{:#08x}] {}", error.code(), error.what()));
-#define DO_API(adress, ret_type, name, args)\
-		name = ((ret_type(*)args)(adress + (int)pch::GameAssembly));\
-		LOGDEBUG(fmt::format("[Adress|{:#08x}] {} \n", (DWORD)name, #name));
-
-#include "il2cpp-functions.h"
-#undef DO_API
-	}
-}
-
 void OnUpdata()
 {
 	while (true)
@@ -366,6 +318,8 @@ namespace cheat
 {
 	void Init()
 	{
+		Init_il2cpp();
+
 #define FEAT_INST(name) &cheat::feature::##name##::GetInstance()
 		Mem.AddFeatures({
 			FEAT_INST(AAC),
@@ -380,7 +334,6 @@ namespace cheat
 			FEAT_INST(Blood),
 			FEAT_INST(PlayerVAC),
 			FEAT_INST(speed),
-			FEAT_INST(ACEInstance),
 			FEAT_INST(NoFogOfWar)
 			});
 #undef FEAT_INST

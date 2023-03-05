@@ -1,5 +1,4 @@
 #pragma once
-#include "pch.h"
 #include "Feature.hpp"
 #include <vector>
 #include <map>
@@ -33,5 +32,3 @@ namespace renderer
 		void DrawFps();
 	};
 }
-
-void FUNC_Init();
