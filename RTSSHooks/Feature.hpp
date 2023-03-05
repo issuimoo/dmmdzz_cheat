@@ -1,15 +1,6 @@
 #pragma once
 
-#include "pch.h"
-
-#include "il2cpp.h"
-
-#define DO_API(adress, ret_type, name, args) \
-		inline static ret_type (__cdecl*name) args;
-
-#include "il2cpp-functions.h"
-
-#undef DO_API
+#include "il2cpp-Iint.hpp"
 
 #define DO_HOOK(GAMEFUNC) \
 LOGINFO(fmt::format("[Hook] Func: {} Address: {:#08x}\n",#GAMEFUNC,(DWORD)GAMEFUNC)); \

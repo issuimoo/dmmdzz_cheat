@@ -47,7 +47,6 @@ namespace CheatMian
 		}
 		LOGDEBUG(fmt::format("GameAssembly:{}\n", (int)pch::GameAssembly));
 
-		FUNC_Init();
 		cheat::Init();
 
 		DX11Hook::installDX11Hook(&renderer::DrawRenderer, pch::m_hModule, ".\\imgui.ini", 13, nullptr, &pch::DX11D3D11Device, &pch::DX11D3D11DeviceContext, &pch::DX11D3D11RenderTargetView, &pch::DX11SwapChain);

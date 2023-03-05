@@ -169,11 +169,11 @@
     <ClCompile Include="AAC.cpp" />
     <ClCompile Include="AACLog.cpp" />
     <ClCompile Include="About.cpp" />
-    <ClCompile Include="ACEInstance.cpp" />
     <ClCompile Include="AntiImmobility.cpp" />
     <ClCompile Include="Blood.cpp" />
     <ClCompile Include="BuyNoSub.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="il2cpp-functions.cpp" />
     <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NoFogOfWar.cpp" />
@@ -189,7 +189,6 @@
     <ClInclude Include="AAC.hpp" />
     <ClInclude Include="AACLog.hpp" />
     <ClInclude Include="About.hpp" />
-    <ClInclude Include="ACEInstance.hpp" />
     <ClInclude Include="AntiImmobility.hpp" />
     <ClInclude Include="api.hpp" />
     <ClInclude Include="Blood.hpp" />
@@ -198,6 +197,7 @@
     <ClInclude Include="Feature.hpp" />
     <ClInclude Include="field.hpp" />
     <ClInclude Include="il2cpp-functions.h" />
+    <ClInclude Include="il2cpp-Iint.hpp" />
     <ClInclude Include="il2cpp.h" />
     <ClInclude Include="image.hpp" />
     <ClInclude Include="ItemList.hpp" />
