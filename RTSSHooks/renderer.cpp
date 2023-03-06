@@ -17,6 +17,7 @@ std::string jsonfile = "TYPE-1";
 #include "AACLog.hpp"
 #include "Blood.hpp"
 #include "speed.hpp"
+#include "ACEInstance.hpp"
 
 namespace renderer
 {
@@ -334,6 +335,7 @@ namespace cheat
 			FEAT_INST(Blood),
 			FEAT_INST(PlayerVAC),
 			FEAT_INST(speed),
+			FEAT_INST(ACEInstance),
 			FEAT_INST(NoFogOfWar)
 			});
 #undef FEAT_INST

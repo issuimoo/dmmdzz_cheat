@@ -84,6 +84,12 @@
     <ClCompile Include="il2cpp-functions.cpp">
       <Filter>il2cpp</Filter>
     </ClCompile>
+    <ClCompile Include="ACEInstance.cpp">
+      <Filter>Feature\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="MonoCollector.cpp">
+      <Filter>il2cpp\Mono</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -146,29 +152,17 @@
     <ClInclude Include="SEH.hpp">
       <Filter>Feature</Filter>
     </ClInclude>
-    <ClInclude Include="api.hpp">
-      <Filter>il2cpp\Mono</Filter>
-    </ClInclude>
-    <ClInclude Include="class.hpp">
-      <Filter>il2cpp\Mono</Filter>
-    </ClInclude>
-    <ClInclude Include="field.hpp">
-      <Filter>il2cpp\Mono</Filter>
-    </ClInclude>
-    <ClInclude Include="image.hpp">
-      <Filter>il2cpp\Mono</Filter>
-    </ClInclude>
-    <ClInclude Include="method.hpp">
-      <Filter>il2cpp\Mono</Filter>
-    </ClInclude>
-    <ClInclude Include="type.hpp">
-      <Filter>il2cpp\Mono</Filter>
-    </ClInclude>
-    <ClInclude Include="wrapper.hpp">
-      <Filter>il2cpp\Mono</Filter>
-    </ClInclude>
     <ClInclude Include="il2cpp-Iint.hpp">
       <Filter>il2cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="ACEInstance.hpp">
+      <Filter>Feature\hpp</Filter>
+    </ClInclude>
+    <ClInclude Include="MonoCollector.h">
+      <Filter>il2cpp\Mono</Filter>
+    </ClInclude>
+    <ClInclude Include="MonoCollectorAPI.h">
+      <Filter>il2cpp\Mono</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

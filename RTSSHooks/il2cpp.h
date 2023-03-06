@@ -61,6 +61,24 @@ struct __declspec(align(4)) WrappedTssAntibot {
 	struct AceSdk_TssAntibot_DeprecatedRoutine2_o* deprecated2;
 };
 
+struct __declspec(align(4)) ACEInstance_
+{
+	char _space[8];
+	bool m_KickWithGameMsgBox;
+	struct AceSdk_AceClient_o* m_AceClient;
+	struct AceSdk_TssAntibot_o* m_TssAntibot;
+	uint32_t m_RoleId;
+	uint32_t m_PlatId;
+	bool m_LoginOK;
+	struct GameMessages_HttpResponseAceServer_o* m_AntiServerResponse;
+	double m_LastRequestTimeSec;
+	struct LightNet3_LightMessageClient_LightTcpStream__o* m_Connection;
+	bool m_Connected;
+	double m_LastDisconnectedTimeSec;
+	double m_LastTryConnectTime;
+	double m_QuitStartTimeSec;
+};
+
 struct __declspec(align(4)) TssAntibot {
 	char _space[8];
 	struct WrappedTssAntibot antibot_;
