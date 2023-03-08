@@ -25,7 +25,7 @@ namespace cheat::feature
 	{
 		if (ImGui::CollapsingHeader(Text::GBKTOUTF8("玩家列表").c_str()))
 		{
-			if (ImGui::BeginTable("PlayerList", 3, ImGuiTableFlags_SizingFixedFit |  ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable, ImVec2(0.0f, ImGui::GetTextLineHeightWithSpacing() * 13)))
+			if (ImGui::BeginTable("PlayerList", 3, ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable, ImVec2(0.0f, ImGui::GetTextLineHeightWithSpacing() * 13)))
 			{
 				ImGui::TableSetupScrollFreeze(0, 1);
 				ImGui::TableSetupColumn(Text::GBKTOUTF8("操作").c_str(), ImGuiTableColumnFlags_None);
@@ -34,7 +34,7 @@ namespace cheat::feature
 				ImGui::TableHeadersRow();
 				for (size_t i = 0, max = Vec_PlayerList.size(); i < max; i++)
 				{
-					ImGui::TableNextRow();
+					ImGui::TableNextRow(ImGuiTableRowFlags_None, 10);
 					try
 					{
 						ImGui::PushID(Vec_PlayerList[i]); //必须加上不然按钮没效果
@@ -59,14 +59,15 @@ namespace cheat::feature
 						{
 							ImGui::TextColored(
 								PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? ImColor(128, 195, 66, 255) : ImColor(233, 66, 66, 255),
-								"[%s]%s",
+								"[%i][%s]%s",
+								i,
 								Text::GBKTOUTF8(PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]) ? "友" : "敌").c_str(),
 								Text::UTF16TOUTF8((wchar_t*)(&Vec_PlayerList[i]->m_NameText->m_Text->m_firstChar)).c_str()
 							);
 						}
 						if (ImGui::TableSetColumnIndex(2))
 						{
-							ImGui::Text(fmt::format("[{:#08x}][{:0.2f}][{}][{}][x:{:0.2f} y:{:0.2f} z:{:0.2f}][{}]", (unsigned int)Vec_PlayerList[i], Vec_PlayerList[i]->m_BattleProperties->life, PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]), Vec_PlayerList[i]->m_IsLocalPlayer, pos.x, pos.y, pos.z, PlayerController_get_CurCoin(Vec_PlayerList[i])).c_str());
+							ImGui::Text(fmt::format("[{:#X}][{:0.2f}][{}][{}][x:{:0.2f} y:{:0.2f} z:{:0.2f}][{}]", (unsigned int)Vec_PlayerList[i], Vec_PlayerList[i]->m_BattleProperties->life, PlayerController_InSameTeam(m_PlayerController, Vec_PlayerList[i]), Vec_PlayerList[i]->m_IsLocalPlayer, pos.x, pos.y, pos.z, PlayerController_get_CurCoin(Vec_PlayerList[i])).c_str());
 						}
 						ImGui::PopID();
 					}

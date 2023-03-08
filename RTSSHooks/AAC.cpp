@@ -106,8 +106,8 @@ namespace cheat::feature
 		if (magic_enum::enum_name<AntiCheatingResult>(result) != "")
 		{
 			intercepts++;
-			LOGDEBUG(fmt::format("AntiCheatingSystem_SendReport_Hook-> result:{} \n", magic_enum::enum_name<AntiCheatingResult>(result)));
-			AACLogs.push_back(fmt::format("AntiCheatingSystem_SendReport_Hook-> result:{} \n", magic_enum::enum_name<AntiCheatingResult>(result)));
+			LOGDEBUG(fmt::format("AntiCheatingSystem_SendReport_Hook-> result:{} userID:{}\n", magic_enum::enum_name<AntiCheatingResult>(result),Text::UTF8TOGBK(Text::UTF16TOUTF8((wchar_t*)&userID->m_firstChar))));
+			AACLogs.push_back(fmt::format("AntiCheatingSystem_SendReport_Hook-> result:{} userID:{}\n", magic_enum::enum_name<AntiCheatingResult>(result), Text::UTF16TOUTF8((wchar_t*)&userID->m_firstChar)));
 		}
 		if (CloseAC && !NewMsg)
 		{
@@ -115,6 +115,9 @@ namespace cheat::feature
 		}
 		if (NewMsg)
 		{
+			const wchar_t* userid = L"114514";
+			userID->m_stringLength = 6;
+			userID->m_firstChar = userid[0];
 			return CALL_ORIGIN(AntiCheatingSystem_SendReport_Hook, _this, userID, AntiCheatingResult::Normal);
 		}
 		return CALL_ORIGIN(AntiCheatingSystem_SendReport_Hook, _this, userID, result);

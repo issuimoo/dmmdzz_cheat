@@ -1,4 +1,8 @@
 #include "MonoCollector.h"
+#include <format>
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
 WORD UTF8TOUTF16(char* szUtf8) 
 {
@@ -19,7 +23,7 @@ namespace Untiy3D
 {
 	MonoCollector::~MonoCollector()
 	{
-
+		hModuleMono = nullptr;
 	}
 
 	MonoCollector::MonoCollector(std::string ModuleName)
@@ -29,7 +33,6 @@ namespace Untiy3D
 		if (!hModuleMono)
 		{
 			MessageBox(NULL, "Can not find Module", "error", NULL);
-			return;
 		}
 		GetFunc();
 	}
@@ -40,18 +43,330 @@ namespace Untiy3D
 		name = reinterpret_cast<name##_t>(GetProcAddress(hModuleMono, #name));
 		#include "MonoCollectorAPI.h"
 		#undef DO_API
+		if (mono_thread_attach)
+		{
+			if (mono_get_root_domain)
+			{
+				auto domain = mono_get_root_domain();
+				mono_thread_attach(domain);
+			}
+		}
+		if (il2cpp_thread_attach)
+			il2cpp_thread_attach(il2cpp_domain_get());
+	}
+
+	MonoType* MonoCollector::Mono_GetMethodParam(MethodInfo* Method, DWORD index)
+	{
+		void* methodsignature = mono_method_signature(Method);
+
+		int i = 0;
+
+		void* iter = NULL;
+		MonoType* method;
+		do
+		{
+			method = mono_signature_get_params((MonoMethodSignature*)methodsignature, &iter);
+			if (i == index)
+			{
+				return method;
+			}
+			i++;
+		} while (method);
+	}
+
+	void MonoCollector::Mono_Dump2File(std::string file)
+	{
+		std::ofstream io(file + "\\dump.cs");
+		std::ofstream io2(file + "\\Mono.hpp");
+		std::ofstream io3(file + "\\Mono-func.hpp");
+
+		if (!io) return;
+		std::stringstream str;
+		std::stringstream str2;
+		std::stringstream str3;
+
+		std::vector<MonoAssembly*> Assemblys;
+		for (size_t i = 0, max = Mono_EnummAssembly(Assemblys); i < max; i++)
+		{
+			auto image = Mono_GetImage(Assemblys[i]);
+			str << std::format("// Image {}: {} - {}", i, Mono_GetImageName(image), Mono_GetClassCount(image)) << std::endl;
+		}
+		str << std::endl << std::endl << std::endl;
+		for (size_t i = 0, max = Assemblys.size(); i < max; i++)
+		{
+			auto image = Mono_GetImage(Assemblys[i]);
+			std::vector<MonoClass*> Classes;
+			for (size_t i_c = 0, max_c = Mono_EnumClasses(image, Classes); i_c < max_c; i_c++)
+			{
+				str << std::format("// Namespace: {}\npublic class {}\n", Mono_GetClassNamespace(Classes[i_c]), Mono_GetClassName(Classes[i_c])) << "{\n\t// Fields" << std::endl;
+				str2 << std::format("struct {}\n", Mono_GetClassName(Classes[i_c])) << "{" << std::endl;
+
+				std::vector<FieldInfo*> Field;
+				for (size_t i_f = 0, max_f = Mono_EnumFields(Classes[i_c], Field); i_f < max_f; i_f++)
+				{
+					auto Typename = Mono_GetTypeName(Mono_GetFieldType(Field[i_f]));
+					std::string Type = Typename;
+					if (Typename.find_last_of(".") != std::string::npos)
+					{
+						Type = Typename.substr(Typename.find_last_of(".") + 1, Typename.length());
+					}
+					str << std::format("\tpublic {} {}; // {:#X}", Type, Mono_GetFieldName(Field[i_f]), Mono_GetFieldOffset(Field[i_f])) << std::endl;
+					str2 << std::format("\t{} {}; // {:#X}", Type, Mono_GetFieldName(Field[i_f]), Mono_GetFieldOffset(Field[i_f])) << std::endl;
+				}
+				str << std::endl << std::endl << std::endl << "\t// Methods" << std::endl;
+				str2 << "\n};" << std::endl;
+
+				std::vector<MethodInfo*> Methods;
+				for (size_t i_m = 0, max_m = Mono_EnumMethods(Classes[i_c], Methods); i_m < max_m; i_m++)
+				{
+					str << std::format("\t// RVA: {:#08X}", Mono_GetMethodAddress(Methods[i_m]) - (DWORD_PTR)hModuleMono) << std::endl;
+
+					auto retTypename = Mono_GetTypeName(Mono_GetMethodRetType(Methods[i_m]));
+					std::string retType = retTypename;
+					if (retTypename.find_last_of(".") != std::string::npos)
+					{
+						retType = retTypename.substr(retTypename.find_last_of(".") + 1, retTypename.length());
+					}
+					str << std::format("\tpublic {} {}(", retType, Mono_GetMethodName(Methods[i_m]));
+					str3 << std::format("DO_API({}, {}_{}, (", retType, Mono_GetClassName(Classes[i_c]), Mono_GetMethodName(Methods[i_m]));
+
+					for (size_t i_p = 0, max_p = Mono_GetMethodParamCount(Methods[i_m]); i_p < max_p; i_p++)
+					{
+						auto Typename = Mono_GetTypeName(Mono_GetMethodParam(Methods[i_m], i_p));
+						std::string Type = Typename;
+						if (Typename.find_last_of(".") != std::string::npos)
+						{
+							Type = Typename.substr(Typename.find_last_of(".") + 1, Typename.length());
+						}
+
+						str << Type << " " << Mono_GetMethodParamName(Methods[i_m], i_p) << (1 == (max_p - i_p) ? "" : ", ");
+						str3 << Type << " " << Mono_GetMethodParamName(Methods[i_m], i_p) << (1 == (max_p - i_p) ? "" : ", ");
+
+					}
+					str << ");\n\n";
+					str3 << "));\n";
+				}
+				str << "}" << std::endl << std::endl << std::endl;
+			}
+		}
+		io << str.str();
+		io2 << str2.str();
+		io3 << str3.str();
+		io.close();
+		io2.close();
+		io3.close();
+	}
+
+	DWORD_PTR MonoCollector::Mono_GetMethodAddress(std::string klass, std::string Method, std::string Image, std::string namespaze)
+	{
+		std::vector<MonoAssembly*> Assemblys;
+		Mono_EnummAssembly(Assemblys);
+		for (size_t i = 0, max = Assemblys.size(); i < max; i++)
+		{
+			//判断是否在镜像内
+			MonoImage* image = Mono_GetImage(Assemblys[i]);
+			if (Image != "") if (Mono_GetImageName(image) != Image) continue;
+
+			//枚举类
+			std::vector<MonoClass*> Classes;
+			Mono_EnumClasses(image, Classes);
+			for (size_t i_c = 0, max_c = Classes.size(); i_c < max_c; i_c++)
+			{
+				//判断空间命名是否相等
+				if (namespaze != "") if (Mono_GetClassNamespace(Classes[i_c]) != namespaze) continue;
+
+				//判断类名是否相等
+				if (Mono_GetClassName(Classes[i_c]) != klass) continue;
+
+				//枚举函数
+				std::vector<MethodInfo*> Methods;
+				Mono_EnumMethods(Classes[i_c], Methods);
+				for (size_t i_m = 0, max_m = Methods.size(); i_m < max_m; i_m++)
+				{
+					if (Mono_GetMethodName(Methods[i_m]) != Method) continue;
+					return Mono_GetMethodAddress(Methods[i_m]);
+				}
+			}
+		}
+		return 0;
+	}
+
+	DWORD_PTR MonoCollector::Mono_GetMethodAddress(MethodInfo* method)
+	{
+		if (!method) return 0;
+		return *reinterpret_cast<DWORD_PTR*>(method);
+	}
+
+	std::string MonoCollector::Mono_GetMethodParamName(MethodInfo* Method, DWORD index)
+	{
+		void* methodsignature = mono_method_signature(Method);
+		int paramcount = mono_signature_get_param_count(methodsignature);
+		char** names = (char**)calloc(sizeof(char*), paramcount);
+		mono_method_get_param_names(Method, (const char**)names);
+		std::string name = names[index];
+		free(names);
+		return name;
+	}
+
+	DWORD MonoCollector::Mono_GetMethodParamCount(MethodInfo* Method)
+	{
+		void* methodsignature = mono_method_signature(Method);
+		return mono_signature_get_param_count(methodsignature);
+	}
+
+	MonoType* MonoCollector::Mono_GetMethodRetType(MethodInfo* Method)
+	{
+		void* methodsignature = mono_method_signature(Method);
+		return mono_signature_get_return_type(methodsignature);
+	}
+
+	std::string MonoCollector::Mono_GetMethodName(MethodInfo* Method)
+	{
+		return mono_method_get_name(Method);
+	}
+
+	MethodInfo* MonoCollector::Mono_GetMethodFromName(MonoClass* klass, std::string name, DWORD argscount)
+	{
+		return mono_class_get_method_from_name(klass, name.c_str(), argscount);
+	}
+
+	DWORD MonoCollector::Mono_EnumMethods(MonoClass* klass, std::vector<MethodInfo*>& Methods)
+	{
+		void* iter = NULL;
+		MethodInfo* method;
+		do
+		{
+			method = (MethodInfo*)mono_class_get_methods(klass, &iter);
+			if (!method) continue;
+			Methods.push_back(method);
+		} while (method);
+		return Methods.size();
+	}
+
+	DWORD MonoCollector::Mono_GetFieldOffset(FieldInfo* field)
+	{
+		return mono_field_get_offset(field);
+	}
+
+	MonoType* MonoCollector::Mono_GetFieldType(FieldInfo* field)
+	{
+		return mono_field_get_type(field);
+	}
+
+	std::string MonoCollector::Mono_GetFieldName(FieldInfo* field)
+	{
+		return mono_field_get_name(field);
+	}
+
+	DWORD_PTR MonoCollector::Mono_GetFieldStatic(FieldInfo* field, MonoClass* klass)
+	{
+		QWORD val = 0;
+		mono_field_static_get_value(mono_class_vtable(mono_get_root_domain(), klass), field, &val);
+		return val;
+	}
+
+	FieldInfo* MonoCollector::Mono_GetFieldFromName(MonoClass* klass, std::string name)
+	{
+		return mono_class_get_field_from_name(klass, name.c_str());
+	}
+
+	DWORD MonoCollector::Mono_EnumFields(MonoClass* klass, std::vector<FieldInfo*>& Fields)
+	{
+		void* iter = NULL;
+		FieldInfo* field;
+		do
+		{
+			field = mono_class_get_fields(klass, &iter);
+			if (!field) continue;
+			Fields.push_back(field);
+		} while (field);
+		return Fields.size();
+	}
+
+	std::string MonoCollector::Mono_GetClassNamespace(MonoClass* klass)
+	{
+		return mono_class_get_namespace(klass);
+	}
+
+	std::string MonoCollector::Mono_GetClassName(MonoClass* klass)
+	{
+		return mono_class_get_name(klass);
+	}
+
+	MonoClass* MonoCollector::Mono_GetClassFromName(MonoImage* image, std::string name, std::string namespaze)
+	{
+		return mono_class_from_name(image, namespaze.c_str(), name.c_str());
+	}
+
+	DWORD MonoCollector::Mono_EnumClasses(MonoImage* Image, std::vector<MonoClass*>& Classes)
+	{
+		MonoTable* tdef = mono_image_get_table_info(Image, MONO_TABLE_TYPEDEF);
+		if (!tdef) return 0;
+		int tdefcount = mono_table_info_get_rows(tdef);
+		for (int i = 0; i < tdefcount; i++)
+		{
+			MonoClass* c = mono_class_get(Image, MONO_TOKEN_TYPE_DEF | (i + 1));
+			if (c == NULL) continue;
+			Classes.push_back(c);
+		}
+		return Classes.size();
+	}
+
+	MonoImage* MonoCollector::Mono_GetImage(MonoAssembly* Assembly)
+	{
+		return mono_assembly_get_image(Assembly);
+	}
+
+	std::string MonoCollector::Mono_GetImageName(MonoImage* Image)
+	{
+		return mono_image_get_name(Image);
+	}
+
+	std::string MonoCollector::Mono_GetImageFile(MonoImage* Image)
+	{
+		return mono_image_get_filename(Image);
+	}
+
+	DWORD MonoCollector::Mono_GetClassCount(MonoImage* Image)
+	{
+		MonoTable* tdef = mono_image_get_table_info(Image, MONO_TABLE_TYPEDEF);
+		return mono_table_info_get_rows(tdef);
+	}
+
+	std::string MonoCollector::Mono_GetTypeName(MonoType* type)
+	{
+		return mono_type_get_name(type);
+	}
+
+	DWORD MonoCollector::Mono_EnummAssembly(std::vector<MonoAssembly*>& Assemblys)
+	{
+		mono_assembly_foreach((GFunc)UntiyMono::vectorpushback, &Assemblys);
+		return Assemblys.size();
+	}
+
+	DWORD MonoCollector::Mono_EnumDomains(std::vector<MonoDomain*>& Domains)
+	{
+
+		mono_domain_foreach((GFunc)UntiyMono::vectorpushback, &Domains);
+		return Domains.size();
 	}
 
 	void MonoCollector::il2cpp_Dump2File(std::string file)
 	{
-		std::ofstream io(file);
+		std::ofstream io(file + "\\dump.cs");
+		std::ofstream io2(file + "\\il2cpp.hpp");
+		std::ofstream io3(file + "\\il2cpp-func.hpp");
+
 		if (!io) return;
 		std::stringstream str;
+		std::stringstream str2;
+		std::stringstream str3;
+
 		std::vector<Il2CppAssembly*> Assemblys;
 		for (size_t i = 0, max = il2cpp_EnummAssembly(Assemblys); i < max; i++)
 		{
 			auto image = il2cpp_GetImage(Assemblys[i]);
-			str << std::format("// Image {}: {} - {}", i, il2cpp_GetImageName(image), il2cpp_GetCount(image)) << std::endl;
+			str << std::format("// Image {}: {} - {}", i, il2cpp_GetImageName(image), il2cpp_GetClassCount(image)) << std::endl;
 		}
 		str << std::endl << std::endl << std::endl;
 		for (size_t i = 0, max = Assemblys.size(); i < max; i++)
@@ -61,37 +376,62 @@ namespace Untiy3D
 			for (size_t i_c = 0,max_c = il2cpp_EnumClasses(image, Classes); i_c < max_c; i_c++)
 			{
 				str << std::format("// Namespace: {}\npublic class {}\n", il2cpp_GetClassNamespace(Classes[i_c]), il2cpp_GetClassName(Classes[i_c])) << "{\n\t// Fields" << std::endl;
-
+				str2 << std::format("struct {}\n", il2cpp_GetClassName(Classes[i_c])) << "{" << std::endl;
 
 				std::vector<FieldInfo*> Field;
 				for (size_t i_f = 0,max_f = il2cpp_EnumFields(Classes[i_c], Field); i_f < max_f; i_f++)
 				{
-					str << std::format("\tpublic {} {}; // {:#08X}", il2cpp_GetTypeName(il2cpp_GetFieldType(Field[i_f])), il2cpp_GetFieldName(Field[i_f]), il2cpp_GetFieldOffset(Field[i_f])) << std::endl;
+					auto Typename = il2cpp_GetTypeName(il2cpp_GetFieldType(Field[i_f]));
+					std::string Type = Typename;
+					if (Typename.find_last_of(".") != std::string::npos)
+					{
+						Type = Typename.substr(Typename.find_last_of(".") + 1, Typename.length());
+					}
+					str << std::format("\tpublic {} {}; // {:#X}", Type, il2cpp_GetFieldName(Field[i_f]), il2cpp_GetFieldOffset(Field[i_f])) << std::endl;
+					str2 << std::format("\t{} {}; // {:#X}", Type, il2cpp_GetFieldName(Field[i_f]), il2cpp_GetFieldOffset(Field[i_f])) << std::endl;
 				}
 				str << std::endl << std::endl << std::endl << "\t// Methods" << std::endl;
+				str2 << "\n};" << std::endl;
 
 				std::vector<MethodInfo*> Methods;
 				for (size_t i_m = 0,max_m = il2cpp_EnumMethods(Classes[i_c], Methods); i_m < max_m; i_m++)
 				{
 					str << std::format("\t// RVA: {:#08X}", il2cpp_GetMethodAddress(Methods[i_m]) - (DWORD_PTR)hModuleMono) << std::endl;
-					str << std::format("\tpublic {} {}(", il2cpp_GetTypeName(il2cpp_GetMethodRetType(Methods[i_m])), il2cpp_GetMethodName(Methods[i_m]));
+
+					auto retTypename = il2cpp_GetTypeName(il2cpp_GetMethodRetType(Methods[i_m]));
+					std::string retType = retTypename;
+					if (retTypename.find_last_of(".") != std::string::npos)
+					{
+						retType = retTypename.substr(retTypename.find_last_of(".") + 1, retTypename.length());
+					}
+					str << std::format("\tpublic {} {}(", retType, il2cpp_GetMethodName(Methods[i_m]));
+					str3 << std::format("DO_API({}, {}_{}, (", retType, il2cpp_GetClassName(Classes[i_c]), il2cpp_GetMethodName(Methods[i_m]));
 
 					for (size_t i_p = 0, max_p = il2cpp_GetMethodParamCount(Methods[i_m]); i_p < max_p; i_p++)
 					{
-						str << il2cpp_GetTypeName(il2cpp_GetMethodParam(Methods[i_m], i_p)) << " " << il2cpp_GetMethodParamName(Methods[i_m], i_p) << (1 == (max_p - i_p) ? "" : ", ");
+						auto Typename = il2cpp_GetTypeName(il2cpp_GetMethodParam(Methods[i_m], i_p));
+						std::string Type = Typename;
+						if (Typename.find_last_of(".") != std::string::npos)
+						{
+							Type = Typename.substr(Typename.find_last_of(".") + 1, Typename.length());
+						}
+						
+						str << Type << " " << il2cpp_GetMethodParamName(Methods[i_m], i_p) << (1 == (max_p - i_p) ? "" : ", ");
+						str3 << Type << " " << il2cpp_GetMethodParamName(Methods[i_m], i_p) << (1 == (max_p - i_p) ? "" : ", ");
+
 					}
 					str << ");\n\n";
+					str3 << "));\n";
 				}
 				str << "}" << std::endl << std::endl << std::endl;
 			}
 		}
 		io << str.str();
+		io2 << str2.str();
+		io3 << str3.str();
 		io.close();
-	}
-
-	DWORD MonoCollector::il2cpp_GetCount(Il2CppImage* Image)
-	{
-		return il2cpp_image_get_class_count(Image);
+		io2.close();
+		io3.close();
 	}
 
 	DWORD MonoCollector::il2cpp_GetFieldOffset(FieldInfo* field)

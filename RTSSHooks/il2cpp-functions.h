@@ -11,6 +11,7 @@ DO_API(void, PlayerController_LocalAddMaxLife, (PlayerController* _this, float v
 DO_API(void, PlayerController_LocalResetMaxLife, (PlayerController* _this));
 DO_API(void, PlayerController_LocalAddMaxLifeAndDefaultMaxLife, (PlayerController* _this, float value));
 DO_API(void, PlayerController_SetSpeed, (PlayerController* _this, Vector3 v));
+DO_API(bool, PlayerController_CheckGameOver, (PlayerController* _this));
 
 //AntiCheatingSystem
 DO_API(void, AntiCheatingSystem_SendReport, (AntiCheatingSystem* _this, APP_String* userID, AntiCheatingResult result));

@@ -5,7 +5,7 @@ void Init_il2cpp()
 	_set_se_translator(seh_excpetion::TranslateSEHtoCE);
 
 	LOGDEBUG("[Il2cpp] Initializing \n");
-	Untiy3D::MonoCollector* Mono = new Untiy3D::MonoCollector("GameAssembly.dll");
+	Mono = new Untiy3D::MonoCollector("GameAssembly.dll");
 	LOGDEBUG("[Il2cpp] Initialization Complete \n");
 
 	try

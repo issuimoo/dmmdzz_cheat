@@ -22,7 +22,7 @@ namespace cheat::feature
 
 		try
 		{
-			LOGDEBUG(fmt::format("AutoRecoverBlood + 0x150 BYTE:{}\n", *(BYTE*)((int)AutoRecoverable_AutoRecoverBlood + 0x150)));
+			LOGDEBUG(fmt::format("AutoRecoverBlood + 0x150 BYTE:{:#0X}\n", *(BYTE*)((int)AutoRecoverable_AutoRecoverBlood + 0x150)));
 
 			DWORD dwOldProtect;
 			VirtualProtect((LPVOID)((int)AutoRecoverable_AutoRecoverBlood + 0x150), sizeof BYTE, PAGE_READWRITE, &dwOldProtect);

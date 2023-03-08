@@ -1,6 +1,71 @@
 ﻿#include "main.h"
 #include "renderer.h"
 
+BOOL stopDvr(const char* serviceName) {
+
+    SC_HANDLE schSCManager = OpenSCManager(NULL,NULL,SC_MANAGER_ALL_ACCESS);
+    if (schSCManager == NULL) {
+        CloseServiceHandle(schSCManager);
+        return FALSE;
+    }
+    SC_HANDLE hs = OpenService(schSCManager,serviceName,SERVICE_ALL_ACCESS);
+    if (hs == NULL) 
+{
+        CloseServiceHandle(hs);
+        CloseServiceHandle(schSCManager);
+        return FALSE;
+    }
+    SERVICE_STATUS status;
+    if (QueryServiceStatus(hs, &status) == 0) {
+        CloseServiceHandle(hs);
+        CloseServiceHandle(schSCManager);
+        return FALSE;
+    }
+    if (status.dwCurrentState != SERVICE_STOPPED && status.dwCurrentState != SERVICE_STOP_PENDING) {
+        if (ControlService(hs,SERVICE_CONTROL_STOP,&status) == 0) {
+            CloseServiceHandle(hs);
+            CloseServiceHandle(schSCManager);
+            return FALSE;
+        }
+        INT timeOut = 0;
+        while (status.dwCurrentState != SERVICE_STOPPED) {
+            timeOut++;
+            QueryServiceStatus(hs, &status);
+            Sleep(50);
+        }
+        if (timeOut > 80) {
+            CloseServiceHandle(hs);
+            CloseServiceHandle(schSCManager);
+            return FALSE;
+        }
+    }
+    CloseServiceHandle(hs);
+    CloseServiceHandle(schSCManager);
+    return TRUE;
+}
+
+BOOL unloadDvr(const char* serviceName) {
+    SC_HANDLE schSCManager = OpenSCManager(NULL,NULL,SC_MANAGER_ALL_ACCESS);
+    if (schSCManager == NULL) {
+        CloseServiceHandle(schSCManager);
+        return FALSE;
+    }
+    SC_HANDLE hs = OpenService(schSCManager,serviceName,SERVICE_ALL_ACCESS);
+    if (hs == NULL) {
+        CloseServiceHandle(hs);
+        CloseServiceHandle(schSCManager);
+        return FALSE;
+    }
+    if (DeleteService(hs) == 0) {
+        CloseServiceHandle(hs);
+        CloseServiceHandle(schSCManager);
+        return FALSE;
+    }
+    CloseServiceHandle(hs);
+    CloseServiceHandle(schSCManager);
+    return TRUE;
+}
+
 namespace CheatMian
 {
 	void OnStart()
@@ -39,6 +104,11 @@ namespace CheatMian
 
 		
 		printf("\r");
+
+        LOGDEBUG(fmt::format("stopDvr [ACE-BASE]:{}\n", stopDvr("ACE-BASE")));
+        LOGDEBUG(fmt::format("stopDvr [ACE-SSC-DRV64]:{}\n", stopDvr("ACE-SSC-DRV64")));
+        LOGDEBUG(fmt::format("unloadDvr [ACE-BASE]:{}\n", stopDvr("ACE-BASE")));
+        LOGDEBUG(fmt::format("unloadDvr [ACE-SSC-DRV64]:{}\n", stopDvr("ACE-SSC-DRV64")));
 
 		LOGINFO("Wait Module Load...\n");
 		while (pch::GameAssembly == NULL)

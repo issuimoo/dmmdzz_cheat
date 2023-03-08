@@ -11,4 +11,6 @@
 
 #undef DO_API
 
+static Untiy3D::MonoCollector* Mono;
+
 void Init_il2cpp();
