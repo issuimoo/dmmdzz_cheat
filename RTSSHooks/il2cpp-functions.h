@@ -69,3 +69,4 @@ DO_API(void, ACEInstance_QuitWithError, (ACEInstance_* _this, int mainErr, int s
 DO_API(void, ACEInstance_TrySendShowMessageAndQuitEvent, (ACEInstance_* _this, APP_String* text));
 DO_API(void, ACEInstance_ShowMessageAndQuit, (ACEInstance_* _this, APP_String* text));
 DO_API(void, ACEInstance_ReportEvent, (ACEInstance_* _this, int mainErr, int subErr));
+

@@ -175,6 +175,7 @@
     <ClCompile Include="BuyNoSub.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="il2cpp-functions.cpp" />
+    <ClCompile Include="InGameScene.cpp" />
     <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MonoCollector.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="il2cpp-functions.h" />
     <ClInclude Include="il2cpp-Iint.hpp" />
     <ClInclude Include="il2cpp.h" />
+    <ClInclude Include="InGameScene.hpp" />
     <ClInclude Include="ItemList.hpp" />
     <ClInclude Include="main.h" />
     <ClInclude Include="MonoCollector.h" />

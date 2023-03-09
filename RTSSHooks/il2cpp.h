@@ -42,6 +42,54 @@ struct __declspec(align(4)) GameObject
 
 };
 
+struct __declspec(align(4)) InGameScene {
+	char _space[32];
+	struct System_Action_o* OnSceneDataInitialization;
+	struct System_Action_o* OnSceneDataReady;
+	struct GameObject* m_SpawnAreaThief;
+	struct GameObject* m_SpawnAreaPolice;
+	struct UnityEngine_Transform_o* m_PlayersContainer;
+	int32_t m_IntroHeightStart;
+	int32_t m_IntroHeightMiddle;
+	int32_t m_IntroHeightEnd;
+	int32_t m_StartCountDown;
+	int32_t m_TargetVaultCount;
+	float m_VaultTimeRatio;
+	bool m_FixedSpawnPosition;
+	struct LayerMask m_NonEmptySpaceMask;
+	struct UnityEngine_Transform_o* m_PlaceableCont;
+	struct TiledMapBuilder_TiledMap_o* m_FloorMap;
+	struct TiledMapBuilder_TiledMap_o* m_RoadShoulder;
+	struct UnityEngine_MeshFilter_o* m_Road;
+	struct UnityEngine_MeshFilter_array* m_GrassGrouds;
+	struct PhotonView_o* m_PhotonView;
+	struct TiledMapBuilder_TiledMap_o* m_Map;
+	float m_StartTime;
+	float m_Offset;
+	int32_t m_ServerStartTime;
+	bool m_GiveUpGame;
+	int32_t m_SyncRandom;
+	struct ExamLevelInfo_o* m_ExamLevelInfo;
+	struct System_Collections_Generic_Dictionary_int__InGameScene_TileType__o* m_TypeID2Map;
+	struct System_Collections_Generic_Dictionary_int__InGameScene_TileType__o* m_TypeID2MapFloor;
+	struct LightUtility_Delegates_VoidCallback_o* OnGameOver;
+	bool m_ExamAgain;
+	bool m_NotSpawnFlattenY;
+	float m_SupplementBoxTimeRatio;
+	float m_MapBottom;
+	struct UnityEngine_Transform_o* _PhysicsRoot_k__BackingField;
+	bool m_SceneDataInitialized;
+	struct System_Collections_Generic_List_int__o* m_SpawnRandomSort;
+	struct MobileClickListener_o* m_MobileClickListener;
+	bool m_CanSelectBornPos;
+	bool m_ResetPlayerBornPos;
+	float m_SelectBornRemainTimeOffset;
+	struct System_Collections_Generic_Dictionary_string__string__o* m_AIInGameDatasKV;
+	struct System_Collections_Generic_List_PhotonView__o* m_TransferViews;
+	struct MapSettingController_o* _MapSettingController_k__BackingField;
+	struct UnityEngine_Material_o* m_Ground2Material;
+};
+
 struct __declspec(align(4)) HttpResponseAceServer
 {
 	char _space[16];
@@ -145,9 +193,9 @@ struct __declspec(align(4)) BattleProperties {
 	float life;
 	float maxLife;
 	float radius;
-	struct UnityEngine_GameObject_o* critialEffect;
-	struct UnityEngine_GameObject_o* damageTextEffect;
-	struct UnityEngine_GameObject_o* recoverTextEffect;
+	struct GameObject* critialEffect;
+	struct GameObject* damageTextEffect;
+	struct GameObject* recoverTextEffect;
 	float extraMaxLifeLimit;
 	float qteCoinWeight;
 	float vaultOrDoorCoinWeight;
@@ -170,12 +218,12 @@ struct __declspec(align(4)) PlayerController {
 	struct CharacterBloodBar_o* m_BloodBar;
 	struct LayerMask m_GroundLayer;
 	struct PhotonView_o* m_PhotonViewForTransform;
-	struct UnityEngine_GameObject_o* m_UI;
+	struct GameObject* m_UI;
 	struct InGameWidget_o* m_Widget;
-	struct UnityEngine_GameObject_o* m_Body;
+	struct GameObject* m_Body;
 	struct UnityEngine_CanvasGroup_o* m_TextDialog;
-	struct UnityEngine_GameObject_o* m_VoiceIcon;
-	struct UnityEngine_GameObject_o* m_AddMaxLifeEffect;
+	struct GameObject* m_VoiceIcon;
+	struct GameObject* m_AddMaxLifeEffect;
 	struct LightUI_UIProgressBar_o* m_VehicleBar;
 	struct UnityEngine_CanvasGroup_o* m_HideFadeUI;
 	struct UnityEngine_Transform_o* CastHookFinger;
@@ -183,7 +231,7 @@ struct __declspec(align(4)) PlayerController {
 	bool BTMoveFlag;
 	struct LightUI_UIStateImage_o* m_Num;
 	struct LightUI_UIStateItem_o* m_LackOfCoin;
-	struct UnityEngine_GameObject_o* m_InAirPosPointer;
+	struct GameObject* m_InAirPosPointer;
 	struct UnityEngine_Events_UnityAction_PlayerController__o* OnFinalDeadWithPlayer;
 	struct UnityEngine_Events_UnityAction_o* OnFinalDead;
 	struct UnityEngine_AudioSource_o* m_InGrassAS;
@@ -358,7 +406,7 @@ struct __declspec(align(4)) DirectionalObject {
 	char _space[220];
 	struct UnityEngine_AnimationCurve_o* m_SpeedCurve;
 	struct UnityEngine_AnimationCurve_o* m_ColliderSizeCurve;
-	struct UnityEngine_GameObject_o* m_Colliders;
+	struct GameObject* m_Colliders;
 	struct Vector3 m_StartOffset;
 	bool m_RootOffset;
 	float m_StartDelay;
@@ -371,9 +419,9 @@ struct __declspec(align(4)) DirectionalObject {
 	float m_ExplosionRadius;
 	float m_FallAccelerated;
 	struct DynamicAssetsModule_M_PrefabRef_o* m_HitEffectRef;
-	struct UnityEngine_GameObject_o* m_HitEffect;
+	struct GameObject* m_HitEffect;
 	struct Vector3 m_HitEffectOffset;
-	struct UnityEngine_GameObject_o* m_TrailEffect;
+	struct GameObject* m_TrailEffect;
 	struct Vector3 m_TrailEffectOffset;
 	bool m_IsGrounder;
 	struct PlayerController* m_PlayerController;
@@ -387,7 +435,7 @@ struct __declspec(align(4)) DirectionalObject {
 	bool m_OnVehicle;
 	float m_FallTime;
 	bool m_HitEffectShowed;
-	struct UnityEngine_GameObject_o* m_TrailEffectInst;
+	struct GameObject* m_TrailEffectInst;
 	struct PlaceableCreater_o* m_PlaceableCreater;
 	bool m_Trigger;
 	float m_TriggerTime;
@@ -502,13 +550,13 @@ struct __declspec(align(4)) UsableObject {
 	int32_t m_ProgressShowMode;
 	struct LightUI_UIProgressBar_o* m_ProgressBar;
 	struct UnityEngine_Transform_o* m_UI;
-	struct UnityEngine_GameObject_o* m_UIPrefab;
+	struct GameObject* m_UIPrefab;
 	struct UsableObject_AudioSources_o* m_AudioSources;
 	struct System_Single_array* m_SpeedLimit;
 	float m_MinUsingTimeLimit;
 	struct UnityEngine_Renderer_array* m_OutlineTarget;
 	float m_MaxOutlineWidth;
-	struct UnityEngine_GameObject_o* m_UseTipsBubblePrefabs;
+	struct GameObject* m_UseTipsBubblePrefabs;
 	struct UnityEngine_Transform_o* m_UseTipsBubbleAnchor;
 	struct LightUtility_Delegates_VoidCallback_o* OnLocalUseComplete;
 	struct LightUtility_Delegates_VoidCallback_o* OnPlayerMeNearBy;
@@ -526,7 +574,7 @@ struct __declspec(align(4)) UsableObject {
 	struct UnityEngine_Material_o* m_OutlineMat;
 	struct UnityEngine_Material_array_array* m_OriginalMatsPerRendererArray;
 	struct UnityEngine_Material_array_array* m_OutlineMatsPerRendererArray;
-	struct UnityEngine_GameObject_o* m_UseTipsBubbleInst;
+	struct GameObject* m_UseTipsBubbleInst;
 	float m_LastShowUseTipsBubbleTime;
 	struct UnityEngine_Coroutine_o* m_LaterShowUseTipsBubbleCorontine;
 	struct DG_Tweening_Tween_o* m_BubbleTween;
@@ -556,10 +604,10 @@ struct __declspec(align(4)) InGameStore {
 	struct InGameInteractionButton_o* m_PropButton;
 	struct UnityEngine_UI_Text_o* m_CoinText;
 	struct UnityEngine_Transform_o* m_CoinEffectTarget;
-	struct UnityEngine_GameObject_o* m_CoinEffect;
-	struct UnityEngine_GameObject_o* m_CoinHelpEffect;
-	struct UnityEngine_GameObject_o* m_CoinAddEffect;
-	struct UnityEngine_GameObject_o* m_CoinSubEffect;
+	struct GameObject* m_CoinEffect;
+	struct GameObject* m_CoinHelpEffect;
+	struct GameObject* m_CoinAddEffect;
+	struct GameObject* m_CoinSubEffect;
 	struct UnityEngine_Transform_o* m_CoinChangeEffectRoot;
 	float m_CooldownTime;
 	float m_MaxCoinDistance;
@@ -571,9 +619,9 @@ struct __declspec(align(4)) InGameStore {
 	struct LightUI_UIDataBinderBase_array* m_InGameStore_ItemTemplates;
 	struct LightUI_UIDataBinderBase_o* m_Magazine_ItemTemplates;
 	struct UnityEngine_UI_Image_o* m_NextCardIcon;
-	struct UnityEngine_GameObject_o* m_NextCardEffect;
+	struct GameObject* m_NextCardEffect;
 	struct LightUI_UICooldownBar_o* m_NextCardCooldown;
-	struct UnityEngine_GameObject_o* m_CoolDownTipsPrefab;
+	struct GameObject* m_CoolDownTipsPrefab;
 	bool m_CostFree;
 	bool m_LastBuyFree;
 	struct UnityEngine_Camera_o* m_RenderCamera;

@@ -90,6 +90,9 @@
     <ClCompile Include="MonoCollector.cpp">
       <Filter>il2cpp\Mono</Filter>
     </ClCompile>
+    <ClCompile Include="InGameScene.cpp">
+      <Filter>Feature\cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -163,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="MonoCollectorAPI.h">
       <Filter>il2cpp\Mono</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameScene.hpp">
+      <Filter>Feature\hpp</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
