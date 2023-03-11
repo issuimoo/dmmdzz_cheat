@@ -17,6 +17,7 @@
 #include <iosfwd>
 #include <fstream>
 #include <ostream>
+#include "vector_th.h"
 
 namespace pch
 {

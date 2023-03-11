@@ -170,5 +170,8 @@
     <ClInclude Include="InGameScene.hpp">
       <Filter>Feature\hpp</Filter>
     </ClInclude>
+    <ClInclude Include="vector_th.h">
+      <Filter>Feature</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

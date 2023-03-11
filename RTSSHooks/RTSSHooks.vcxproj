@@ -214,6 +214,7 @@
     <ClInclude Include="setting.hpp" />
     <ClInclude Include="speed.hpp" />
     <ClInclude Include="Store.hpp" />
+    <ClInclude Include="vector_th.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

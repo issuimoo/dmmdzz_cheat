@@ -1,6 +1,6 @@
 #include "Feature.hpp"
 
-extern std::vector<UsableObject*> Vec_ItemList;
+extern vector_thl<UsableObject*> Vec_ItemList;
 
 namespace cheat::feature
 {

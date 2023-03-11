@@ -1,6 +1,6 @@
 ﻿#include "ItemList.hpp"
 
-std::vector<UsableObject*> Vec_ItemList;
+vector_thl<UsableObject*> Vec_ItemList;
 
 namespace cheat::feature
 {
@@ -9,8 +9,7 @@ namespace cheat::feature
 
 	ItemList::ItemList() : Feature()
 	{
-		Vec_ItemList.reserve(3000);
-
+		Vec_ItemList.vec.reserve(300);
 		DO_HOOK(UsableObject_Awake);
 		DO_HOOK(UsableObject_OnDestroy);
 	}
@@ -32,8 +31,10 @@ namespace cheat::feature
 				ImGui::TableHeadersRow();
 				try
 				{
-					auto ItemList_begin = Vec_ItemList.begin();
-					auto ItemList_end = Vec_ItemList.end();
+					std::vector<UsableObject*> _ItemList;
+					Vec_ItemList.getVector(_ItemList);
+					auto ItemList_begin = _ItemList.begin();
+					auto ItemList_end = _ItemList.end();
 					while (ItemList_begin != ItemList_end)
 					{
 						ImGui::TableNextRow();
@@ -87,17 +88,18 @@ namespace cheat::feature
 	{
 		try
 		{
-			auto ItemList_begin = Vec_ItemList.begin();
-			auto ItemList_end = Vec_ItemList.end();
+			auto ItemList_begin = Vec_ItemList.vec.begin();
+			auto ItemList_end = Vec_ItemList.vec.end();
 			while (ItemList_begin != ItemList_end)
 			{
 				if (*ItemList_begin == _this)
 				{
-					Vec_ItemList.erase(ItemList_begin);
+					Vec_ItemList.vec.erase(ItemList_begin);
 					return CALL_ORIGIN(UsableObject_OnDestroy_Hook, _this);
 				}
 				ItemList_begin++;
 			}
+			Vec_ItemList.merge();
 		}
 		catch (...)
 		{

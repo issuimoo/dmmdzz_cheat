@@ -37,12 +37,16 @@ struct __declspec(align(4)) Matrix4x4
 	float _33;
 };
 
+struct __declspec(align(4)) LayerMask {
+	int32_t m_Mask;
+};
+
 struct __declspec(align(4)) GameObject
 {
 
 };
 
-struct __declspec(align(4)) InGameScene {
+struct __declspec(align(4)) InGameScene_field {
 	char _space[32];
 	struct System_Action_o* OnSceneDataInitialization;
 	struct System_Action_o* OnSceneDataReady;
@@ -166,10 +170,6 @@ struct __declspec(align(4)) NativeList {
 struct __declspec(align(4)) JobHandle {
 	intptr_t jobGroup;
 	int32_t version;
-};
-
-struct __declspec(align(4)) LayerMask {
-	int32_t m_Mask;
 };
 
 struct __declspec(align(4)) Camera {

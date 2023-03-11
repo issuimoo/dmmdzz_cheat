@@ -295,6 +295,14 @@ namespace renderer
 		{
 			DrawFps();
 		}
+		if (ShowImGuiDemo)
+		{
+			ImGui::ShowDemoWindow();
+		}
+		if (ShowImPlotDemo)
+		{
+			ImPlot::ShowDemoWindow();
+		}
 	}
 
 	void DrawRenderer()

@@ -5,6 +5,9 @@ extern bool MoveStatusFeature;
 extern bool ShowGameFPS;
 extern bool MoveGameFPS;
 
+extern bool ShowImGuiDemo;
+extern bool ShowImPlotDemo;
+
 namespace cheat::feature
 {
 	class setting : public Feature

@@ -94,13 +94,6 @@ namespace cheat::feature
 	}
 	void setting::Update()
 	{
-		if (ShowImGuiDemo)
-		{
-			ImGui::ShowDemoWindow();
-		}
-		if (ShowImPlotDemo)
-		{
-			ImPlot::ShowDemoWindow();
-		}
+		
 	}
 }
